@@ -1,0 +1,166 @@
+{
+	"collection": {
+		"name": "competitions"
+	},
+	"service": {
+		"queries": [
+			{
+				"name": "getCompetitionById",
+				"selector": {
+					"_id": ":id:string"
+				}
+			},
+			{
+				"name": "getAllCompetitions",
+				"sorting": {
+					"name": 1
+				}
+			},
+			{
+				"name": "getCompetitionByName",
+				"selector": {
+					"name": ":name"
+				},
+				"returnOne": true
+			},
+			{
+				"name": "getMyCompetitions",
+				"selector": {
+					"ownerId": "_currentLoggedInUser_"
+				}
+			}
+		],
+		"securedmethods": [
+			{
+				"name": "createCompetition",
+				"parameters": [
+					"competitionName:string",
+					"competitionType:string"
+				],
+				"returns": "Competition"
+			},
+			{
+				"name": "startCompetition",
+				"parameters": [
+					"competitionId:string"
+				],
+				"returns": "boolean",
+				"visibility": "server"
+			},
+			{
+				"name": "addTeam",
+				"parameters": [
+					"competitionId:string",
+					"teamId:string"
+				],
+				"returns": "boolean",
+				"visibility": "shared"
+			},
+			{
+				"name": "removeTeam",
+				"parameters": [
+					"competitionId:string",
+					"teamId:string"
+				],
+				"returns": "boolean",
+				"visibility": "shared"
+			},
+			{
+				"name": "sync",
+				"modelAware": true
+			}
+		]
+	},
+	"model": {
+		"name": "Competition",
+		"schema": [
+			{
+				"name": "ownerId",
+				"type": "foreign",
+				"collection": "users"
+			},
+			{
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"name": "displayName",
+				"type": "string"
+			},
+			{
+				"name": "type",
+				"type": "string",
+				"allowedValues": [
+					"tournament",
+					"league"
+				]
+			},
+			{
+				"name": "userIds",
+				"type": "foreign[]",
+				"collection": "users",
+				"optional": true,
+				"defaultValue": []
+			},
+			{
+				"name": "teamIds",
+				"type": "foreign[]",
+				"collection": "competitionTeams",
+				"optional": true,
+				"defaultValue": []
+			},
+			{
+				"name": "roundIds",
+				"type": "foreign[]",
+				"collection": "competitionRounds",
+				"defaultValue": [],
+				"optional": true
+			},
+			{
+				"name": "accessGroups",
+				"type": "string[]",
+				"defaultValue": [],
+				"optional": true
+			},
+			{
+				"name": "returnRound",
+				"type": "boolean",
+				"optional": true,
+				"defaultValue": true
+			},
+			{
+				"name": "randomizeTeams",
+				"type": "boolean",
+				"optional": true,
+				"defaultValue": true
+			},
+			{
+				"name": "started",
+				"type": "boolean",
+				"defaultValue": false
+			},
+			{
+				"name": "metadata",
+				"type": "Object",
+				"defaultValue": {},
+				"optional": true,
+				"blackbox": true
+			},
+			{
+				"name": "syncer",
+				"type": "String",
+				"allowedValues": [
+					"footballdata",
+					"openligadb"
+				],
+				"optional": true
+			},
+			{
+				"name": "ranking",
+				"type": "any[]",
+				"optional": true,
+				"blackbox": true
+			}
+		]
+	}
+}

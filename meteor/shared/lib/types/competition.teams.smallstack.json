@@ -1,0 +1,66 @@
+{
+	"collection": {
+		"name": "competitionTeams"
+	},
+	"service": {
+		"queries": [
+			{
+				"name": "getCompetitionTeamById",
+				"selector": {
+					"_id": ":id:string"
+				}
+			},
+			{
+				"name": "getCompetitionTeamsByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string[]"
+					}
+				}
+			},
+			{
+				"name": "getAllCompetitionTeams"
+			},
+			{
+				"name": "getTeamByName",
+				"selector": {
+					"name": ":teamName"
+				}
+			}
+		],
+		"securedmethods": []
+	},
+	"model": {
+		"name": "CompetitionTeam",
+		"schema": [
+			{
+				"name": "ownerId",
+				"type": "foreign",
+				"collection": "users",
+				"optional": true
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true
+			},
+			{
+				"name": "avatarId",
+				"type": "foreign",
+				"collection": "medias",
+				"optional": true
+			},
+			{
+				"name": "flag",
+				"type": "string",
+				"optional": true
+			},
+			{
+				"name": "linkedUserIds",
+				"type": "foreign[]",
+				"collection": "users",
+				"optional": true
+			}
+		]
+	}
+}

@@ -1,0 +1,23 @@
+<a href="/competition/{{competition.name}}" ng-show="competition"><i class="mobile-menu-button fa fa-angle-left" aria-hidden="true"></i></a>
+<page-header text="Sidebets {{competition.displayName}}"></page-header>
+
+<div class="container">
+
+	<h4 ng-if="!loaded" class="text-center">Loading...</h4>
+
+	<div ng-repeat="sidebet in sidebets">
+		<h4>{{sidebet.question}} ({{sidebet.points}} points)</h4>
+		<div ng-if="sidebet.resultType === 'competitionTeam'">
+			Deine Wahl : <select class="form-control" ng-model="mySideBets[sidebet.id].result" required ng-options="competitionTeam.id as ('teams.' + competitionTeam.name |translate) for competitionTeam in allCompetitionTeams">
+					<option value=""></option>
+			</select>
+		</div>
+		<div ng-if="sidebet.resultType !== 'competitionTeam'">
+			This result type doesn't have a view yet!
+		</div>
+	</div>
+
+	<spacer height="40"></spacer>
+
+	<button class="btn btn-block btn-success" ng-click="vm.saveAllSideBets()">Save</button>
+</div>

@@ -1,0 +1,165 @@
+{
+	"collection": {
+		"name": "competitionMatches"
+	},
+	"service": {
+		"queries": [
+			{
+				"name": "getCompetitionMatchesByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string[]"
+					}
+				}
+			},
+			{
+				"name": "getCompetitionMatchById",
+				"selector": {
+					"_id": ":id:string"
+				}
+			},
+			{
+				"name": "getMatchesForCompetitionId",
+				"selector": {
+					"competitionId": ":competitionId"
+				},
+				"sorting": {
+					"date": 1
+				}
+			},
+			{
+				"name": "getMatchesForCompetitionAndRound",
+				"selector": {
+					"competitionId": ":competitionId",
+					"roundId": ":roundId"
+				},
+				"sorting": {
+					"date": 1
+				}
+			},
+			{
+				"name": "getMatchesForTeam",
+				"selector": {
+					"teamIds": {
+						"$in": [
+							":competitionTeamId"
+						]
+					}
+				}
+			},
+			{
+				"name": "getMatchesForCompetitionAndTeam",
+				"selector": {
+					"teamIds": {
+						"$in": [
+							":competitionTeamId"
+						]
+					},
+					"competitionId": ":competitionId"
+				}
+			},
+			{
+				"name": "getMatchesForCompetitionAndTeamsAndDate",
+				"selector": {
+					"teamIds": {
+						"$all": [
+							":teamAId",
+							":teamBId"
+						]
+					},
+					"date": ":date",
+					"competitionId": ":competitionId"
+				}
+			}
+		],
+		"securedmethods": [
+			{
+				"name": "updateScores",
+				"parameters": [
+					"matchId:string",
+					"resultHome:number",
+					"resultAway:number"
+				],
+				"returns": "boolean"
+			},
+			{
+				"name": "resetScores",
+				"modelAware": true
+			},
+			{
+				"name": "placeBet",
+				"parameters": [
+					"homeGoals:number",
+					"awayGoals:number"
+				],
+				"modelAware": true
+			},
+			{
+				"name": "rated",
+				"modelAware": true
+			}
+		]
+	},
+	"model": {
+		"name": "CompetitionMatch",
+		"schema": [
+			{
+				"name": "competitionId",
+				"type": "foreign",
+				"collection": "competitions"
+			},
+			{
+				"name": "index",
+				"type": "number",
+				"optional": true
+			},
+			{
+				"name": "date",
+				"type": "Date",
+				"optional": true
+			},
+			{
+				"name": "roundId",
+				"type": "foreign",
+				"collection": "competitionRounds"
+			},
+			{
+				"name": "teamIds",
+				"type": "foreign[]",
+				"collection": "competitionTeams"
+			},
+			{
+				"name": "result",
+				"type": "number[]",
+				"optional": true,
+				"defaultValue": []
+			},
+			{
+				"name": "statusInternal",
+				"type": "string",
+				"allowedValues": [
+					"planned",
+					"started",
+					"finished"
+				],
+				"optional": true
+			},
+			{
+				"name": "manuallyUpdated",
+				"type": "boolean",
+				"optional": true
+			},
+			{
+				"name": "ratedByIds",
+				"type": "foreign[]",
+				"collection": "users",
+				"optional": true
+			},
+			{
+				"name": "maxPoints",
+				"type": "number",
+				"optional": true
+			}
+		]
+	}
+}

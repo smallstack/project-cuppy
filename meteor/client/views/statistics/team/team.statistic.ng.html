@@ -1,0 +1,20 @@
+<page-header text="Team Statistics"></page-header>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="alert alert-warning" role="alert">Under construction...</div>
+
+		<h2><img src="{{src}}" height="40px" class="circle" align="bottom" ng-repeat="src in competitionTeam.getAvatarUrls() track by $index"
+			/> {{competitionTeam.getTeamName()}}</h2>
+
+		<div align="center">
+
+			<canvas class="chart chart-doughnut" chart-data="statistics.matchResults.data" chart-labels="statistics.matchResults.labels"
+				chart-options="statistics.matchResults.options" chart-colours="['#6dc649','#d33434','#e0e0e0']" style="width:100px;height:100px"></canvas>
+
+			<div>Total Matches : {{statistics.totalMatches}}</div>
+			<div>Total Goals : {{statistics.totalGoals}}</div>
+			<div>Goals / Match : {{(statistics.totalGoals / statistics.totalMatches)}}</div>
+		</div>
+	</div>
+</div>

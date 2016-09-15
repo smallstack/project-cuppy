@@ -1,0 +1,36 @@
+<header-section text="Create New CompetitionTeam"></header-section>
+
+<div class="container">
+	<h2>Custom</h2>
+	<form>
+		<div class="row">
+			<div class="input-field col s12">
+				<smallstack-editor type="string" model="newCompetitionTeam.name" label="Name"></smallstack-editor>
+			</div>
+			<div class="input-field col s12">
+				<smallstack-editor type="string" model="newCompetitionTeam.displayName" label="DisplayName"></smallstack-editor>
+			</div>
+			<div class="input-field col s12">
+				<smallstack-editor type="foreign" model="newCompetitionTeam.avatarId" foreign-type="Media" label="Avatar"></smallstack-editor>
+			</div>
+			<div class="input-field col s12">
+				<smallstack-editor type="foreign" model="newCompetitionTeam.linkedUserId" foreign-type="User" label="LinkedUser"></smallstack-editor>
+			</div>
+
+		</div>
+		<div class="row" align="center">
+			<a class="btn" ng-click="vm.createCompetitionTeam()">Create CompetitionTeam</a>
+		</div>
+	</form>
+
+	<h2>From Player</h2>
+	<smallstack-list service="userService" method="getAllUsers" models="users" entries-per-page="500">
+
+		<select class="browser-default" ng-model="fromPlayer">
+			<option value="{{user.id}}" ng-repeat="user in users">{{user.profile.displayName}}</option>
+		</select>
+
+		<button class="btn" ng-click="vm.createFromPlayer(fromPlayer)">Create</button>
+
+	</smallstack-list>
+</div>

@@ -1,0 +1,88 @@
+<section class="content-header">
+    <h1>Cuppy Bets</h1>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Filter
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div class="input-group">
+                        <p>User-ID : {{selectedUser._id}}</p>
+                        <p>Search : <input type="text" ng-model="selectedUser" uib-typeahead="user as user.profile.displayName for user in vm.getUser($viewValue)"
+                                typeahead-loading="loadingUsers" typeahead-no-results="noUserResults" class="form-control">
+                            <i ng-show="loadingUsers" class="glyphicon glyphicon-refresh">loading users</i>
+                            <div ng-show="noUserResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                            </div>
+                        </p>
+                    </div>
+                    <div class="input-group">
+                        <p>Competition-ID : {{selectedCompetition.id}}</p>
+                        <p>Search : <input type="text" ng-model="selectedCompetition" uib-typeahead="competition as competition.name for competition in vm.getCompetition($viewValue)"
+                                typeahead-loading="loadingCompetitions" typeahead-no-results="noCompetitionResults" class="form-control">
+                            <i ng-show="loadingCompetitions" class="glyphicon glyphicon-refresh">loading competitions</i>
+                            <div ng-show="noCompetitionResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                            </div>
+                        </p>
+                    </div>
+                    <button class="btn btn-success" ng-click="vm.searchMatchesAndBets()">Search Matches and Bets</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-show="matches && bets">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Dude, don't change bets, its cheating!</h3>
+                </div>
+                <div class="box-body">
+                    <div>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>
+                                    Match
+                                </th>
+                                <th>
+                                    {{selectedUser.profile.displayName}}'s Bet
+                                </th>
+                            </tr>
+                            <tr ng-repeat="match in matches">
+                                <td>
+                                    <div class="row">
+                                        <div class="col-xs-12 text-center mb20">
+                                            <small><strong>{{::(match.date | date : "EEEE, MMMM d, y, HH:mm")}}</strong></small>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <img src="{{::src}}" height="30px" align="center" ng-repeat="src in ::match.getHomeTeam().getAvatarUrls() track by $index">
+                                            <div class="ellipsis-text">{{::("teams." + match.getHomeTeam().getTeamName() | translate)}}</div>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <div class="mobile-match-results-row">{{::((match.result[1] === null || match.result[1] === undefined) ? '-' : match.result[0])
+                                                }} : {{::((match.result[1] === null || match.result[1] === undefined) ? '-'
+                                                : match.result[1])}}
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <img src="{{::src}}" height="30px" align="center" ng-repeat="src in ::(match.getAwayTeam().getAvatarUrls())" />
+                                            <div class="ellipsis-text">{{::("teams." + match.getAwayTeam().getTeamName() | translate)}}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" ng-model="bets[match.id].result[0]"> : <input type="number" ng-model="bets[match.id].result[1]">                                    {{bets[match.id]}}
+                                    <button ng-click="vm.saveUserBet(match.id, selectedUser._id, bets[match.id].result[0], bets[match.id].result[1])">Save</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,43 @@
+<header-section text="CompetitionTeams"></header-section>
+
+<div class="container">
+
+	<table class="striped" smallstack-list service="competitionTeamsService" method="getAllCompetitionTeams" models="competitionTeams"
+	options="{expand : ['linkedUserIds']}" entries-per-page="500">
+		<thead>
+			<tr>
+				<th>Owner</th>
+				<th>Name</th>
+				<th>DisplayName</th>
+				<th>Avatar</th>
+				<th>LinkedUser</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="competitionTeam in competitionTeams track by competitionTeam.id">
+				<td>{{competitionTeam.owner}}</td>
+				<td>{{competitionTeam.name}}</td>
+				<td>{{competitionTeam.getTeamName()}}</td>
+				<td>{{competitionTeam.avatar}}</td>
+				<td>
+					<span ng-repeat="linked in competitionTeam.getLinkedUsers({}) track by linked.id"><img src="{{linked.profile.avatarUrl}}" class="circle" height="28px" align="middle"> {{linked.profile.displayName}}</span>
+				</td>
+				<td>
+					<a href="competitionteam/{{competitionTeam.id}}"><button class="btn">Open</button></a>
+					<button class="red btn" ng-click="competitionTeam.delete()">Delete</button>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					<div align="center">
+						<smallstack-list-load-more-button></smallstack-list-load-more-button>
+					</div>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+
+</div>

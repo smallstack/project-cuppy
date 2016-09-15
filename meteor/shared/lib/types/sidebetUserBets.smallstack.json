@@ -1,0 +1,65 @@
+{
+	"collection": {
+		"name": "sidebetuserbets"
+	},
+	"service": {
+		"queries": [
+			{
+				"name": "getForSideBetAndUserId",
+				"selector": {
+					"sideBetId": ":sideBetId",
+					"ownerId": ":userId"
+				}
+			},
+			{
+				"name": "getForUserId",
+				"selector": {
+					"ownerId": ":userId"
+				}
+			},
+			{
+				"name": "getForCompetitionId",
+				"selector": {
+					"competitionId": ":competitionId"
+				}
+			}
+		],
+		"securedmethods": [
+			{
+				"name": "updateAllUserSideBets",
+				"parameters": [
+					"mySidebets:SideBetUserBet[]"
+				]
+			}
+		]
+	},
+	"model": {
+		"name": "SideBetUserBet",
+		"schema": [
+			{
+				"name": "sideBetId",
+				"type": "foreign",
+				"collection": "sidebets"
+			},
+			{
+				"name": "competitionId",
+				"type": "foreign",
+				"collection": "competitions"
+			},
+			{
+				"name": "ownerId",
+				"type": "foreign",
+				"collection": "users"
+			},
+			{
+				"name": "result",
+				"type": "string"
+			},
+			{
+				"name": "points",
+				"type": "number",
+				"optional": true
+			}
+		]
+	}
+}

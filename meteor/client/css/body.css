@@ -1,0 +1,26 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+::-moz-selection { /* Code for Firefox */
+    color: #fff;
+    background: #238f22;
+}
+
+::selection {
+    color: #fff;
+    background: #238f22;
+}
+
+#mainContent {
+    background-color: white;
+    height: 100%;
+}
+
+.no-user-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}

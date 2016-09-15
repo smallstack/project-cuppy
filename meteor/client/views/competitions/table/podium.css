@@ -1,0 +1,73 @@
+
+.podium-container {
+    width: 100%
+}
+
+.podium {
+    width: 33%;
+    height: 250px;
+    display: inline-block;
+    position: relative;
+    padding: 3px;
+}
+
+.podium img {
+    position: relative;
+    bottom: 32px;
+}
+
+.podium-1 {
+    padding-top: 0px;
+}
+
+.podium-2 {
+    padding-top: 50px;
+}
+
+.podium-3 {
+    padding-top: 100px;
+}
+
+.podium-bar {
+    background-color: #282826;  
+    font-size: 40px;
+    font-weight: 100;
+    color: white;
+}
+
+.podium-1-bar {
+    height: 150px;
+}
+
+.podium-2-bar {
+    height: 100px;
+}
+
+.podium-3-bar {
+    height: 50px;
+}
+
+.podium-laurelwreath {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+    width: 100%;
+    height: 110px;
+    background-image: url("/images/laurelwreath.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.podium-laurelwreath-1 {
+    top: -45px;
+}
+
+.podium-laurelwreath-2 {
+    top: 5px;
+}
+
+.podium-laurelwreath-3 {
+    top: 55px;
+}

@@ -1,0 +1,32 @@
+<h3>
+    <smallstack-translate key="competition.table"></smallstack-translate>
+</h3>
+
+<table class="ui striped table">
+    <thead>
+        <tr>
+            <th ng-if="competition.type !== 'manualTournament'">Position</th>
+            <th>Team</th>
+            <th class="center aligned">Spiele</th>
+            <th class="center aligned">Gewonnen</th>
+            <th class="center aligned">Unentschieden</th>
+            <th class="center aligned">Verloren</th>
+            <th class="center aligned">Tore</th>
+            <th class="center aligned">Torverhältnis</th>
+            <th class="center aligned" ng-if="competition.type !== 'manualTournament'">Punkte</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="(key,team) in teamTableEntries track by key">
+            <th class="center aligned" ng-if="competition.type !== 'manualTournament'">{{($index+1)}}</th>
+            <td><a href="/statistics/team/{{team.model.id}}">{{team.model.getTeamName()}}</a></td>
+            <th class="center aligned">{{team.games}}</th>
+            <th class="center aligned">{{team.won}}</th>
+            <th class="center aligned">{{team.drawn}}</th>
+            <th class="center aligned">{{team.lost}}</th>
+            <th class="center aligned">{{team.goalDifference[0]}} : {{team.goalDifference[1]}}</th>
+            <th class="center aligned">{{team.goalDifference[0] - team.goalDifference[1] }}</th>
+            <th class="center aligned" ng-if="competition.type !== 'manualTournament'">{{team.points}}</th>
+        </tr>
+    </tbody>
+</table>

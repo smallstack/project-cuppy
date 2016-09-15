@@ -1,0 +1,17 @@
+<div ng-controller="MainController" style="height:100%">
+    <sidebarmenu type="main" toggle-menu-ref="menuToggle" side="left"></sidebarmenu>
+    <div id="mainContent" style="height:100%">
+        <div class="mobile-menu-button" ng-click="toggleMenu($event)" ng-show="isMobile">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </div>
+        <div class="logo">cuppy</div>
+        <navigation type="main" ng-if="!isMobile"></navigation>
+        <!--<is-verified></is-verified>-->
+        <div ui-view style="height:100%"></div>
+        <!--<smallstack-version-footer></smallstack-version-footer>-->
+    </div>
+    <news></news>
+    <online-status></online-status>
+</div>

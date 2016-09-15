@@ -1,0 +1,38 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+# meteor packages
+risul:chance
+momentjs:moment
+http
+shell-server
+
+# smallstack packages
+smallstack:ioc
+smallstack:core
+smallstack:navigation
+smallstack:navigation-backoffice
+smallstack:utils
+smallstack:user
+smallstack:bootstrap
+smallstack:angular-core
+smallstack:collections
+smallstack:i18n
+smallstack:i18n-backoffice
+smallstack:configuration
+smallstack:configuration-backoffice
+smallstack:notifications
+smallstack:migration
+smallstack:roles
+smallstack:backoffice
+smallstack:cms
+smallstack:cms-components
+smallstack:cms-backoffice
+smallstack:collections-backoffice
+smallstack:typesystem
+smallstack:news-backoffice
+smallstack:email
+smallstack:email-backoffice

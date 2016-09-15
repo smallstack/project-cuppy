@@ -1,0 +1,5 @@
+meteor/node_modules
+meteor/server/functions/server-counts.ts
+meteor/local-packages.json
+meteor/shared/versions.ts
+meteor/typedefinitions/generated.d.ts

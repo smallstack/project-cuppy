@@ -1,0 +1,70 @@
+{
+	"collection": {
+		"name": "bets"
+	},
+	"service": {
+		"queries": [
+			{
+				"name": "getBetById",
+				"selector": {
+					"_id": ":id:string"
+				}
+			},
+			{
+				"name": "getBetsForCompetitionId",
+				"selector": {
+					"competitionId": ":competitionId"
+				}
+			},
+			{
+				"name": "getBetsForCompetitionAndUserId",
+				"selector": {
+					"competitionId": ":competitionId",
+					"ownerId": ":userId"
+				}
+			},
+			{
+				"name": "getBetsForMatchAndUserId",
+				"selector": {
+					"matchId": ":matchId",
+					"ownerId": ":userId"
+				}
+			},
+			{
+				"name": "getBetsForMatchId",
+				"selector": {
+					"matchId": ":matchId"
+				}
+			}
+		]
+	},
+	"model": {
+		"name": "Bet",
+		"schema": [
+			{
+				"name": "competitionId",
+				"type": "foreign",
+				"collection": "competitions"
+			},
+			{
+				"name": "matchId",
+				"type": "foreign",
+				"collection": "competitionMatches"
+			},
+			{
+				"name": "ownerId",
+				"type": "foreign",
+				"collection": "users"
+			},
+			{
+				"name": "result",
+				"type": "number[]"
+			},
+			{
+				"name": "points",
+				"type": "number",
+				"optional": true
+			}
+		]
+	}
+}

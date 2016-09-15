@@ -1,0 +1,52 @@
+<a href="/competition/{{competition.name}}" ng-show="competition"><i class="mobile-menu-button fa fa-angle-left" aria-hidden="true"></i></a>
+<page-header text="Ranking {{competition.displayName}}"></page-header>
+
+<div class="ranking container mt40">
+
+	<table class="podium-container mt40">
+		<tr>
+			<td class="podium podium-{{competition.ranking[1].rank}} text-center" ng-if="competition.ranking[1]">
+				<img height="70px" class="img-circle" src="{{users[competition.ranking[1].userId].getAvatarUrl()}}">
+				<div class="podium-laurelwreath podium-laurelwreath-{{competition.ranking[1].rank}}"></div>
+				<div class="podium-bar podium-{{competition.ranking[1].rank}}-bar">{{competition.ranking[1].rank}}</div>
+			</td>
+			<td class="podium podium-{{competition.ranking[0].rank}} text-center" ng-if="competition.ranking[0]">
+				<img height="70px" class="img-circle" src="{{users[competition.ranking[0].userId].getAvatarUrl()}}">
+				<div class="podium-laurelwreath podium-laurelwreath-{{competition.ranking[0].rank}}"></div>
+				<div class="podium-bar podium-{{competition.ranking[0].rank}}-bar">{{competition.ranking[0].rank}}</div>
+			</td>
+			<td class="podium podium-{{competition.ranking[2].rank}} text-center" ng-if="competition.ranking[2]">
+				<img height="70px" class="img-circle" src="{{users[competition.ranking[2].userId].getAvatarUrl()}}">
+				<div class="podium-laurelwreath podium-laurelwreath-{{competition.ranking[2].rank}}"></div>
+				<div class="podium-bar podium-{{competition.ranking[2].rank}}-bar">{{competition.ranking[2].rank}}</div>
+			</td>
+		</tr>
+	</table>
+
+	<table class="table table-striped" ng-if="competition.ranking.length > 0">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Player</th>
+				<th></th>
+				<th class="text-center"><img style="height: 18px;" src="/images/trophys/1_1.png"></th>
+			</tr>
+		</thead>
+
+		<tr ng-repeat="rankEntry in competition.ranking">
+			<td width="20px">
+				{{rankEntry.rank}}.
+			</td>
+			<td width="40px">
+				<img src="{{users[rankEntry.userId].getAvatarUrl()}}" class="img-circle" height="40px">
+			</td>
+			<td class="rank-entry-user-row">{{users[rankEntry.userId].profile.displayName}}</td>
+			<td class="text-center" width="20px">
+				{{rankEntry.points}}
+			</td>
+		</tr>
+	</table>
+	<div ng-if="!competition.ranking || competition.ranking.length === 0" class="text-center">
+		No Ranking available yet!
+	</div>
+</div>

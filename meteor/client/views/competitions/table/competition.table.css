@@ -1,0 +1,7 @@
+
+
+.rank-entry-user-row{
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

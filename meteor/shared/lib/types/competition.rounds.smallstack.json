@@ -1,0 +1,90 @@
+{
+	"collection": {
+		"name": "competitionRounds"
+	},
+	"service": {
+		"queries": [
+			{
+				"name": "getCompetitionRoundById",
+				"selector": {
+					"_id": ":id:string"
+				}
+			},
+			{
+				"name": "getCompetitionRoundsByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string[]"
+					}
+				}
+			},
+			{
+				"name": "getAllRoundsForCompetitionId",
+				"selector": {
+					"competitionId": ":competitionId"
+				},
+				"sorting": {
+					"index": 1
+				}
+			}
+		],
+		"securedmethods": [
+			{
+				"name": "updateRoundDetails",
+				"parameters": [
+					"roundName:string",
+					"multiplier:number",
+					"index:number"
+				],
+				"modelAware": true
+			}
+		]
+	},
+	"model": {
+		"name": "CompetitionRound",
+		"schema": [
+			{
+				"name": "competitionId",
+				"type": "foreign",
+				"collection": "competitions"
+			},
+			{
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"name": "index",
+				"type": "number",
+				"min": 0,
+				"defaultValue": 0,
+				"optional": true
+			},
+			{
+				"name": "multiplier",
+				"type": "number",
+				"min": 0,
+				"defaultValue": 1
+			},
+			{
+				"name": "subRoundIds",
+				"type": "foreign[]",
+				"collection": "competitionRounds",
+				"optional": true,
+				"defaultValue": []
+			},
+			{
+				"name": "matchIds",
+				"type": "foreign[]",
+				"collection": "competitionMatches",
+				"defaultValue": [],
+				"optional": true
+			},
+			{
+				"name": "allMatchesFinished",
+				"type": "boolean",
+				"defaultValue": false,
+				"optional": true
+			}
+		]
+	}
+}
