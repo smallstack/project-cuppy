@@ -7,6 +7,7 @@ smallstack.ioc.get<NavigationService>("navigationService").addNavigationEntry(Na
     .setTemplateUrl("client/views/competitions/admin/competition.admin.ng.html")
     .setVisible(false)
     .setStateName("website.competitionAdmin")
+    .setSubstateOfNamed("website.competitions")
 );
 
 interface CompetitionAdministrationScope extends angular.meteor.IScope {
@@ -48,7 +49,7 @@ class CompetitionAdministrationController {
         // load competition
         var competitionQuery: QueryObject<Competition> = CompetitionsService.instance().getCompetitionByName({ name: name });
         competitionQuery.subscribe(() => {
-            competitionQuery.expand(["roundIds"], () => {
+            competitionQuery.expand(["roundIds", "administratorIds"], () => {
                 $timeout(() => {
                     that.$scope.competition = <Competition>competitionQuery.val(0);
                     that.$scope.rounds = that.$scope.competition.getRounds().val();

@@ -12,4 +12,29 @@ smallstack.ioc.get<NavigationService>("navigationService").addNavigationEntry(Na
     .setStateName("website.home")
 	.setType("main")
 	.setDefaultRoute(true)
+	.setControllerName("HomeController")
 );
+
+
+class HomeController {
+
+	@Autowired
+	private notificationService: NotificationService;
+
+	@Autowired
+	private competitionsService: CompetitionsService;
+
+	static $inject = ["$scope", "$timeout"];
+
+	constructor(private $scope: any, private $timeout: angular.ITimeoutService) {
+
+		this.competitionsService.getAllCompetitions({}, { entriesPerPage: 6 }).subscribe((cursor) => {
+			this.$timeout(() => {
+				this.$scope.competitions = cursor.fetch();
+			});
+		});
+
+	}
+}
+
+smallstack.angular.app.controller("HomeController", HomeController);

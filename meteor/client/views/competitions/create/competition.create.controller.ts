@@ -10,6 +10,7 @@ smallstack.ioc.get<NavigationService>("navigationService").addNavigationEntry(Na
 	.setVisible(false)
     .setStateName("website.newcompetition")
 	.setType("main")
+	.setSubstateOfNamed("website.competitions")
 );
 
 interface CreateCompetitionScope extends ng.IScope {

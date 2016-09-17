@@ -81,7 +81,8 @@
 			},
 			{
 				"name": "name",
-				"type": "string"
+				"type": "string",
+				"unique": "true"
 			},
 			{
 				"name": "displayName",
@@ -97,6 +98,13 @@
 			},
 			{
 				"name": "userIds",
+				"type": "foreign[]",
+				"collection": "users",
+				"optional": true,
+				"defaultValue": []
+			},
+			{
+				"name": "administratorIds",
 				"type": "foreign[]",
 				"collection": "users",
 				"optional": true,

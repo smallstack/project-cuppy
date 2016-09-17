@@ -23,14 +23,13 @@ smallstack.ioc.get<NavigationService>("navigationService").addNavigationEntry(Na
 	.setTemplateUrl("client/views/competitions/list/competitions.ng.html")
 	.setVisible(true)
 	.setStateName("website.mycompetitions")
+	.setSubstateOfNamed("website.competitions")
 );
 
 
 interface CompetitionsScope extends ng.IScope {
-	createCompetition: Function;
 	title: string;
-	methodName: string;
-	subscriptionName: string;
+	competitions: Competition[];
 }
 
 
@@ -39,34 +38,39 @@ class CompetitionsController {
 	@Autowired
 	private notificationService: NotificationService;
 
-	static $inject = ["$scope", "$location", "$state"];
+	@Autowired
+	private competitionsService: CompetitionsService;
 
-	constructor(private $scope: CompetitionsScope, private $location: angular.ILocationService, private $state: angular.ui.IStateService) {
-		$scope.createCompetition = function () {
-			$location.path("competitions/new");
-		}
+	static $inject = ["$scope", "$timeout", "$state"];
+
+	constructor(private $scope: CompetitionsScope, private $timeout: angular.ITimeoutService, private $state: angular.ui.IStateService) {
 
 		switch ($state.current.name) {
+
 			case "website.competitions":
 				$scope.title = "navigation.competitions";
-				$scope.methodName = "getAllCompetitions";
-				$scope.subscriptionName = "allCompetitions";
+				this.loadAllCompetitions(this.competitionsService.getAllCompetitions({}));
 				break;
+
 			case "website.mycompetitions":
 				$scope.title = "navigation.mycompetitions";
-				$scope.methodName = "getMyCompetitions";
-				$scope.subscriptionName = "myCompetitions";
+				this.loadAllCompetitions(this.competitionsService.getMyCompetitions({}));
 				break;
+
 			default:
 				this.notificationService.popup.error("No valid state name given : " + $state.current.name);
 		}
 
-		// competitionsService.getMyCompetitionsCount(function(error: Meteor.Error, count: number) {
-		// 	if (error) console.error(error);
-		// 	else console.log("my competitions count : ", count);
-		// });
+	}
 
-
+	private loadAllCompetitions(queryObject: QueryObject<Competition>) {
+		queryObject.subscribe(() => {
+			queryObject.expand(["ownerId"], () => {
+				this.$timeout(() => {
+					this.$scope.competitions = queryObject.val();
+				});
+			});
+		});
 	}
 }
 

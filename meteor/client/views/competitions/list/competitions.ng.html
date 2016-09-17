@@ -1,13 +1,14 @@
 <page-header i18n-text="navigation.competitions"></page-header>
 
 
-<smallstack-query service="competitionsService" query="allCompetitions" models="competitions" expands="ownerId"></smallstack-query>
 <div class="container mt40">
 	<div class="row">
 		<div class="col-xs-12 col-md-4" ng-repeat=" competition in competitions track by $id(competition) ">
 			<div class="well">
 				<h1><a href="/competition/{{competition.name}}/rounds/current">{{competition.displayName}}</a></h1>
-				<p class="type"><text-component i18n-text="competition.types.{{competition.type}}"></text-component></p>
+				<p class="type">
+					<text-component i18n-text="competition.types.{{competition.type}}"></text-component>
+				</p>
 				<p class="profile"><img src="{{competition.getOwner().val(0).getAvatarUrl()}} " class="img-circle " height="20px " align="top"> {{competition.getOwner().val(0).profile.displayName}}</p>
 			</div>
 		</div>

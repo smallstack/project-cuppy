@@ -19,6 +19,7 @@ smallstack:utils
 smallstack:user
 smallstack:bootstrap
 smallstack:angular-core
+smallstack:angular-login
 smallstack:collections
 smallstack:i18n
 smallstack:i18n-backoffice
