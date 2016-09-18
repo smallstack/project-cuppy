@@ -9,6 +9,7 @@ smallstack.ioc.get<NavigationService>("navigationService").addNavigationEntry(Na
     .setVisible(true)
     .setType("backoffice")
     .setIcon("fa-futbol-o")
+    .setLabel("Bets")
     .setStateName("backoffice.cuppy.bets")
     .setControllerName("CuppyBetsBackofficeController")
     .setSubstateOfNamed("backoffice.cuppy")
