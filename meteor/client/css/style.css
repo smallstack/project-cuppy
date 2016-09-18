@@ -28,7 +28,7 @@ h4 {
     margin-top: 40px;
 }
 
-.logo {
+.cuppylogo {
     position: absolute;
     top: 0.9em;
     padding-left: 2.2em;
@@ -41,7 +41,7 @@ h4 {
     font-size: 20px;
 }
 
-.logo img {
+.cuppylogo img {
     height: 25px;
 }
 
@@ -76,7 +76,7 @@ h4 {
 }
 
 @media only screen and (max-width: 720px) {
-    .logo {
+    .cuppylogo {
         top: 15px;
         font-size: 14px;
         width: 100%;
