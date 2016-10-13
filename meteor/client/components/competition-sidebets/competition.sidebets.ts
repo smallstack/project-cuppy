@@ -9,7 +9,7 @@ smallstack.ioc.get<NavigationService>("navigationService").addNavigationEntry(Na
 );
 
 
-class CompetitionSidebetsController extends AngularBaseComponentController {
+class CompetitionSidebetsController extends AngularBaseComponentController implements InitializationAware {
 
     @Autowired
     private sidebetsService: SidebetsService;
@@ -19,13 +19,11 @@ class CompetitionSidebetsController extends AngularBaseComponentController {
 
     static $inject = ["$scope", "$stateParams", "$timeout", "$state"];
 
-    constructor(protected $scope: any, private $stateParams: angular.ui.IStateParamsService, $timeout: angular.ITimeoutService, private $state: angular.ui.IStateService) {
-        super($scope);
-        $scope.vm = this;
-        $scope.loaded = false;
-        $scope.mySideBets = {};
+    public afterInitialization() {
+        this.$scope.loaded = false;
+        this.$scope.mySideBets = {};
 
-        if ($stateParams["competitionName"] === undefined) {
+        if (this.$stateParams["competitionName"] === undefined) {
             NotificationService.instance().popup.error("No competition name given!");
             return;
         }
@@ -38,21 +36,21 @@ class CompetitionSidebetsController extends AngularBaseComponentController {
             });
         });
 
-        this.loadCompetition($stateParams["competitionName"], (competitionId: string) => {
+        this.loadCompetition(this.$stateParams["competitionName"], (competitionId: string) => {
             // get sidebets
             var sidebetsQuery: QueryObject<SideBet> = this.sidebetsService.getSideBetsByCompetitionId({ competitionId: competitionId });
             sidebetsQuery.subscribe(() => {
-                $scope.sidebets = sidebetsQuery.val();
+                this.$scope.sidebets = sidebetsQuery.val();
                 var mySideBets: QueryObject<SideBetUserBet> = SidebetuserbetsService.instance().getForUserId({ userId: Meteor.userId() });
                 mySideBets.subscribe(() => {
                     this.$timeout(() => {
                         var mySideBetsArray: SideBetUserBet[] = mySideBets.val();
-                        _.each($scope.sidebets, (sideBet: SideBet) => {
+                        _.each(this.$scope.sidebets, (sideBet: SideBet) => {
                             var mySideBet: SideBetUserBet = _.find(mySideBetsArray, (userSideBet: SideBetUserBet) => userSideBet.sideBetId === sideBet.id);
                             if (mySideBet)
-                                $scope.mySideBets[sideBet.id] = mySideBet;
+                                this.$scope.mySideBets[sideBet.id] = mySideBet;
                             else {
-                                $scope.mySideBets[sideBet.id] = SideBetUserBet.fromDocument({
+                                this.$scope.mySideBets[sideBet.id] = SideBetUserBet.fromDocument({
                                     sideBetId: sideBet.id,
                                     ownerId: Meteor.userId()
                                 });

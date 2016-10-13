@@ -35,7 +35,7 @@ interface CompetitionScope extends angular.IScope {
 }
 
 
-class CompetitionMatchesController extends AngularBaseComponentController {
+class CompetitionMatchesController extends AngularBaseComponentController implements InitializationAware {
 
     @Autowired
     private competitionMatchesService: CompetitionMatchesService;
@@ -52,29 +52,25 @@ class CompetitionMatchesController extends AngularBaseComponentController {
     @Autowired
     private competitionRoundsService: CompetitionRoundsService
 
-    static $inject = ["$scope", "$stateParams", "$timeout", "$state"];
+    public afterInitialization() {
+        this.$scope.loaded = false;
 
-    constructor(protected $scope: CompetitionScope, private $stateParams: angular.ui.IStateParamsService, $timeout: angular.ITimeoutService, private $state: angular.ui.IStateService) {
-        super($scope);
-        $scope.vm = this;
-        $scope.loaded = false;
-
-        if ($stateParams["competitionName"] === undefined) {
+        if (this.$stateParams["competitionName"] === undefined) {
             NotificationService.instance().popup.error("No competition name given!");
             return;
         }
 
-        this.loadCompetition($stateParams["competitionName"], (competitionId: string) => {
+        this.loadCompetition(this.$stateParams["competitionName"], (competitionId: string) => {
             // get rounds
             var roundsQuery: QueryObject<CompetitionRound> = this.competitionRoundsService.getAllRoundsForCompetitionId({ competitionId: competitionId });
             roundsQuery.subscribe(() => {
-                $scope.rounds = roundsQuery.val();
+                this.$scope.rounds = roundsQuery.val();
 
-                var selectedRoundId: string = $stateParams["competitionRoundId"];
+                var selectedRoundId: string = this.$stateParams["competitionRoundId"];
 
                 // if competitionRound === current
                 if (selectedRoundId === "current") {
-                    var currentRound: CompetitionRound = _.find($scope.rounds, (round: CompetitionRound) => !round.allMatchesFinished);
+                    var currentRound: CompetitionRound = _.find(this.$scope.rounds, (round: CompetitionRound) => !round.allMatchesFinished);
                     if (currentRound !== undefined)
                         selectedRoundId = currentRound.id;
                     else
@@ -82,11 +78,11 @@ class CompetitionMatchesController extends AngularBaseComponentController {
                 }
 
                 if (selectedRoundId === undefined)
-                    $scope.roundName = "competition.allmatches";
+                    this.$scope.roundName = "competition.allmatches";
                 else {
-                    $scope.selectedRound = _.find($scope.rounds, (round: CompetitionRound) => round.id === selectedRoundId);
-                    if ($scope.selectedRound)
-                        $scope.roundName = $scope.selectedRound.name;
+                    this.$scope.selectedRound = _.find(this.$scope.rounds, (round: CompetitionRound) => round.id === selectedRoundId);
+                    if (this.$scope.selectedRound)
+                        this.$scope.roundName = this.$scope.selectedRound.name;
                 }
 
                 this.loadMatches(competitionId, selectedRoundId, (competitionId: string) => {
@@ -155,7 +151,7 @@ class CompetitionMatchesController extends AngularBaseComponentController {
     public update(match: CompetitionMatch) {
         var self = this;
         if (match.result[0] && match.result[1]) {
-            match.updateScores(function(error: Meteor.Error, result: boolean) {
+            match.updateScores(function (error: Meteor.Error, result: boolean) {
                 if (error) NotificationService.instance().getStandardErrorPopup(error, "Could not save match scores!");
                 else {
                     if (result) {
