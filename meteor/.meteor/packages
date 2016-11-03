@@ -7,8 +7,8 @@
 # meteor packages
 risul:chance
 momentjs:moment
-http
-shell-server
+http@1.2.10
+shell-server@0.2.1
 
 # smallstack packages
 smallstack:ioc
