@@ -11,6 +11,14 @@
 				}
 			},
 			{
+				"name": "getSidebetsByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string[]"
+					}
+				}
+			},
+			{
 				"name": "getSideBetsByCompetitionId",
 				"selector": {
 					"competitionId": ":competitionId"

@@ -20,8 +20,7 @@
 				"name": "getCompetitionByName",
 				"selector": {
 					"name": ":name"
-				},
-				"returnOne": true
+				}
 			},
 			{
 				"name": "getMyCompetitions",
@@ -149,14 +148,14 @@
 			},
 			{
 				"name": "metadata",
-				"type": "Object",
+				"type": "object",
 				"defaultValue": {},
 				"optional": true,
 				"blackbox": true
 			},
 			{
 				"name": "syncer",
-				"type": "String",
+				"type": "string",
 				"allowedValues": [
 					"footballdata",
 					"openligadb"

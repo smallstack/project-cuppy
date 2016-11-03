@@ -57,7 +57,7 @@ h4 {
 }
 
 .header-component {
-    background: url('images/header-bg-md-desktop.jpg') repeat-x;
+    background: url('/images/header-bg-md-desktop.jpg') repeat-x;
     background-size: cover;
     background-position: center center;
     background-color: #34A232;
@@ -84,7 +84,7 @@ h4 {
     }
 
     .header-component {
-        background: url('images/header-bg-md.jpg') repeat-x;
+        background: url('/images/header-bg-md.jpg') repeat-x;
         background-size: cover;
         background-position: center center;
         background-color: #34A232;

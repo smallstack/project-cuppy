@@ -3,7 +3,16 @@
 		"name": "betgroups"
 	},
 	"service": {
-		"queries": []
+		"queries": [
+			{
+				"name": "getBetgroupsByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string[]"
+					}
+				}
+			}
+		]
 	},
 	"model": {
 		"name": "BetGroup",

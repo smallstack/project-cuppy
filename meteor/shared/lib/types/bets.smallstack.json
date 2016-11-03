@@ -11,6 +11,14 @@
 				}
 			},
 			{
+				"name": "getBetsByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string[]"
+					}
+				}
+			},
+			{
 				"name": "getBetsForCompetitionId",
 				"selector": {
 					"competitionId": ":competitionId"
