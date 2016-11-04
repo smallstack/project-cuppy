@@ -44,7 +44,7 @@ class CompetitionAdministrationController {
         var name = $stateParams["competitionName"];
 
         // load competition
-        var competitionQuery: QueryObject<Competition> = CompetitionsService.instance().getCompetitionByName({ name: name }, { reactive: false });
+        var competitionQuery: QueryObject<Competition> = CompetitionsService.instance().getCompetitionByName({ name: name }, { reactive: true });
         competitionQuery.subscribe(() => {
             competitionQuery.expand(["roundIds", "teamIds.linkedUserIds"], () => {
                 Tracker.autorun(() => {
