@@ -28,12 +28,6 @@ class HomeController {
 
 	constructor(private $scope: any, private $timeout: angular.ITimeoutService) {
 
-		this.competitionsService.getAllCompetitions({}, { entriesPerPage: 6 }).subscribe((cursor) => {
-			this.$timeout(() => {
-				this.$scope.competitions = cursor.fetch();
-			});
-		});
-
 	}
 }
 

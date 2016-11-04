@@ -79,6 +79,10 @@
 				"collection": "users"
 			},
 			{
+				"name": "createdAt",
+				"type": "date"
+			},
+			{
 				"name": "name",
 				"type": "string",
 				"unique": "true"

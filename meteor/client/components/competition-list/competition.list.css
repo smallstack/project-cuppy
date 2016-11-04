@@ -1,0 +1,10 @@
+.competition-list-entry {
+    height: 120px;
+    cursor: pointer;
+    box-shadow: 0px 0px 20px #DFDFDF;
+    padding-left: 15px;
+    padding-top: 5px;
+    background-color: #fafafa;
+    margin-bottom: 25px;
+    overflow: hidden;
+}

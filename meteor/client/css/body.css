@@ -24,3 +24,7 @@ body, html {
     -moz-user-select: none;
     user-select: none;
 }
+
+.forced-pointer {
+    cursor: pointer;
+}

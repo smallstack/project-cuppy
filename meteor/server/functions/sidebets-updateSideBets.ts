@@ -12,14 +12,14 @@ Meteor.methods({
 
 		var collection: Mongo.Collection<SideBet> = SidebetsCollection.getMongoCollection();
 
-        _.each(params.sidebets, (sideBet: SideBet) => {
+		_.each(params.sidebets, (sideBet: SideBet) => {
 
 			// check access rights
 			var competition: Competition = CompetitionsService.instance().getCompetitionById({ id: sideBet.competitionId }).val(0);
 			if (!competition)
 				throw new Meteor.Error("404", "Competition for SideBet not found!");
-			if (!competition.ownerId === this.userId)
-				throw new Meteor.Error("403", "You are not the owner of the sidebet's competition!");
+			if (!competition.isAdministrator(this.userId))
+				throw new Meteor.Error("403", "You are not an administrator of this competition!");
 
 			// have a look if sidebet already exists
 			if (sideBet.id) {

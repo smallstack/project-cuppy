@@ -19,24 +19,6 @@ class CompetitionTeam extends GeneratedCompetitionTeam {
 			return ["/images/soccer-icon.png"];
 	}
 
-	public getTeamName(): string {
-		if (this.linkedUserIds instanceof Array) {
-			var name: string = undefined;
-			this.getLinkedUsers().cursor.forEach(function (user: User) {
-				if (name !== undefined)
-					name += " & " + user.profile.displayName;
-				else
-					name = user.profile.displayName;
-			});
-			if (name === undefined) {
-				return "linked team without name";
-			}
-			return name;
-		}
-		else
-			return this.name;
-	}
-
 	public getLinkedUsersTitle() {
 		var namedUsers: string = undefined;
 		_.each(this.getLinkedUsers().cursor.fetch(), function (user: User) {

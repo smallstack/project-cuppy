@@ -1,4 +1,4 @@
-<page-header i18n-text="competition.updatecompetition"></page-header>
+<page-header i18n-key="competition.updatecompetition"></page-header>
 <spacer height="50"></spacer>
 
 
@@ -34,16 +34,7 @@
 
 		<h4>Administrators</h4>
 		<div class="col-xs-12 form-group">
-			<label>Users</label>
-			<div ng-repeat="user in administrators">
-				{{user.profile.displayName}} <button class="btn btn-xs" ng-click="vm.removeUser(user.id)">remove</button>
-			</div>
-			<div class="input-group input-group-sm">
-				<input type="text" class="form-control" placeholder="E-Mail" ng-model="newAdministratorMail">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" ng-click="vm.addUser(newAdministratorMail)">Add user via E-Mail</button>
-				</span>
-			</div>
+			<user-selector user-ids-ref="competition.administratorIds"></user-selector>
 		</div>
 
 		<p>&nbsp;</p>
@@ -61,22 +52,55 @@
 		<p>&nbsp;</p>
 
 		<div ng-if="!competition.syncer">
-			<p>
-				{{"competition.tips.manualsync" | translate}}
-			</p>
-
-			<div class="col-xs-12 col-md-4 form-group">
-				<div class="checkbox">
-					<label>
-				<input type="checkbox" id="randomizeTeamNames" name="randomizeTeamNames" ng-model="competition.randomizeTeams"> Randomize Teams on Tournament Start
-			</label>
+			<h4>Manual Configuration</h4>
+			<small>{{"competition.tips.manualsync" | translate}}</small>
+			<div class="row">
+				<div class="col-xs-12 col-md-4 form-group">
+					<div class="checkbox">
+						<label>
+						<input type="checkbox" id="randomizeTeamNames" name="randomizeTeamNames" ng-model="competition.randomizeTeams"> Randomize Teams on Tournament Start
+					</label>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-4 form-group">
+					<div class="checkbox">
+						<label>
+						<input type="checkbox" id="returnRound" name="returnRound" ng-model="competition.returnRound">Hin- und Rückrunde
+					</label>
+					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-4 form-group">
-				<div class="checkbox">
-					<label>
-				<input type="checkbox" id="returnRound" name="returnRound" ng-model="competition.returnRound">Hin- und Rückrunde
-			</label>
+
+			<h5>Team Configuration</h5>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Index</th>
+						<th>Team Name</th>
+						<th>Players</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="competitionTeam in competitionTeams track by competitionTeam.id">
+						<td>{{($index+1)}}</td>
+						<td>{{competitionTeam.name}}</td>
+						<td>{{competitionTeam.getLinkedUsersTitle()}}</td>
+						<td>
+							<button class="btn btn-xs btn-danger" ng-click="competition.removeTeam(competitionTeam)">Remove</button>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+			<div class="row">
+				<div class="col-md-10 col-xs-12" align="center" smallstack-list service="competitionTeamsService" method="getAllCompetitionTeams"
+					models="allCompetitionTeams" options="{expand: ['linkedUserIds']}" entries-per-page="500">
+					<select class="form-control" ng-model="newCompetitionTeam" ng-options="team as (team.name + ' - ' + team.getLinkedUsersTitle()) for team in allCompetitionTeams track by team.id"></select>
+				</div>
+				<div class="col-md-2 col-xs-12" align="center">
+					<button class="btn" ng-click="competition.addTeam(newCompetitionTeam)">Add Team</button>
 				</div>
 			</div>
 		</div>
@@ -90,48 +114,6 @@
 				<div class="col-xs-12 form-group">
 					<label>ID</label>
 					<input class="form-control" type="text" ng-model="competition.metadata.footballDataId" required>
-				</div>
-			</div>
-		</div>
-
-		<div ng-if="competition.type === 'manualTournament' || competition.type === 'manualLeague' || competition.type === 'manual1on1'">
-			<h4>Team Configuration</h4>
-			<table ng-if="competition" class="striped" smallstack-list service="competitionTeamsService" method="getCompetitionTeamsByIds"
-				parameters="{ids : competition.teamIds}" models="competitionTeams" options="{expand: ['linkedUserIds']}" entries-per-page="500">
-				<thead>
-					<tr>
-						<th class="hide-on-small-only">Index</th>
-						<th>Team Name</th>
-						<th class="hide-on-small-only">Players</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="competitionTeam in competitionTeams track by competitionTeam.id">
-						<td class="hide-on-small-only">{{($index+1)}}</td>
-						<td>{{competitionTeam.getTeamName()}}</td>
-						<td class="hide-on-small-only">{{competitionTeam.getLinkedUsersTitle()}}</td>
-						<td>
-							<button class="red btn hide-on-small-only" ng-click="competition.removeTeam(competitionTeam)">Remove</button>
-							<a class="btn-floating hide-on-med-and-up red" ng-click="competition.removeTeam(competitionTeam)"><i class="material-icons">remove</i></a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<smallstack-list-load-more-button></smallstack-list-load-more-button>
-						</td>
-					</tr>
-				</tbody>
-
-			</table>
-
-			<div class="row">
-				<div class="col m11 s12" align="center" smallstack-list service="competitionTeamsService" method="getAllCompetitionTeams"
-					models="allCompetitionTeams" options="{expand: ['linkedUserIds']}" entries-per-page="500">
-					<select class="browser-default" ng-model="newCompetitionTeam" ng-options="team as team.getTeamName() for team in allCompetitionTeams track by team.id"></select>
-				</div>
-				<div class="col m1 s12" align="center">
-					<button class="btn" ng-click="competition.addTeam(newCompetitionTeam)">Add Team</button>
 				</div>
 			</div>
 		</div>

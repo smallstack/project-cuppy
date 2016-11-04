@@ -1,16 +1,22 @@
-<page-header i18n-text="competition.createCompetition"></page-header>
-<spacer height="50"></spacer>
+<page-header i18n-key="competition.createCompetition"></page-header>
 
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
+			<spacer height="30"></spacer>
 			<h4>{{"competition.name" | translate}}</h4>
-			<div class="form-group">
+
+			<div class="input-group">
 				<input type="text" class="form-control" ng-model="newCompetition.name">
-				<small>{{"competition.tips.competitionname" | translate}}</small>
+				<span class="input-group-btn">
+					 <button class="btn btn-default" ng-click="vm.randomizeName()"><i class="fa fa-random"></i> RANDOM</button>
+					 <button class="btn btn-default" ng-click="vm.randomizeName('pingpong')"><i class="fa fa-random"></i> RANDOM PING PONG</button>
+				</span>
 			</div>
+			<small>{{"competition.tips.competitionname" | translate}}</small>
 		</div>
 		<div class="col-xs-12">
+			<spacer height="30"></spacer>
 			<h4>{{"competition.type" | translate}}</h4>
 			<div class="col-xs-12">
 				<p>

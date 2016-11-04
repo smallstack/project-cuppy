@@ -5,20 +5,20 @@
  */
 
 Meteor.methods({
-	"competitions-removeTeam": function(competitionId: string, teamId: string) {
-		Utils.check(competitionId, String, "competitionId");
-		Utils.check(teamId, String, "teamId");
+	"competitions-removeTeam": function (params: { competitionId: string, teamId: string }) {
+		Utils.check(params.competitionId, String, "competitionId");
+		Utils.check(params.teamId, String, "teamId");
 
-		var competition: Competition = CompetitionsService.instance().getCompetitionById({ id: competitionId }).cursor.fetch()[0];
+		var competition: Competition = CompetitionsService.instance().getCompetitionById({ id: params.competitionId }).cursor.fetch()[0];
 		if (competition === undefined)
-			throw new Meteor.Error("404", "Competition with ID '" + competitionId + "' not found!");
+			throw new Meteor.Error("404", "Competition with ID '" + params.competitionId + "' not found!");
 
-		if (RolesService.instance().userHasRole(this.userId, Competition.roles.manage, competition)) {
-			competition.teamIds = _.without(competition.teamIds, teamId);
+		if (competition.isAdministrator(this.userId)) {
+			competition.teamIds = _.without(competition.teamIds, params.teamId);
 			CompetitionsService.instance().updateCompetition(competition);
-			
+
 			// delete matches
-			CompetitionMatchesService.instance().getMatchesForCompetitionAndTeam({ competitionId: competitionId, competitionTeamId: teamId }).cursor.forEach(function(match: CompetitionMatch) {
+			CompetitionMatchesService.instance().getMatchesForCompetitionAndTeam({ competitionId: params.competitionId, competitionTeamId: params.teamId }).cursor.forEach(function (match: CompetitionMatch) {
 				match.delete();
 			});
 		}

@@ -43,10 +43,9 @@ class Competition extends GeneratedCompetition {
 			if (this.type !== Competition.enums.type.LEAGUE)
 				NotificationService.instance().popup.error("After a competition is started, you can only add teams to league competitions!");
 			else {
-				NotificationService.instance().popup.confirmation("The competition is already started, do you really want to add team '" + team.getTeamName() + "'?", function (answer: boolean) {
+				NotificationService.instance().popup.confirmation("The competition is already started, do you really want to add team '" + team.name + "'?", function (answer: boolean) {
 					if (answer)
 						CompetitionsService.instance().addTeam(that.id, team.id, NotificationService.instance().getStandardCallback("Could not add Team!", "Successfully added Team!"));
-
 				});
 			}
 		}
@@ -60,7 +59,7 @@ class Competition extends GeneratedCompetition {
 			if (this.type !== Competition.enums.type.LEAGUE)
 				NotificationService.instance().popup.error("After a competition is started, you can only remove teams from league competitions!");
 			else {
-				NotificationService.instance().popup.confirmation("The competition is already started, do you really want to remove team '" + team.getTeamName() + "'? This would result in deleting all matches that the team has already played!", function (answer: boolean) {
+				NotificationService.instance().popup.confirmation("The competition is already started, do you really want to remove team '" + team.name + "'? This would result in deleting all matches that the team has already played!", function (answer: boolean) {
 					if (answer)
 						CompetitionsService.instance().removeTeam(that.id, team.id, NotificationService.instance().getStandardCallback("Could not remove Team!", "Successfully removed Team!"));
 
@@ -81,6 +80,10 @@ class Competition extends GeneratedCompetition {
 			case Competition.enums.type.LEAGUE:
 				return new DefaultCompetitionService();
 		}
+	}
+
+	public isAdministrator(userId: string): boolean {
+		return this.administratorIds.indexOf(userId) !== -1;
 	}
 
 }

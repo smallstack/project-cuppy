@@ -100,20 +100,18 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
 
 
     public loadCompetition(name: string, callback: (competitionId: string) => void) {
-        var that = this;
-
         // get the competition
-        var competitionQuery: QueryObject<Competition> = that.competitionsService.getCompetitionByName({ name: name });
+        var competitionQuery: QueryObject<Competition> = this.competitionsService.getCompetitionByName({ name: name });
         competitionQuery.subscribe(() => {
-            that.$scope.competition = competitionQuery.val(0);
-            that.$scope.loaded = true;
-            if (that.$scope.competition === undefined) {
+            this.$scope.competition = competitionQuery.val(0);
+            this.$scope.loaded = true;
+            if (this.$scope.competition === undefined) {
                 NotificationService.instance().popup.error("Competition not found : '" + name + "'!");
                 return;
             }
             else {
-                that.$scope.isAdministrator = that.$scope.competition.ownerId === Meteor.userId();
-                callback(that.$scope.competition.id);
+                this.$scope.isAdministrator = this.$scope.competition.administratorIds.indexOf(Meteor.userId()) !== -1;
+                callback(this.$scope.competition.id);
             }
         });
     }

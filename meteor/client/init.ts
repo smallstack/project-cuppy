@@ -7,6 +7,6 @@ smallstack.initLevelService.addInitLevelFn(1, "Configuration", (done: (error: Me
 
 smallstack.initLevelService.addInitLevelFn(49, "CuppyTheme", (done: (error: Meteor.Error, success: boolean) => void): void => {
 
-    var bootstrapTheme: BootstrapTheme = smallstack.ioc.get<BootstrapLoader>("bootstrapLoader").getTheme("sandstone");
+    var bootstrapTheme: BootstrapTheme = smallstack.ioc.get<BootstrapLoader>("bootstrapLoader").getTheme("yeti");
     bootstrapTheme.load(done);
 });

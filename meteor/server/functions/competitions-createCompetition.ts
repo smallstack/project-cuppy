@@ -38,6 +38,7 @@ Meteor.methods({
 		competition.ownerId = this.userId;
 		competition.userIds = [this.userId];
 		competition.administratorIds = [this.userId];
+		competition.createdAt = new Date();
 
 		var savedCompetitionId = CompetitionsService.instance().saveCompetition(competition);
 

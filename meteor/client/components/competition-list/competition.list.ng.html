@@ -1,0 +1,44 @@
+<div ng-if="showMyCompetitions">
+    <h2>My Competitions</h2>
+    <div class="row">
+        <div class="col-xs-12 col-md-4" ng-repeat=" competition in myCompetitions track by $id(competition)">
+            <div class="competition-list-entry" ui-sref="website.competitionRound({competitionName: competition.name, competitionRoundId: 'current'})">
+                <h4>{{competition.displayName}}</h4>
+                <p class="type">
+                    <text-component i18n-key="competition.types.{{competition.type}}"></text-component>
+                </p>
+                <div class="col-xs-6">
+                    <p class="profile"><img src="{{competition.getOwner().val(0).getAvatarUrl()}} " class="img-circle " height="20px " align="top">                        {{competition.getOwner().val(0).profile.displayName}}
+                    </p>
+                </div>
+                <div class="col-xs-6">
+                    <small>{{competition.createdAt | date: 'medium'}}</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <div class="competition-list-entry" ui-sref="website.newcompetition">
+                <h1 style="text-align: center;padding: 10px;"><i class="fa fa-plus" style="color: gray"></i></h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>All Competitions</h2>
+<div class="row">
+    <div class="col-xs-12 col-md-4" ng-repeat=" competition in competitions track by $id(competition)">
+        <div class="competition-list-entry" ui-sref="website.competitionRound({competitionName: competition.name, competitionRoundId: 'current'})">
+            <h4>{{competition.displayName}}</h4>
+            <p class="type">
+                <text-component i18n-key="competition.types.{{competition.type}}"></text-component>
+            </p>
+            <div class="col-xs-6">
+                <p class="profile"><img src="{{competition.getOwner().val(0).getAvatarUrl()}} " class="img-circle " height="20px " align="top">                    {{competition.getOwner().val(0).profile.displayName}}
+                </p>
+            </div>
+            <div class="col-xs-6">
+                <small>{{competition.createdAt | date: 'medium'}}</small>
+            </div>
+        </div>
+    </div>
+</div>

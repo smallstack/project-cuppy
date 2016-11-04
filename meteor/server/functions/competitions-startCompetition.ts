@@ -7,7 +7,7 @@
  */
 
 Meteor.methods({
-	"competitions-startCompetition": function(competitionId: string) {
+	"competitions-startCompetition": function (competitionId: string) {
 		Utils.check(competitionId, String, "competitionId");
 
 		var competitionsService: CompetitionsService = CompetitionsService.instance();
@@ -17,12 +17,12 @@ Meteor.methods({
 		var competition: Competition = competitionsService.getCompetitionById({ id: competitionId }).cursor.fetch()[0];
 		if (!competition)
 			throw new Meteor.Error("404", "Could not find the competition you wanted to start!");
-		if (competition.ownerId !== this.userId)
-			throw new Meteor.Error("403", "You can only start your own competitions!");
-			
+		if (!competition.isAdministrator(this.userId))
+			throw new Meteor.Error("403", "You are not an administrator of this competition!");
+
 		// delete rounds
 		var rounds = CompetitionRoundsService.instance().getAllRoundsForCompetitionId({ competitionId: competition.id }).cursor.fetch();
-		_.each(rounds, function(round: CompetitionRound) {
+		_.each(rounds, function (round: CompetitionRound) {
 			competitionsRoundsService.deleteRoundRecursive(round);
 		});
 
@@ -37,7 +37,7 @@ Meteor.methods({
 			default:
 				throw new Meteor.Error("501", "Could not create matches for competition type '" + competition.type + "' since it is not implemented yet!");
 		}
-		
+
 		// set competition to started
 		competition.started = true;
 		competitionsService.updateCompetition(competition);

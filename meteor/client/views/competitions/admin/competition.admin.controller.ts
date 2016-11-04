@@ -13,7 +13,7 @@ smallstack.ioc.get<NavigationService>("navigationService").addNavigationEntry(Na
 interface CompetitionAdministrationScope extends angular.meteor.IScope {
     competition: Competition;
     competitionSyncer: string;
-    competitionTeams: { [id: string]: CompetitionTeam };
+    competitionTeams: CompetitionTeam[];
     administrators: User[];
     allCompetitionTeams: CompetitionTeam[];
     sideBets: SideBet[];
@@ -44,19 +44,22 @@ class CompetitionAdministrationController {
         var name = $stateParams["competitionName"];
 
         // load competition
-        var competitionQuery: QueryObject<Competition> = CompetitionsService.instance().getCompetitionByName({ name: name });
+        var competitionQuery: QueryObject<Competition> = CompetitionsService.instance().getCompetitionByName({ name: name }, { reactive: false });
         competitionQuery.subscribe(() => {
-            competitionQuery.expand(["roundIds", "administratorIds"], () => {
-                $timeout(() => {
-                    this.$scope.competition = <Competition>competitionQuery.val(0);
-                    this.$scope.rounds = this.$scope.competition.getRounds().val();
-                    this.$scope.administrators = this.$scope.competition.getAdministrators().val();
-                    this.$scope.competitionSyncer = this.$scope.competition.syncer;
-                    if (this.$scope.competition === undefined)
+            competitionQuery.expand(["roundIds", "teamIds.linkedUserIds"], () => {
+                Tracker.autorun(() => {
+                    let competition: Competition = competitionQuery.val(0);
+                    if (competition === undefined)
                         NotificationService.instance().popup.error("Competition '" + name + "' could not be loaded!");
                     else {
-                        this.loadSideBets(this.$scope.competition.id);
-                        this.loadAllMatches(this.$scope.competition.id);
+                        $timeout(() => {
+                            this.$scope.competition = competition;
+                            this.$scope.rounds = competition.getRounds().val();
+                            this.$scope.competitionSyncer = competition.syncer;
+                            this.$scope.competitionTeams = competition.getTeams().val();
+                        });
+                        this.loadSideBets(competition.id);
+                        this.loadAllMatches(competition.id);
                     }
                 });
             });

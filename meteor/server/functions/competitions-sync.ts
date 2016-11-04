@@ -15,8 +15,8 @@ Meteor.methods({
 		if (!competition)
 			throw new Meteor.Error("404", "Could not find competition with id : " + params.modelId);
 
-		if (competition.ownerId !== this.userId)
-			throw new Meteor.Error("403", "You are not the owner of this competition!");
+		if (!competition.isAdministrator(this.userId))
+			throw new Meteor.Error("403", "You are not an administrator of this competition!");
 
 		if (competition.syncer !== undefined) {
 			if (competition.syncer === Competition.enums.syncer.FOOTBALLDATA) {
