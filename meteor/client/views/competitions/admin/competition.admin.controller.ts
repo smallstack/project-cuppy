@@ -99,6 +99,10 @@ class CompetitionAdministrationController {
         });
     }
 
+    public updateCompetition() {
+        this.$scope.competition.updateCompetitionViaMethod(this.$scope.competition.toDocument(), NotificationService.instance().getStandardCallback("Could not update competition!", "Successfully updated competition!"));
+    }
+
     public loadSideBets(competitionId: string) {
         // load sidebets
         var sideBetsQuery: QueryObject<SideBet> = SidebetsService.instance().getSideBetsByCompetitionId({ competitionId: competitionId });

@@ -53,54 +53,56 @@
 
 		<div ng-if="!competition.syncer">
 			<h4>Manual Configuration</h4>
-			<small>{{"competition.tips.manualsync" | translate}}</small>
-			<div class="row">
-				<div class="col-xs-12 col-md-4 form-group">
-					<div class="checkbox">
-						<label>
+			<div class="col-xs-12">
+				<small>{{"competition.tips.manualsync" | translate}}</small>
+				<div class="col-xs-12">
+					<div class="col-xs-12 col-md-4 form-group">
+						<div class="checkbox">
+							<label>
 						<input type="checkbox" id="randomizeTeamNames" name="randomizeTeamNames" ng-model="competition.randomizeTeams"> Randomize Teams on Tournament Start
 					</label>
+						</div>
 					</div>
-				</div>
-				<div class="col-xs-12 col-md-4 form-group">
-					<div class="checkbox">
-						<label>
+					<div class="col-xs-12 col-md-4 form-group">
+						<div class="checkbox">
+							<label>
 						<input type="checkbox" id="returnRound" name="returnRound" ng-model="competition.returnRound">Hin- und Rückrunde
 					</label>
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<h5>Team Configuration</h5>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Index</th>
-						<th>Team Name</th>
-						<th>Players</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="competitionTeam in competitionTeams track by competitionTeam.id">
-						<td>{{($index+1)}}</td>
-						<td>{{competitionTeam.name}}</td>
-						<td>{{competitionTeam.getLinkedUsersTitle()}}</td>
-						<td>
-							<button class="btn btn-xs btn-danger" ng-click="competition.removeTeam(competitionTeam)">Remove</button>
-						</td>
-					</tr>
-				</tbody>
+				<h5>Team Configuration</h5>
+				<div class="col-xs-12">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Index</th>
+								<th>Team Name</th>
+								<th>Players</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="competitionTeam in competitionTeams track by competitionTeam.id">
+								<td>{{($index+1)}}</td>
+								<td>{{competitionTeam.name}}</td>
+								<td>{{competitionTeam.getLinkedUsersTitle()}}</td>
+								<td>
+									<button class="btn btn-xs btn-danger" ng-click="competition.removeTeam(competitionTeam)">Remove</button>
+								</td>
+							</tr>
+						</tbody>
 
-			</table>
+					</table>
 
-			<div class="row">
-				<div class="col-md-10 col-xs-12" align="center" smallstack-list service="competitionTeamsService" method="getAllCompetitionTeams"
-					models="allCompetitionTeams" options="{expand: ['linkedUserIds']}" entries-per-page="500">
-					<select class="form-control" ng-model="newCompetitionTeam" ng-options="team as (team.name + ' - ' + team.getLinkedUsersTitle()) for team in allCompetitionTeams track by team.id"></select>
-				</div>
-				<div class="col-md-2 col-xs-12" align="center">
-					<button class="btn" ng-click="competition.addTeam(newCompetitionTeam)">Add Team</button>
+					<div class="col-md-10 col-xs-12" align="center" smallstack-list service="competitionTeamsService" method="getAllCompetitionTeams"
+						models="allCompetitionTeams" options="{expand: ['linkedUserIds']}" entries-per-page="500">
+						<select class="form-control" ng-model="newCompetitionTeam" ng-options="team as (team.name + ' - ' + team.getLinkedUsersTitle()) for team in allCompetitionTeams track by team.id"></select>
+					</div>
+					<div class="col-md-2 col-xs-12" align="center">
+						<button class="btn" ng-click="competition.addTeam(newCompetitionTeam)">Add Team</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -109,12 +111,9 @@
 		<!--football-data.org config -->
 		<div ng-if="competition.syncer === 'footballdata'">
 			<h4>Football-Data.org Configuration</h4>
-
-			<div class="row">
-				<div class="col-xs-12 form-group">
-					<label>ID</label>
-					<input class="form-control" type="text" ng-model="competition.metadata.footballDataId" required>
-				</div>
+			<div class="col-xs-12 form-group">
+				<label>ID</label>
+				<input class="form-control" type="text" ng-model="competition.metadata.footballDataId" required>
 			</div>
 		</div>
 
@@ -149,9 +148,9 @@
 
 
 		<!-- round naming -->
-		<div ng-if="competition.syncer === 'footballdata'" class="row">
+		<div ng-if="competition.syncer === 'footballdata'">
+			<h4>Competition Rounds</h4>
 			<div class="col-xs-12">
-				<h4>Competition Rounds</h4>
 				<div ng-if="!rounds || rounds.length === 0"><i>No rounds defined yet</i></div>
 				<div ng-repeat="round in rounds | orderBy: 'index'" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 					<div class="panel panel-default">
@@ -182,17 +181,16 @@
 				</div>
 			</div>
 		</div>
-
-
-		<div align="right">
-			<button class="btn btn-lg btn-success" ng-click="competition.update();">
-		<i class="retweet icon"></i>
-		<smallstack-translate key="common.save"></smallstack-translate>
+		<spacer height="20"></spacer>
+		<button class="btn btn-lg btn-block btn-success" ng-click="vm.updateCompetition();">
+			<i class="fa fa-floppy-o"></i>
+			<smallstack-translate key="common.save"></smallstack-translate>
 		</button>
-		</div>
+		<spacer height="20"></spacer>
+
 
 		<!--special bets -->
-		<h4>Side Bets</h4>
+		<!--<h4>Side Bets</h4>
 
 		<div class="row">
 			<div class="col-xs-12" ng-repeat="sidebet in sideBets">
@@ -222,6 +220,6 @@
 
 			<button class="btn btn-default" ng-click="vm.addSideBet()">Add New Sidebet</button>
 			<button class="btn btn-default" ng-click="vm.saveSideBets()">Save Sidebets</button>
-		</div>
+		</div>-->
 	</div>
 </div>
