@@ -23,6 +23,6 @@ Meteor.methods({
 		if (!competition.isAdministrator(competition.ownerId))
 			throw new Meteor.Error("400", "The owner cannot be removed from the administrators!");
 
-		competition.update();
+		return competition.update() === 1;
 	}
 });
