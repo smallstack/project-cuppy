@@ -27,8 +27,10 @@
 				{{::(roundName | translate)}}
 			</h4>
 			<div class="row">
-				<match-row-entry ng-click="vm.openModal(match)" class="col-xs-12 col-sm-12 col-md-4" match-ref="match" bet-ref="bets[match.id]"
-					place-bet-ref="vm.openModal" ng-repeat="match in matches | orderBy:'index' track by match.id"></match-row-entry>
+				<div ng-repeat="match in matches | orderBy:'index' track by match.id" class="col-xs-12 col-sm-12 col-md-4">
+					<match-row-entry ng-click="vm.openModal(match)" match-ref="match" bet-ref="bets[match.id]" place-bet-ref="vm.openModal"></match-row-entry>
+					<button class="btn btn-xs btn-block btn-default" ng-click="vm.openMatchDetailPage(match)">open details</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -36,7 +38,7 @@
 
 
 <!-- Bet Modal -->
-<div class="modal fade" id="betModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="betModal" tabindex="-1" role="dialog" data-backdrop="false">
 	<div class="modal-dialog mobile-modal-dialog" role="document">
 		<div class="modal-content mobile-modal-content">
 			<div class="modal-body">
@@ -76,7 +78,7 @@
 </div>
 
 <!-- Match Edit Modal -->
-<div class="modal fade" id="matchEditModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="matchEditModal" tabindex="-1" role="dialog" data-backdrop="false">
 	<div class="modal-dialog mobile-modal-dialog" role="document">
 		<div class="modal-content mobile-modal-content">
 			<div class="modal-body">
@@ -123,7 +125,7 @@
 </div>
 
 <!-- Admin Modal -->
-<div class="modal fade" id="adminModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" data-backdrop="false">
 	<div class="modal-dialog mobile-modal-dialog" role="document">
 		<div class="modal-content mobile-modal-content">
 			<div class="modal-body">

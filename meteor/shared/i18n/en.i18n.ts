@@ -12,7 +12,8 @@ localizationService.addTranslation("en", {
 		"competitionTeams": "Teams",
 		"newcompetitionTeam": "New Team",
 		"login": "Login",
-		"register": "Register"
+		"register": "Register",
+		"devices": "Devices"
 	},
 	"application": {
 		"title": "Cuppy"

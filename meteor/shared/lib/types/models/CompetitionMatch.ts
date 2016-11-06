@@ -53,6 +53,8 @@ class CompetitionMatch extends GeneratedCompetitionMatch {
 	}
 
 	private isDateInThePast(date: Date) {
+		if (date === undefined)
+			return false;
 		if (Meteor.isServer)
 			return date.getTime() < new Date().getTime();
 		else

@@ -7,14 +7,14 @@
  */
 
 Meteor.methods({
-	"competitions-startCompetition": function (competitionId: string) {
-		Utils.check(competitionId, String, "competitionId");
+	"competitions-startCompetition": function (params: { competitionId: string }) {
+		Utils.check(params.competitionId, String, "competitionId");
 
 		var competitionsService: CompetitionsService = CompetitionsService.instance();
 		var competitionsRoundsService: CompetitionRoundsService = CompetitionRoundsService.instance();
 
 		// get competition
-		var competition: Competition = competitionsService.getCompetitionById({ id: competitionId }).cursor.fetch()[0];
+		var competition: Competition = competitionsService.getCompetitionById({ id: params.competitionId }).cursor.fetch()[0];
 		if (!competition)
 			throw new Meteor.Error("404", "Could not find the competition you wanted to start!");
 		if (!competition.isAdministrator(this.userId))
@@ -40,6 +40,6 @@ Meteor.methods({
 
 		// set competition to started
 		competition.started = true;
-		competitionsService.updateCompetition(competition);
+		competition.update();
 	}
 });

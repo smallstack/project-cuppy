@@ -13,8 +13,8 @@ localizationService.addTranslation("de", {
 		"competitionTeams": "Teams",
 		"newcompetitionTeam": "Neues Team",
 		"login": "Anmelden",
-		"register": "Registrieren"
-
+		"register": "Registrieren",
+		"devices": "Geräte"
 	},
 	"application": {
 		"title": "Cuppy"

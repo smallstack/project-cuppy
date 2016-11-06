@@ -149,7 +149,7 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
     public update(match: CompetitionMatch) {
         var self = this;
         if (match.result[0] && match.result[1]) {
-            match.updateScores(function (error: Meteor.Error, result: boolean) {
+            match.updateScores(function(error: Meteor.Error, result: boolean) {
                 if (error) NotificationService.instance().getStandardErrorPopup(error, "Could not save match scores!");
                 else {
                     if (result) {
@@ -253,6 +253,10 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
             if (this.$scope.currentMatch.result[resultIndex] < 0)
                 this.$scope.currentMatch.result[resultIndex] = 0;
         }
+    }
+
+    public openMatchDetailPage(match: CompetitionMatch) {
+        this.$state.go("website.matchDetail", { matchId: match.id, competitionName: this.$stateParams["competitionName"] });
     }
 
     public openModal(match: CompetitionMatch) {

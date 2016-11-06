@@ -49,7 +49,7 @@ class MatchDetailsController {
     private loadMatch(matchId: string, callback: () => void) {
         var query: QueryObject<CompetitionMatch> = this.competitionMatchesService.getCompetitionMatchById({ id: matchId });
         query.subscribe(() => {
-            query.expand(["teamIds"], () => {
+            query.expand(["teamIds.linkedUserIds"], () => {
                 this.$scope.match = <CompetitionMatch>query.val(0);
                 this.$scope.allowRating = _.indexOf(this.$scope.match.ratedByIds, Meteor.userId()) === -1;
                 callback();

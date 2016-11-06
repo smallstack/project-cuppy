@@ -53,7 +53,7 @@
 					"teamId:string"
 				],
 				"returns": "boolean",
-				"visibility": "shared"
+				"visibility": "server"
 			},
 			{
 				"name": "removeTeam",
@@ -62,7 +62,7 @@
 					"teamId:string"
 				],
 				"returns": "boolean",
-				"visibility": "shared"
+				"visibility": "server"
 			},
 			{
 				"name": "sync",

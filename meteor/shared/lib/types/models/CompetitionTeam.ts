@@ -7,7 +7,7 @@ class CompetitionTeam extends GeneratedCompetitionTeam {
 		if (this.linkedUserIds !== undefined) {
 			var urls: string[] = [];
 			_.each(this.getLinkedUsers().cursor.fetch(), function (user: User) {
-				urls.push(user.profile.avatarUrl);
+				urls.push(User.fromDocument(user).getAvatarUrl());
 			});
 			return urls;
 		}
