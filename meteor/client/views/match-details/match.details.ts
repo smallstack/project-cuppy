@@ -35,29 +35,39 @@ class MatchDetailsController {
             return;
         }
 
+        this.loadMatch($stateParams["matchId"])
+        this.loadBets($stateParams["matchId"]);
+        $scope.loading = false;
 
-        this.loadMatch($stateParams["matchId"], () => {
-            this.loadBets($stateParams["matchId"], () => {
-                this.$timeout(() => {
-                    $scope.loading = false;
+        // load devices
+        DevicesService.instance().getMyDevices({}, { reactive: true }).subscribe((cursor) => {
+            let devices: Device[] = cursor.fetch();
+            this.$timeout(() => {
+                this.$scope.devices = devices;
+            });
+        });
+    }
+
+
+    private loadMatch(matchId: string) {
+        var query: QueryObject<CompetitionMatch> = this.competitionMatchesService.getCompetitionMatchById({ id: matchId }, { reactive: true });
+        query.subscribe(() => {
+            query.expand(["teamIds.linkedUserIds", "competitionId"], () => {
+                Tracker.autorun(() => {
+                    let match: CompetitionMatch = <CompetitionMatch>query.val(0);
+                    let competition: Competition = match.getCompetition().val(0);
+                    this.$timeout(() => {
+                        this.$scope.match = match;
+                        this.$scope.allowRating = _.indexOf(this.$scope.match.ratedByIds, Meteor.userId()) === -1;
+                        this.$scope.isAdministrator = competition.isAdministrator(Meteor.userId());
+                        this.$scope.isManualCompetition = competition.syncer === undefined;
+                    });
                 });
             });
         });
     }
 
-
-    private loadMatch(matchId: string, callback: () => void) {
-        var query: QueryObject<CompetitionMatch> = this.competitionMatchesService.getCompetitionMatchById({ id: matchId });
-        query.subscribe(() => {
-            query.expand(["teamIds.linkedUserIds"], () => {
-                this.$scope.match = <CompetitionMatch>query.val(0);
-                this.$scope.allowRating = _.indexOf(this.$scope.match.ratedByIds, Meteor.userId()) === -1;
-                callback();
-            });
-        });
-    }
-
-    private loadBets(matchId: string, callback: () => void) {
+    private loadBets(matchId: string) {
         var query: QueryObject<Bet> = this.betsService.getBetsForMatchId({ matchId: matchId });
         query.subscribe(() => {
             query.expand([BetsCollection.expandables.ownerId], () => {
@@ -74,9 +84,12 @@ class MatchDetailsController {
                     this.$scope.statistics.averagePoints = Math.round(this.$scope.statistics.averagePoints * 10) / 10;
                 } else
                     this.$scope.statistics.averagePoints = 0;
-                callback();
             });
         });
+    }
+
+    public useDevice(device: Device) {
+        device.useDeviceForMatch(this.$scope.match.id);
     }
 
 

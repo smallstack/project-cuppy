@@ -6,3 +6,4 @@ meteor/typedefinitions/generated.d.ts
 meteor/built/
 tmp/
 smallstack/
+built/meteor.tar.gz

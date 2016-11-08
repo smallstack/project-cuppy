@@ -8,18 +8,28 @@
 
 <div ng-if="!loading" class="container">
     <div class="row">
+
+        <div align="right">
+            <!-- devices -->
+            <span ng-if="isAdministrator && isManualCompetition && devices.length > 0">
+                <select style="width:200px;display:inline-block" ng-options="device as device.deviceId for device in devices" ng-model="usedDevice" class="form-control"></select>
+                <button ng-click="vm.useDevice(usedDevice)" class="btn btn-default">Use Device</button>
+            </span>
+            <a href="/competition/{{::competitionName}}/rounds/current" class="btn btn-success">Goto Competition</a>
+        </div>
+
         <div class="col-xs-12">
             <h4>{{match.date | date : "EEEE, MMMM d, y, HH:mm"}}</h4>
             <div class="col-xs-4 text-center">
-                <img src="{{src}}" height="30px" align="center" ng-repeat="src in match.getHomeTeam().getAvatarUrls() track by $index">
-                <div class="ellipsis-text">{{"teams." + match.getHomeTeam().name}}</div>
+                <img src="{{src}}" height="200px" align="center" ng-repeat="src in match.getHomeTeam().getAvatarUrls() track by $index">
+                <div>{{ match.getHomeTeam().name}}</div>
             </div>
             <div class="col-xs-4 text-center">
-                <div class="mobile-match-results-row">{{ match.result[0]}} : {{ match.result[1]}}</div>
+                <div class="mobile-match-results-row" style="font-size: 80px;">{{match.result[0] ? match.result[0] : "--"}} : {{match.result[1] ? match.result[1] : "--"}}</div>
             </div>
             <div class="col-xs-4 text-center">
-                <img src="{{src}}" height="30px" align="center" ng-repeat="src in match.getAwayTeam().getAvatarUrls()" />
-                <div class="ellipsis-text">{{"teams." + match.getAwayTeam().name}}</div>
+                <img src="{{src}}" height="200px" align="center" ng-repeat="src in match.getAwayTeam().getAvatarUrls()" />
+                <div>{{ match.getAwayTeam().name}}</div>
             </div>
         </div>
 

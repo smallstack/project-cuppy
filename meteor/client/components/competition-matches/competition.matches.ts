@@ -124,7 +124,9 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
             query = this.competitionMatchesService.getMatchesForCompetitionAndRound({ competitionId: competitionId, roundId: roundId });
 
         query.subscribe(() => {
-            this.$scope.matches = query.val();
+            this.$timeout(() => {
+                this.$scope.matches = query.val();
+            });
             query.expand(["teamIds.linkedUserIds"], () => {
                 callback(competitionId);
             });
@@ -149,7 +151,7 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
     public update(match: CompetitionMatch) {
         var self = this;
         if (match.result[0] && match.result[1]) {
-            match.updateScores(function(error: Meteor.Error, result: boolean) {
+            match.updateScores(function (error: Meteor.Error, result: boolean) {
                 if (error) NotificationService.instance().getStandardErrorPopup(error, "Could not save match scores!");
                 else {
                     if (result) {
@@ -260,19 +262,20 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
     }
 
     public openModal(match: CompetitionMatch) {
-        if (Meteor.userId()) {
-            this.$scope.currentMatch = match;
-            if (this.$scope.isAdministrator)
-                (<any>$("#adminModal")).modal();
-            else {
-                if (this.$scope.currentMatch.isBetable())
-                    this.openBetModal();
-                else
-                    this.$state.go("website.matchDetail", { matchId: match.id, competitionName: this.$stateParams["competitionName"] });
-            }
-        } else {
-            NotificationService.instance().popup.error("You must be logged in before you can place a bet or watch the statistics!");
-        }
+        this.openMatchDetailPage(match);
+        // if (Meteor.userId()) {
+        //     this.$scope.currentMatch = match;
+        //     if (this.$scope.isAdministrator)
+        //         (<any>$("#adminModal")).modal();
+        //     else {
+        //         if (this.$scope.currentMatch.isBetable())
+        //             this.openBetModal();
+        //         else
+        //             this.$state.go("website.matchDetail", { matchId: match.id, competitionName: this.$stateParams["competitionName"] });
+        //     }
+        // } else {
+        //     NotificationService.instance().popup.error("You must be logged in before you can place a bet or watch the statistics!");
+        // }
     }
 
     public openBetModal() {

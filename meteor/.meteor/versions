@@ -36,6 +36,7 @@ ccorcos:subs-cache@0.1.0
 cfs:http-methods@0.0.32
 check@1.2.4
 chrismbeckett:toastr@2.1.2_1
+cleandersonlobo:sweetalert2@1.0.0
 coffeescript@1.2.4_1
 cosmos:browserify@0.10.0
 dburles:mongo-collection-instances@0.3.5
@@ -66,7 +67,6 @@ jasonaibrahim:angular-moment@0.10.2
 jquery@1.11.9
 kadira:debug@3.2.2
 kadira:runtime-dev@0.0.1
-kevohagan:sweetalert@1.0.0
 lai:collection-extensions@0.2.1_1
 launch-screen@1.0.12
 less@2.7.5

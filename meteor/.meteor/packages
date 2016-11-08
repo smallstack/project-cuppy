@@ -10,6 +10,7 @@ momentjs:moment
 http@1.2.10
 shell-server@0.2.1
 
+
 # smallstack packages
 smallstack:ioc
 smallstack:core

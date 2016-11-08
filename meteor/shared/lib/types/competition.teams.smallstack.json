@@ -22,6 +22,14 @@
 				"name": "getAllCompetitionTeams"
 			},
 			{
+				"name": "getAllHumanTeams",
+				"selector": {
+					"linkedUserIds.0": {
+						"$exists": true
+					}
+				}
+			},
+			{
 				"name": "getTeamByName",
 				"selector": {
 					"name": ":teamName"
@@ -59,7 +67,8 @@
 				"name": "linkedUserIds",
 				"type": "foreign[]",
 				"collection": "users",
-				"optional": true
+				"optional": true,
+				"defaultValue": []
 			}
 		]
 	}

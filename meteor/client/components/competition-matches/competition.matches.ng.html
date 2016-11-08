@@ -14,22 +14,21 @@
 			<div class="btn-group">
 				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-calendar" aria-hidden="true"></i> Round <span class="caret"></span></button>
 				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a href="competition/{{competition.name}}">{{::("competition.allmatches" | translate)}}</a></li>
-					<li><a href="competition/{{competition.name}}/rounds/current">{{::("competition.rounds.current" | translate)}}</a></li>
+					<li><a href="competition/{{competition.name}}">{{::("competition.allmatches" | translate:true)}}</a></li>
+					<li><a href="competition/{{competition.name}}/rounds/current">{{::("competition.rounds.current" | translate:true)}}</a></li>
 					<li role="separator" class="divider"></li>
-					<li ng-repeat="round in rounds"><a href="competition/{{competition.name}}/rounds/{{round.id}}">{{::(round.name | translate)}}</a></li>
+					<li ng-repeat="round in rounds"><a href="competition/{{competition.name}}/rounds/{{round.id}}">{{::(round.name | translate:true)}}</a></li>
 				</ul>
 			</div>
 			<a class="btn btn-default" href="competition/{{competition.name}}/sidebets"><i class="fa fa-birthday-cake" aria-hidden="true"></i> Sidebets</a>
 		</div>
 		<div ng-if="matches.length > 0" class="col-xs-12">
 			<h4>
-				{{::(roundName | translate)}}
+				{{::(roundName | translate:true)}}
 			</h4>
 			<div class="row">
 				<div ng-repeat="match in matches | orderBy:'index' track by match.id" class="col-xs-12 col-sm-12 col-md-4">
 					<match-row-entry ng-click="vm.openModal(match)" match-ref="match" bet-ref="bets[match.id]" place-bet-ref="vm.openModal"></match-row-entry>
-					<button class="btn btn-xs btn-block btn-default" ng-click="vm.openMatchDetailPage(match)">open details</button>
 				</div>
 			</div>
 		</div>

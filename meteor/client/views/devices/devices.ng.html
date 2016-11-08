@@ -37,7 +37,7 @@
                 </td>
                 <td>
                     <button class="btn btn-default" ng-click="device.configureDevice()" ng-if="device.configureMode === undefined || device.configureMode === null">configure</button>
-                    <div ng-if="device.configureMode !== undefined && device.configureMode !== null">
+                    <div ng-if="device.configureMode !== undefined && device.configureMode !== null" class="blinking">
                         <div ng-if="device.configureMode === '0_up'"><i>Press Team 1 score up...</i></div>
                         <div ng-if="device.configureMode === '0_down'"><i>Press Team 1 score down...</i></div>
                         <div ng-if="device.configureMode === '1_up'"><i>Press Team 2 score up...</i></div>
@@ -46,10 +46,15 @@
                 </td>
                 <td>
                     <button class="btn btn-default" ng-click="device.resetDevice()">reset</button>
+                    <button class="btn btn-danger" ng-click="device.removeDevice()">remove</button>
                 </td>
             </tr>
             <tr ng-if="devices.length === 0">
-                <td colspan="2" align="center"><i>No devices registered</i></td>
+                <td colspan="4">
+                    <div align="center">
+                        <i>No devices registered</i>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -63,5 +68,14 @@
       </span>
         </div>
     </form>
+
+    <spacer height="30"></spacer>
+    <h5><b>Huh? Devices?</b></h5>
+    <p>Since cuppy also supports tournaments for sports that you actually play by yourself, it now also supports devices that
+        help you track the score. So if you have a hardware device that can send a POST request then you can register it
+        here. Please have a look at our example project which connects a ping pong table with cuppy via 4 hardware buttons
+        and a Rasbperry Pi:
+        <a href="https://github.com/smallstack/project-cuppy-pi" target="_blank">https://github.com/smallstack/project-cuppy-pi</a>
+    </p>
 
 </div>

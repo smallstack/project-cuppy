@@ -11,6 +11,14 @@
 				}
 			},
 			{
+				"name": "getCompetitionsByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string"
+					}
+				}
+			},
+			{
 				"name": "getAllCompetitions",
 				"sorting": {
 					"name": 1
@@ -87,7 +95,8 @@
 			},
 			{
 				"name": "createdAt",
-				"type": "date"
+				"type": "date",
+				"optional": true
 			},
 			{
 				"name": "name",

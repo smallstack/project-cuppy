@@ -64,7 +64,8 @@ class CompetitionMatch extends GeneratedCompetitionMatch {
 	public isFinished(): boolean {
 		if (this.statusInternal === CompetitionMatch.enums.statusInternal.FINISHED)
 			return true;
-		return this.result instanceof Array && typeof this.result[0] === "number" && typeof this.result[1] === "number";
+		// return this.result instanceof Array && typeof this.result[0] === "number" && typeof this.result[1] === "number";
+		return false;
 	}
 
 	public isStarted(): boolean {
@@ -130,5 +131,21 @@ class CompetitionMatch extends GeneratedCompetitionMatch {
 			return 0;
 		else
 			return this.result[0];
+	}
+
+	public updateDeltaScore(deltaHomeGoals: number, deltaAwayGoals: number) {
+		if (!this.isFinished()) {
+			this.manuallyUpdated = true;
+			if (this.result[0] === undefined)
+				this.result[0] = 0;
+			if (this.result[1] === undefined)
+				this.result[1] = 0;
+			this.result[0] += deltaHomeGoals;
+			this.result[1] += deltaAwayGoals;
+			if (this.result[0] < 0)
+				this.result[0] = 0;
+			if (this.result[1] < 0)
+				this.result[1] = 0;
+		}
 	}
 }

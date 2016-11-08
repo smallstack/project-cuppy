@@ -78,7 +78,7 @@ class CompetitionAdministrationController {
     }
 
     public loadAllCompetitionTeams() {
-        var competitionTeamQuery: QueryObject<CompetitionTeam> = CompetitionTeamsService.instance().getAllCompetitionTeams({});
+        var competitionTeamQuery: QueryObject<CompetitionTeam> = CompetitionTeamsService.instance().getAllHumanTeams({}, { entriesPerPage: 5000 });
         competitionTeamQuery.subscribe(() => {
             this.$scope.allCompetitionTeams = competitionTeamQuery.val();
         });

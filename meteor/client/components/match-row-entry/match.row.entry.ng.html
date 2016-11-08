@@ -5,8 +5,8 @@
 			<small><strong>{{::(match.date | date : "EEEE, MMMM d, y, HH:mm")}}</strong></small>
 		</div>
 		<div class="col-xs-4 text-center">
-			<img src="{{::src}}" height="30px" align="center" ng-repeat="src in ::match.getHomeTeam().getAvatarUrls() track by $index">
-			<div class="ellipsis-text">{{::("teams." + match.getHomeTeam().name)}}</div>
+			<img src="{{::src}}" height="60px" align="center" ng-repeat="src in ::match.getHomeTeam().getAvatarUrls() track by $index">
+			<div class="ellipsis-text">{{::(match.getHomeTeam().name)}}</div>
 		</div>
 		<div class="col-xs-4 text-center">
 			<div class="mobile-match-results-row">{{((match.result[1] === null || match.result[1] === undefined) ? '-' : match.result[0]) }} : {{((match.result[1] ===
@@ -15,8 +15,8 @@
 
 		</div>
 		<div class="col-xs-4 text-center">
-			<img src="{{::src}}" height="30px" align="center" ng-repeat="src in ::(match.getAwayTeam().getAvatarUrls())" />
-			<div class="ellipsis-text">{{::("teams." + match.getAwayTeam().name)}}</div>
+			<img src="{{::src}}" height="60px" align="center" ng-repeat="src in ::(match.getAwayTeam().getAvatarUrls())" />
+			<div class="ellipsis-text">{{::(match.getAwayTeam().name)}}</div>
 		</div>
 
 		<div class="clearfix"></div>

@@ -50,6 +50,18 @@
                 "name": "resetDevice",
                 "parameters": [],
                 "modelAware": true
+            },
+            {
+                "name": "removeDevice",
+                "parameters": [],
+                "modelAware": true
+            },
+            {
+                "name": "useDeviceForMatch",
+                "parameters": [
+                    "matchId:string"
+                ],
+                "modelAware": true
             }
         ]
     },
@@ -79,9 +91,9 @@
                 "optional": true
             },
             {
-                "name": "competitionId",
+                "name": "matchId",
                 "type": "foreign",
-                "collection": "competitions",
+                "collection": "competitionMatches",
                 "optional": true
             }
         ]
