@@ -1,4 +1,4 @@
-Develop: [![Build Status](https://travis-ci.org/smallstack/project-cuppy.svg?branch=develop)](https://travis-ci.org/smallstack/project-cuppy)
+[![Build Status](https://travis-ci.org/smallstack/project-cuppy.svg?branch=develop)](https://travis-ci.org/smallstack/project-cuppy)
 
 # Project Cuppy
 Cuppy is an online sports bet platform with the focus on fun. You can't win any money but gain some fame. 
