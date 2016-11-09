@@ -15,3 +15,7 @@ env:
 script: 
   - smallstack packages --mode=projectVersion
   - smallstack clean generate compile
+notifications:
+  email:
+    recipients:
+      - infrastructure@smallstack.io
