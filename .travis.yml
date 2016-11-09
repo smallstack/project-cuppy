@@ -3,7 +3,11 @@ node_js:
   - "4.4.7"
 before_install:
   - "curl https://install.meteor.com | /bin/sh"
+install:
+  - npm install -g smallstack-cli
 services:
   - mongodb
 env:
   - SMALLSTACK_API_KEY=$SMALLSTACK_API_KEY
+script: 
+  - smallstack packages --mode=packageVersion
