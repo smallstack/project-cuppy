@@ -4,6 +4,9 @@ node_js:
 before_install:
   - "curl https://install.meteor.com | /bin/sh"
 install:
+  - npm install -g typescript
+  - npm install -g typings
+  - npm install -g mgp
   - npm install -g smallstack-cli
 services:
   - mongodb
