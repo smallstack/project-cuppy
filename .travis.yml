@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "4.4.7"
+before_install:
+  - "curl https://install.meteor.com | /bin/sh"
+services:
+  - mongodb
+env:
+  - SMALLSTACK_API_KEY=$SMALLSTACK_API_KEY

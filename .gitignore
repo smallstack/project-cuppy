@@ -7,3 +7,4 @@ meteor/built/
 tmp/
 smallstack/
 built/meteor.tar.gz
+meteor/packages/
