@@ -10,5 +10,5 @@ services:
 env:
   - SMALLSTACK_API_KEY=$SMALLSTACK_API_KEY
 script: 
-  - smallstack packages --mode=packageVersion
+  - smallstack packages --mode=projectVersion
   - smallstack clean generate compile
