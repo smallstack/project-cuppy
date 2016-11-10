@@ -8,6 +8,8 @@ class LeagueType implements ICompetitionType {
 
 		// take care of wildcard team
 		var teamCount = competition.teamIds.length;
+		if (teamCount < 4)
+			throw new Meteor.Error("501", "League competitions have to have at least 4 competition teams!");
 		if ((teamCount % 2) !== 0)
 			throw new Meteor.Error("501", "League competitions have to have an even count of teams!");
 

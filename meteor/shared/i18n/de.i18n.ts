@@ -100,7 +100,17 @@ localizationService.addTranslation("de", {
 			"final": "Finale",
 		},
 		"matchday": "Spieltag",
-		"table": "Tabelle"
+		"table": "Tabelle",
+		"types": {
+			"tournament": "Turnier",
+			"league": "Liga",
+			"quickMatch": "Schnelles Spiel"
+		},
+		"typedescriptions": {
+			"tournament": "Turniere können eine Gruppenphase haben und enden mit einem Finale. Die Gruppenphase und die Anzahl der Finalrunden ist konfigurierbar. Beispiele: Weltmeisterschaft, Europameisterschaft, Champions League usw.",
+			"league": "Eine Liga ist ein 1 gegen 1 Turnier welches über Spieltage gruppiert ist. Beispiele: Bundesliga, Premier League, 2. Bundesliga usw.",
+			"quickMatch": "Schnelles Spiel zwischen 2 Teams, keine Tabelle usw., nur Spaß!"
+		}
 	},
 	"teams": {
 		"algeria": "Algerien",

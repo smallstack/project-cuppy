@@ -1,0 +1,12 @@
+.match-row-result {
+    font-size: 48px;
+    color: #737373;
+    font-weight: 100;
+    white-space: nowrap;
+}
+@media(max-width:767px) {
+    .match-row-result {
+        font-size: 30px;
+        padding-top: 10px;
+    }
+}

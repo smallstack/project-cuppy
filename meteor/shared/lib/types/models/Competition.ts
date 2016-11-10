@@ -4,6 +4,7 @@
 class Competition extends GeneratedCompetition {
 
 	private competitionsService: CompetitionsService = CompetitionsService.instance();
+	private competitionMatchesService: CompetitionMatchesService = CompetitionMatchesService.instance();
 
 	// public triggerTournamentUpdate() {
 	// 	CompetitionsService.instance().triggerTournamentUpdate(this.id, function (error: Meteor.Error, result: any) {
@@ -84,6 +85,20 @@ class Competition extends GeneratedCompetition {
 
 	public isAdministrator(userId: string): boolean {
 		return this.administratorIds.indexOf(userId) !== -1;
+	}
+
+	public getNextMatch(currentMatchIndex: number, callback: (competitionMatch: CompetitionMatch) => void): void {
+		this.competitionMatchesService.getCompetitionMatchByIndex({ index: (currentMatchIndex + 1) }).subscribe((cursor) => {
+			let match: CompetitionMatch = cursor.fetch()[0];
+			callback(match);
+		});
+	}
+
+	public getPreviousMatch(currentMatchIndex: number, callback: (competitionMatch: CompetitionMatch) => void): void {
+		this.competitionMatchesService.getCompetitionMatchByIndex({ index: (currentMatchIndex - 1) }).subscribe((cursor) => {
+			let match: CompetitionMatch = cursor.fetch()[0];
+			callback(match);
+		});
 	}
 
 }

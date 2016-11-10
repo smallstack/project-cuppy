@@ -1,21 +1,21 @@
 <page-header i18n-key="competition.updatecompetition"></page-header>
-<spacer height="50"></spacer>
+<spacer height="50" class="hidden-xs"></spacer>
 
 
 <div class="container">
 	<div class="row">
 
 		<div align="right">
-			<div class="btn btn-success" ng-click="competition.startCompetition()" ng-if="competition.syncer === undefined && !competition.started">
+			<div class="btn btn-success btn-xs-block" ng-click="competition.startCompetition()" ng-if="competition.syncer === undefined && !competition.started">
 				<i class="fa fa-play"></i> Start Competition
 			</div>
-			<div class="btn btn-warning" ng-click="competition.restartCompetition()" ng-if="competition.syncer === undefined && competition.started">
+			<div class="btn btn-warning btn-xs-block" ng-click="competition.restartCompetition()" ng-if="competition.syncer === undefined && competition.started">
 				<i class="fa fa-play"></i> Restart Competition
 			</div>
-			<div class="btn btn-danger" ng-click="competition.sync()" ng-if="competition.syncer !== undefined">
+			<div class="btn btn-danger btn-xs-block" ng-click="competition.sync()" ng-if="competition.syncer !== undefined">
 				<i class="fa fa-refresh"></i> Sync Competition
 			</div>
-			<div class="btn btn-default" ng-click="go('/competition/' + competition.name)">
+			<div class="btn btn-primary btn-xs-block" ng-click="go('/competition/' + competition.name)">
 				<i class="fa fa-arrow-right"></i> Goto Competition
 			</div>
 		</div>
@@ -83,16 +83,16 @@
 						<thead>
 							<tr>
 								<th>Index</th>
-								<th>Team Name</th>
-								<th>Players</th>
-								<th>Actions</th>
+								<th colspan="2">Team Name - Players</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="competitionTeam in competitionTeams track by competitionTeam.id">
 								<td>{{($index+1)}}</td>
-								<td>{{competitionTeam.name}}</td>
-								<td>{{competitionTeam.getLinkedUsersTitle()}}</td>
+								<td>
+									<div class="col-md-6 col-xs-12">{{competitionTeam.name}}</div>
+									<div class="col-md-6 col-xs-12">{{competitionTeam.getLinkedUsersTitle()}}</div>
+								</td>
 								<td>
 									<button class="btn btn-xs btn-danger" ng-click="competition.removeTeam(competitionTeam)">Remove</button>
 								</td>

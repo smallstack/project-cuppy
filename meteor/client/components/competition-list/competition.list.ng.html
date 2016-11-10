@@ -1,44 +1,40 @@
 <div ng-if="showMyCompetitions">
-    <h2>My Competitions</h2>
-    <div class="row">
-        <div class="col-xs-12 col-md-4" ng-repeat=" competition in myCompetitions track by $id(competition)">
-            <div class="competition-list-entry" ui-sref="website.competitionRound({competitionName: competition.name, competitionRoundId: 'current'})">
-                <h4>{{competition.displayName}}</h4>
-                <p class="type">
-                    <text-component i18n-key="competition.types.{{competition.type}}"></text-component>
-                </p>
-                <div class="col-xs-6">
-                    <p class="profile"><img src="{{competition.getOwner().val(0).getAvatarUrl()}} " class="img-circle " height="20px " align="top">                        {{competition.getOwner().val(0).profile.displayName}}
-                    </p>
-                </div>
-                <div class="col-xs-6">
-                    <small>{{competition.createdAt | date: 'medium'}}</small>
-                </div>
-            </div>
+    <h4>My Competitions</h4>
+    <div class="row competition-list-entry" ng-repeat="competition in myCompetitions track by $id(competition)" ui-sref="website.competitionRound({competitionName: competition.name, competitionRoundId: 'current'})">
+        <div class="col-lg-5 col-md-4 col-xs-12 ellipsis-text">
+            <b>{{competition.displayName}}</b>
         </div>
-        <div class="col-xs-12 col-md-4">
-            <div class="competition-list-entry" ui-sref="website.newcompetition">
-                <h1 style="text-align: center;padding: 10px;"><i class="fa fa-plus" style="color: gray"></i></h1>
-            </div>
+        <div class="col-lg-2 col-md-2 col-xs-12 ellipsis-text">
+            <img src="/images/competitiontypes/{{competition.type}}.png" height="20px"> {{"competition.types." + competition.type
+            | translate}}
+        </div>
+        <div class="col-lg-3 col-md-3 col-xs-12 ellipsis-text">
+            <img src="{{competition.getOwner().val(0).getAvatarUrl()}} " class="img-circle " height="20px " align="top">            {{competition.getOwner().val(0).profile.displayName}}
+        </div>
+        <div class="col-lg-2 col-md-3 col-xs-12 ellipsis-text">
+            <img src="/images/calendar.png" height="20px"> <small>{{competition.createdAt | date: 'medium'}}</small>
+        </div>
+    </div>
+    <div class="row competition-list-entry">
+        <div class="col-md-12 col-xs-12" ui-sref="website.newcompetition" style="text-align: center;">
+            <i class="fa fa-plus" style="color: gray"></i> add new competition
         </div>
     </div>
 </div>
-
-<h2>All Competitions</h2>
-<div class="row">
-    <div class="col-xs-12 col-md-4" ng-repeat=" competition in competitions track by $id(competition)">
-        <div class="competition-list-entry" ui-sref="website.competitionRound({competitionName: competition.name, competitionRoundId: 'current'})">
-            <h4>{{competition.displayName}}</h4>
-            <p class="type">
-                <text-component i18n-key="competition.types.{{competition.type}}"></text-component>
-            </p>
-            <div class="col-xs-6">
-                <p class="profile"><img src="{{competition.getOwner().val(0).getAvatarUrl()}} " class="img-circle " height="20px " align="top">                    {{competition.getOwner().val(0).profile.displayName}}
-                </p>
-            </div>
-            <div class="col-xs-6">
-                <small>{{competition.createdAt | date: 'medium'}}</small>
-            </div>
-        </div>
+<spacer height="30"></spacer>
+<h4>All Competitions</h4>
+<div class="row competition-list-entry" ng-repeat="competition in competitions track by $id(competition)" ui-sref="website.competitionRound({competitionName: competition.name, competitionRoundId: 'current'})">
+    <div class="col-lg-5 col-md-4 col-xs-12 ellipsis-text">
+        <b>{{competition.displayName}}</b>
+    </div>
+    <div class="col-lg-2 col-md-2 col-xs-12 ellipsis-text">
+        <img src="/images/competitiontypes/{{competition.type}}.png" height="20px"> {{"competition.types." + competition.type
+        | translate}}
+    </div>
+    <div class="col-lg-3 col-md-3 col-xs-12 ellipsis-text">
+        <img src="{{competition.getOwner().val(0).getAvatarUrl()}} " class="img-circle " height="20px " align="top"> {{competition.getOwner().val(0).profile.displayName}}
+    </div>
+    <div class="col-lg-2 col-md-3 col-xs-12 ellipsis-text">
+        <img src="/images/calendar.png" height="20px"> <small>{{competition.createdAt | date: 'medium'}}</small>
     </div>
 </div>

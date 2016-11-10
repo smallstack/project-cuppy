@@ -4,10 +4,14 @@ class TournamentType implements ICompetitionType {
 
 	public createRoundsAndMatches(competition: Competition) {
 
-		var competitionsService: CompetitionsService = CompetitionsService.instance(); 
-		
+		let matchIndex: number = 0;
+
+		var competitionsService: CompetitionsService = CompetitionsService.instance();
+
 		// take care of wildcard team
 		var teamCount: number = competition.teamIds.length;
+		if (teamCount < 4)
+			throw new Meteor.Error("501", "Tournament competitions have to have at least 3 competition teams!");
 		var wildcardCount = competitionsService.getTournamentWildcardCount(teamCount);
 		if (wildcardCount !== 0)
 			teamCount += wildcardCount;
@@ -44,12 +48,12 @@ class TournamentType implements ICompetitionType {
 						teams = _.shuffle<number>(teams);
 
 					// get 2 free teams
-					var teamA = _.find(teams, function(index) {
+					var teamA = _.find(teams, function (index) {
 						// return unplayed and non-wildcard player
 						return !_.contains(teamsPlayed, index) && competition.teamIds[index] !== undefined;
 					});
 					teamsPlayed.push(teamA);
-					var teamB = _.find(teams, function(index) {
+					var teamB = _.find(teams, function (index) {
 						// return wildcard if possible
 						if (teamsPlayed.length <= wildcardCount * 2)
 							return !_.contains(teamsPlayed, index) && competition.teamIds[index] === undefined;
@@ -67,7 +71,7 @@ class TournamentType implements ICompetitionType {
 						var match: CompetitionMatch = new CompetitionMatch();
 						match.competitionId = competition.id;
 						match.teamIds = [competition.teamIds[teamA], competition.teamIds[teamB]];
-						match.index = orderId++;
+						match.index = matchIndex++;
 						match.roundId = round.id;
 						match.result = [goalsA, goalsB];
 						match.id = CompetitionMatchesService.instance().saveCompetitionMatch(match);
@@ -77,7 +81,7 @@ class TournamentType implements ICompetitionType {
 						var match: CompetitionMatch = new CompetitionMatch();
 						match.competitionId = competition.id;
 						match.teamIds = [competition.teamIds[teamA], competition.teamIds[teamB]];
-						match.index = orderId++;
+						match.index = matchIndex++;
 						match.roundId = round.id;
 						match.id = CompetitionMatchesService.instance().saveCompetitionMatch(match);
 						round.matchIds.push(match.id);

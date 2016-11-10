@@ -19,6 +19,12 @@
 				}
 			},
 			{
+				"name": "getCompetitionMatchByIndex",
+				"selector": {
+					"index": ":index:number"
+				}
+			},
+			{
 				"name": "getMatchesForCompetitionId",
 				"selector": {
 					"competitionId": ":competitionId"

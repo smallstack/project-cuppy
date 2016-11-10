@@ -1,13 +1,3 @@
-
-
-
-.mobile-match-results-row {
-    font-size: 40px;
-    color: #737373;
-    font-weight: 100;
-    white-space: nowrap;
-}
-
 .mobile-match-editable {
     border: 1px dashed gray;
     padding-left: 15px;

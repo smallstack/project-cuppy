@@ -62,6 +62,16 @@ class MatchDetailsController {
                         this.$scope.isAdministrator = competition.isAdministrator(Meteor.userId());
                         this.$scope.isManualCompetition = competition.syncer === undefined;
                     });
+                    competition.getPreviousMatch(match.index, (competitionMatch: CompetitionMatch) => {
+                        this.$timeout(() => {
+                            this.$scope.previousMatch = competitionMatch;
+                        });
+                    });
+                    competition.getNextMatch(match.index, (competitionMatch: CompetitionMatch) => {
+                        this.$timeout(() => {
+                            this.$scope.nextMatch = competitionMatch;
+                        });
+                    });
                 });
             });
         });

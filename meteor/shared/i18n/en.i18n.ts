@@ -106,11 +106,13 @@ localizationService.addTranslation("en", {
 		},
 		"types": {
 			"tournament": "Tournament",
-			"league": "League"
+			"league": "League",
+			"quickMatch": "Quick Match"
 		},
 		"typedescriptions": {
 			"tournament": "Tournaments can have a group stage and end up in a final. The Group Phase as well as how many finals will be played is configurable! Examples: World Cup, European Cup, Champions League, etc.",
-			"league": "A league competition is basically a 1on1 between all teams, grouped by matchdays. Examples: Bundesliga, Premier League, 2nd Bundesliga, etc."
+			"league": "A league competition is basically a 1on1 between all teams, grouped by matchdays. Examples: Bundesliga, Premier League, 2nd Bundesliga, etc.",
+			"quickMatch": "Quick match between two teams, no fixtures, just fun!"
 		},
 		"tips": {
 			"competitionname": "Tip: You can change the name at any time!",

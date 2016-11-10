@@ -44,13 +44,6 @@ h4 {
 .cuppylogo img {
     height: 25px;
 }
-
-@media only screen and (min-width: 960px) {
-.mobile-match-row {
-    min-height: 155px;
-}
-
-}
 .competition-match-flag {
     margin-left: 5px;
     margin-right: 5px;
@@ -104,7 +97,6 @@ h4 {
 .ellipsis-text {
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 10px;
 }
 
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
