@@ -36,13 +36,13 @@ class CuppyBetsBackofficeController {
         var matchesQuery: QueryObject<CompetitionMatch> = CompetitionMatchesService.instance().getMatchesForCompetitionId({ competitionId: this.$scope.selectedCompetition.id });
         matchesQuery.subscribe(() => {
             matchesQuery.expand([CompetitionMatchesCollection.expandables.teamIds], () => {
-                this.$scope.matches = matchesQuery.val();
+                this.$scope.matches = matchesQuery.vals();
                 // get bets
                 var betQuery: QueryObject<Bet> = BetsService.instance().getBetsForCompetitionAndUserId({ competitionId: this.$scope.selectedCompetition.id, userId: this.$scope.selectedUser._id });
                 betQuery.subscribe(() => {
                     this.$timeout(() => {
                         this.$scope.bets = {};
-                        var bets: Bet[] = betQuery.val();
+                        var bets: Bet[] = betQuery.vals();
                         _.each(this.$scope.matches, (competitionMatch: CompetitionMatch) => {
                             var bet: Bet = _.find(bets, (bet: Bet) => bet.matchId === competitionMatch.id);
                             if (!bet) {

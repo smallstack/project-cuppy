@@ -22,7 +22,7 @@ class CompetitionListComponentController extends AngularBaseComponentController 
         queryObject.subscribe(() => {
             queryObject.expand(["ownerId"], () => {
                 this.$timeout(() => {
-                    this.$scope.competitions = queryObject.val();
+                    this.$scope.competitions = queryObject.vals();
                 });
             });
         });
@@ -33,7 +33,7 @@ class CompetitionListComponentController extends AngularBaseComponentController 
         queryObject.subscribe(() => {
             queryObject.expand(["ownerId"], () => {
                 this.$timeout(() => {
-                    this.$scope.myCompetitions = queryObject.val();
+                    this.$scope.myCompetitions = queryObject.vals();
                 });
             });
         });
@@ -45,4 +45,4 @@ AngularComponent.new("competitionList")
     .setControllerClass(CompetitionListComponentController)
     .addConfiguration(ComponentConfiguration.createNumberConfiguration("maxCompetitions", -1))
     .setTemplateUrl("client/components/competition-list/competition.list.ng.html")
-    .create();
+    .register();

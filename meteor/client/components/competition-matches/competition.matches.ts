@@ -64,7 +64,7 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
             // get rounds
             var roundsQuery: QueryObject<CompetitionRound> = this.competitionRoundsService.getAllRoundsForCompetitionId({ competitionId: competitionId });
             roundsQuery.subscribe(() => {
-                this.$scope.rounds = roundsQuery.val();
+                this.$scope.rounds = roundsQuery.vals();
 
                 var selectedRoundId: string = this.$stateParams["competitionRoundId"];
 
@@ -125,7 +125,7 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
 
         query.subscribe(() => {
             this.$timeout(() => {
-                this.$scope.matches = query.val();
+                this.$scope.matches = query.vals();
             });
             query.expand(["teamIds.linkedUserIds"], () => {
                 callback(competitionId);
@@ -138,7 +138,7 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
         if (Meteor.userId()) {
             var query: QueryObject<Bet> = this.betsService.getBetsForCompetitionAndUserId({ 'competitionId': competitionId, 'userId': Meteor.userId() });
             query.subscribe(() => {
-                _.each<Bet>(query.val(), (bet: Bet) => {
+                _.each<Bet>(query.vals(), (bet: Bet) => {
                     this.$scope.bets[bet.matchId] = bet;
                 });
                 callback();
@@ -322,4 +322,4 @@ class CompetitionMatchesController extends AngularBaseComponentController implem
 AngularComponent.new("competitionMatches")
     .setControllerClass(CompetitionMatchesController)
     .setTemplateUrl("client/components/competition-matches/competition.matches.ng.html")
-    .create();
+    .register();

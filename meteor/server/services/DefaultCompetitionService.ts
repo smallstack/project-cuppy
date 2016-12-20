@@ -19,7 +19,7 @@ class DefaultCompetitionService implements ICompetitionService {
         var round: CompetitionRound = match.getRound().val(0);
         var multiplier: number = round.multiplier ? round.multiplier : 1;
 
-        var bets: Bet[] = this.betsService.getBetsForMatchId({ matchId: match.id }).val();
+        var bets: Bet[] = this.betsService.getBetsForMatchId({ matchId: match.id }).vals();
 
         _.each<Bet>(bets, (bet: Bet) => {
             bet.points = this.getPoints(match, bet, multiplier);

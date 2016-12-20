@@ -67,7 +67,7 @@ class CompetitionsController {
 		queryObject.subscribe(() => {
 			queryObject.expand(["ownerId"], () => {
 				this.$timeout(() => {
-					this.$scope.competitions = queryObject.val();
+					this.$scope.competitions = queryObject.vals();
 				});
 			});
 		});

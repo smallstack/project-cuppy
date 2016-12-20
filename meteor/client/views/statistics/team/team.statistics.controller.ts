@@ -67,7 +67,7 @@ class TeamStatisticsController {
 				matchQuery.cursor.forEach(function (match: CompetitionMatch) {
 
 					// get corresponding team
-					var teams = match.getTeams().val();
+					var teams = match.getTeams().vals();
 
 					that.$scope.statistics.totalMatches++;
 

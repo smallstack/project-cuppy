@@ -81,7 +81,7 @@ class MatchDetailsController {
         var query: QueryObject<Bet> = this.betsService.getBetsForMatchId({ matchId: matchId });
         query.subscribe(() => {
             query.expand([BetsCollection.expandables.ownerId], () => {
-                this.$scope.bets = query.val()
+                this.$scope.bets = query.vals();
                 if (this.$scope.bets instanceof Array && this.$scope.bets.length > 0) {
                     this.$scope.statistics.averagePoints = 0;
                     this.$scope.statistics.totalPointHits = 0;

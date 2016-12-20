@@ -32,7 +32,7 @@ class CompetitionSidebetsController extends AngularBaseComponentController imple
         var competitionTeamQuery: QueryObject<CompetitionTeam> = CompetitionTeamsService.instance().getAllCompetitionTeams({});
         competitionTeamQuery.subscribe(() => {
             this.$timeout(() => {
-                this.$scope.allCompetitionTeams = competitionTeamQuery.val();
+                this.$scope.allCompetitionTeams = competitionTeamQuery.vals();
             });
         });
 
@@ -40,11 +40,11 @@ class CompetitionSidebetsController extends AngularBaseComponentController imple
             // get sidebets
             var sidebetsQuery: QueryObject<SideBet> = this.sidebetsService.getSideBetsByCompetitionId({ competitionId: competitionId });
             sidebetsQuery.subscribe(() => {
-                this.$scope.sidebets = sidebetsQuery.val();
+                this.$scope.sidebets = sidebetsQuery.vals();
                 var mySideBets: QueryObject<SideBetUserBet> = SidebetuserbetsService.instance().getForUserId({ userId: Meteor.userId() });
                 mySideBets.subscribe(() => {
                     this.$timeout(() => {
-                        var mySideBetsArray: SideBetUserBet[] = mySideBets.val();
+                        var mySideBetsArray: SideBetUserBet[] = mySideBets.vals();
                         _.each(this.$scope.sidebets, (sideBet: SideBet) => {
                             var mySideBet: SideBetUserBet = _.find(mySideBetsArray, (userSideBet: SideBetUserBet) => userSideBet.sideBetId === sideBet.id);
                             if (mySideBet)
@@ -89,4 +89,4 @@ class CompetitionSidebetsController extends AngularBaseComponentController imple
 AngularComponent.new("competitionSidebets")
     .setControllerClass(CompetitionSidebetsController)
     .setTemplateUrl("client/components/competition-sidebets/competition.sidebets.ng.html")
-    .create();
+    .register();

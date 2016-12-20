@@ -54,9 +54,9 @@ class CompetitionAdministrationController {
                     else {
                         $timeout(() => {
                             this.$scope.competition = competition;
-                            this.$scope.rounds = competition.getRounds().val();
+                            this.$scope.rounds = competition.getRounds().vals();
                             this.$scope.competitionSyncer = competition.syncer;
-                            this.$scope.competitionTeams = competition.getTeams().val();
+                            this.$scope.competitionTeams = competition.getTeams().vals();
                         });
                         this.loadSideBets(competition.id);
                         this.loadAllMatches(competition.id);
@@ -80,7 +80,7 @@ class CompetitionAdministrationController {
     public loadAllCompetitionTeams() {
         var competitionTeamQuery: QueryObject<CompetitionTeam> = CompetitionTeamsService.instance().getAllHumanTeams({}, { entriesPerPage: 5000 });
         competitionTeamQuery.subscribe(() => {
-            this.$scope.allCompetitionTeams = competitionTeamQuery.val();
+            this.$scope.allCompetitionTeams = competitionTeamQuery.vals();
         });
     }
 
@@ -88,7 +88,7 @@ class CompetitionAdministrationController {
         var competitionMatchesQuery: QueryObject<CompetitionMatch> = CompetitionMatchesService.instance().getMatchesForCompetitionId({ competitionId: competitionId });
         competitionMatchesQuery.subscribe(() => {
             this.$timeout(() => {
-                this.$scope.allCompetitionMatches = competitionMatchesQuery.val();
+                this.$scope.allCompetitionMatches = competitionMatchesQuery.vals();
                 this.$scope.matchesByRound = {};
                 _.each(this.$scope.allCompetitionMatches, (match: CompetitionMatch) => {
                     if (this.$scope.matchesByRound[match.roundId] === undefined)
@@ -108,7 +108,7 @@ class CompetitionAdministrationController {
         var sideBetsQuery: QueryObject<SideBet> = SidebetsService.instance().getSideBetsByCompetitionId({ competitionId: competitionId });
         sideBetsQuery.subscribe(() => {
             this.$timeout(() => {
-                this.$scope.sideBets = sideBetsQuery.val();
+                this.$scope.sideBets = sideBetsQuery.vals();
             });
         });
     }

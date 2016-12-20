@@ -7,4 +7,4 @@ AngularComponent.new("matchRowEntry")
     .addSocket(ComponentSocket.createOutput("placeBet", ComponentSocketType.OBJECT))
     .setTemplateUrl("client/components/match-row-entry/match.row.entry.ng.html")
     .setControllerClass(DefaultAngularComponentController)
-    .create();
+    .register();

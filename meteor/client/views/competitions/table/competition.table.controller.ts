@@ -62,7 +62,7 @@ class CompetitionTableController {
 				var userQuery: QueryObject<User> = that.userService.getUsersByIds({ ids: userIds });
 				userQuery.subscribe(() => {
 					that.$scope.users = {};
-					_.each(userQuery.val(), (user: User) => {
+					_.each(userQuery.vals(), (user: User) => {
 						that.$scope.users[user.id] = user;
 					});
 					callback(competition);
