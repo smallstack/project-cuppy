@@ -28,22 +28,7 @@ h4 {
     margin-top: 40px;
 }
 
-.cuppylogo {
-    position: absolute;
-    top: 0.5em;
-    padding-left: 2.2em;
-    text-align: center;
-    color: #fff;
-    font-weight: bolder;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
-    font-size: 20px;
-}
 
-.cuppylogo img {
-    height: 25px;
-}
 .competition-match-flag {
     margin-left: 5px;
     margin-right: 5px;

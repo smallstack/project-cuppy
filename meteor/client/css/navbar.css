@@ -12,3 +12,12 @@
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
     background-color: rgba(0, 0, 0, 0.13);
 }
+
+.navbar-brand {
+    color: #fff;
+    font-weight: bolder;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+}
