@@ -1,12 +1,4 @@
-/// <reference path="../typedefinitions/generated.d.ts" />
+import "toastr";
+import { clientInit, AppModule } from "smallstack";
 
-smallstack.initLevelService.addInitLevelFn(1, "Configuration", (done: (error: Meteor.Error, success: boolean) => void) => {
-    var configurationService: ConfigurationService = smallstack.ioc.get<ConfigurationService>("configurationService");
-    configurationService.initOnClient(done);
-});
-
-smallstack.initLevelService.addInitLevelFn(49, "CuppyTheme", (done: (error: Meteor.Error, success: boolean) => void): void => {
-
-    var bootstrapTheme: BootstrapTheme = smallstack.ioc.get<BootstrapLoader>("bootstrapLoader").getTheme("yeti");
-    bootstrapTheme.load(done);
-});
+clientInit(AppModule);

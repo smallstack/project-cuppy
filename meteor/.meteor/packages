@@ -4,37 +4,30 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-# meteor packages
+meteor-base@1.0.4             # Packages every Meteor app needs to have
+mobile-experience@1.0.4       # Packages for a great mobile UX
+mongo@1.1.14                   # The database Meteor supports right now
+reactive-var@1.0.11            # Reactive variable for tracker
+tracker@1.1.1                 # Meteor's client-side reactive programming library
+
+standard-minifier-css@1.3.2   # CSS minifier run for production mode
+standard-minifier-js@1.2.1    # JS minifier run for production mode
+es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
+
+shell-server@0.2.1            # Server-side component of the `meteor shell` command
+
+
+angular2-compilers
+accounts-base
+accounts-password
+session
+raix:eventddp
+cfs:http-methods
+service-configuration
+easysearch:core
+settinghead:auto-nprogress
+fortawesome:fontawesome
+random
+coursierprive:tether
 risul:chance
-momentjs:moment
-http@1.2.10
-shell-server@0.2.1
 
-
-# smallstack packages
-smallstack:ioc
-smallstack:core
-smallstack:navigation
-smallstack:navigation-backoffice
-smallstack:utils
-smallstack:user
-smallstack:bootstrap
-smallstack:angular-core
-smallstack:angular-login
-smallstack:collections
-smallstack:i18n
-smallstack:i18n-backoffice
-smallstack:configuration
-smallstack:configuration-backoffice
-smallstack:notifications
-smallstack:migration
-smallstack:seo
-smallstack:backoffice
-smallstack:cms
-smallstack:cms-components
-smallstack:cms-backoffice
-smallstack:collections-backoffice
-smallstack:typesystem
-smallstack:news-backoffice
-smallstack:email
-smallstack:email-backoffice
