@@ -23,7 +23,7 @@
 				"selector": {
 					"competitionId": ":competitionId"
 				},
-				"sorting": {
+				"sort": {
 					"index": 1
 				}
 			}

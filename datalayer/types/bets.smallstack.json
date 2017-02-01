@@ -57,7 +57,7 @@
 			{
 				"name": "matchId",
 				"type": "foreign",
-				"foreignType": "CompetitionMatches"
+				"foreignType": "CompetitionMatch"
 			},
 			{
 				"name": "ownerId",

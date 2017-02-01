@@ -35,7 +35,7 @@
 		"schema": [{
 				"name": "sideBetId",
 				"type": "foreign",
-				"foreignType": "Sidebet"
+				"foreignType": "SideBet"
 			},
 			{
 				"name": "competitionId",

@@ -1,5 +1,5 @@
 {
-    "extends": "users",
+    "extends": "User",
     "model": {
         "schema": [{
             "name": "deviceIds",

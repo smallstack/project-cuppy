@@ -29,7 +29,7 @@
 				"selector": {
 					"competitionId": ":competitionId"
 				},
-				"sorting": {
+				"sort": {
 					"date": 1
 				}
 			},
@@ -39,7 +39,7 @@
 					"competitionId": ":competitionId",
 					"roundId": ":roundId"
 				},
-				"sorting": {
+				"sort": {
 					"date": 1
 				}
 			},

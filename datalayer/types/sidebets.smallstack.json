@@ -11,7 +11,7 @@
 				}
 			},
 			{
-				"name": "getSidebetsByIds",
+				"name": "getSideBetsByIds",
 				"selector": {
 					"_id": {
 						"$in": ":ids:string[]"
