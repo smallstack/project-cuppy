@@ -1,5 +1,1 @@
-
-generated/
-**/*.js
-generated-services-instances*
-dist/
+node_modules

@@ -1,7 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100,700);
-.well { 
+.well {
     background: #F5F5F5;
 }
+
 .well h1,
 .jumbotron h1 {
     margin-top: 0px;
@@ -28,29 +29,25 @@ h4 {
     margin-top: 40px;
 }
 
-
 .competition-match-flag {
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.header-component {
+.navbar {
     background: url('/images/header-bg-md-desktop.jpg') repeat-x;
     background-size: cover;
     background-position: center center;
     background-color: #34A232;
+    color: #fff;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #fff;
 }
+
 .navbar-right {
     z-index: 1;
-}
-
-.header-component-text {
-    color: #fff;
-    padding-left: 0.5em;
 }
 
 @media only screen and (max-width: 720px) {
@@ -60,20 +57,17 @@ h4 {
         width: 100%;
         left: 0px;
     }
-
-    .header-component {
+    nav {
         background: url('/images/header-bg-md.jpg') repeat-x;
         background-size: cover;
         background-position: center center;
         background-color: #34A232;
         height: 100px;
     }
-    
     .header-component-text {
         font-size: 30px;
         margin-top: 30px;
     }
-    
     .ranking.container {
         padding: 0px;
     }
@@ -84,11 +78,15 @@ h4 {
     white-space: nowrap;
 }
 
-.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
     vertical-align: middle;
     font-weight: bold;
 }
-
 
 .btn-success {
     background-color: #33a232;
@@ -103,9 +101,11 @@ h4 {
 }
 
 .blinking {
-  animation: blinker 1s linear infinite;
+    animation: blinker 1s linear infinite;
 }
 
-@keyframes blinker {  
-  50% { opacity: 0; }
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
 }
