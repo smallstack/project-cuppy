@@ -1,0 +1,101 @@
+{
+    "collection": {
+        "name": "devices"
+    },
+    "service": {
+        "queries": [
+            {
+                "name": "getDeviceById",
+                "selector": {
+                    "_id": ":id:string",
+                    "ownerId": "_currentLoggedInUser_"
+                }
+            },
+            {
+                "name": "getDevicesByIds",
+                "selector": {
+                    "_id": {
+                        "$in": ":ids:string[]"
+                    },
+                    "ownerId": "_currentLoggedInUser_"
+                }
+            },
+            {
+                "name": "getDeviceByDeviceId",
+                "selector": {
+                    "deviceId": ":deviceId:string",
+                    "ownerId": "_currentLoggedInUser_"
+                }
+            },
+            {
+                "name": "getMyDevices",
+                "selector": {
+                    "ownerId": "_currentLoggedInUser_"
+                }
+            }
+        ],
+        "securedmethods": [
+            {
+                "name": "createNewDevice",
+                "parameters": [
+                    "deviceId:string"
+                ]
+            },
+            {
+                "name": "configureDevice",
+                "parameters": [],
+                "modelAware": true
+            },
+            {
+                "name": "resetDevice",
+                "parameters": [],
+                "modelAware": true
+            },
+            {
+                "name": "removeDevice",
+                "parameters": [],
+                "modelAware": true
+            },
+            {
+                "name": "useDeviceForMatch",
+                "parameters": [
+                    "matchId:string"
+                ],
+                "modelAware": true
+            }
+        ]
+    },
+    "model": {
+        "name": "Device",
+        "schema": [
+            {
+                "name": "ownerId",
+                "type": "foreign",
+                "foreignType": "User"
+            },
+            {
+                "name": "deviceId",
+                "type": "string",
+                "unique": true
+            },
+            {
+                "name": "controls",
+                "type": "object",
+                "blackbox": true,
+                "optional": true,
+                "defaultValue": {}
+            },
+            {
+                "name": "configureMode",
+                "type": "string",
+                "optional": true
+            },
+            {
+                "name": "matchId",
+                "type": "foreign",
+                "foreignType": "CompetitionMatch",
+                "optional": true
+            }
+        ]
+    }
+}

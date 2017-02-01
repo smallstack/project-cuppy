@@ -1,0 +1,73 @@
+{
+	"collection": {
+		"name": "sidebets"
+	},
+	"service": {
+		"queries": [
+			{
+				"name": "getSideBetById",
+				"selector": {
+					"_id": ":id:string"
+				}
+			},
+			{
+				"name": "getSidebetsByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string[]"
+					}
+				}
+			},
+			{
+				"name": "getSideBetsByCompetitionId",
+				"selector": {
+					"competitionId": ":competitionId"
+				}
+			}
+		],
+		"securedmethods": [
+			{
+				"name": "updateSideBets",
+				"parameters": [
+					"sidebets:SideBet[]"
+				]
+			}
+		]
+	},
+	"model": {
+		"name": "SideBet",
+		"schema": [
+			{
+				"name": "competitionId",
+				"type": "foreign",
+				"foreignType": "Competition"
+			},
+			{
+				"name": "question",
+				"type": "string"
+			},
+			{
+				"name": "result",
+				"type": "string",
+				"optional": true
+			},
+			{
+				"name": "resultType",
+				"type": "string",
+				"allowedValues": [
+					"result",
+					"competitionTeam",
+					"number"
+				]
+			},
+			{
+				"name": "endDate",
+				"type": "date"
+			},
+			{
+				"name": "points",
+				"type": "number"
+			}
+		]
+	}
+}

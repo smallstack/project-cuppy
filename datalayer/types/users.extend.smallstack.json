@@ -1,0 +1,11 @@
+{
+    "extends": "users",
+    "model": {
+        "schema": [{
+            "name": "deviceIds",
+            "type": "foreign[]",
+            "optional": true,
+            "foreignType": "Device"
+        }]
+    }
+}

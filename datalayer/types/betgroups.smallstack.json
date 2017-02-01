@@ -1,0 +1,58 @@
+{
+	"collection": {
+		"name": "betgroups"
+	},
+	"service": {
+		"queries": [
+			{
+				"name": "getBetgroupsByIds",
+				"selector": {
+					"_id": {
+						"$in": ":ids:string[]"
+					}
+				}
+			}
+		]
+	},
+	"model": {
+		"name": "BetGroup",
+		"schema": [
+			{
+				"name": "ownerId",
+				"type": "foreign",
+				"foreignType": "User"
+			},
+			{
+				"name": "playerIds",
+				"type": "foreign[]",
+				"foreignType": "User",
+				"optional": true,
+				"defaultValue": []
+			},
+			{
+				"name": "access",
+				"type": "string",
+				"allowedValues": [
+					"public",
+					"password"
+				],
+				"defaultValue": "public",
+				"optional": true
+			},
+			{
+				"name": "joinPassword",
+				"type": "string",
+				"optional": true
+			},
+			{
+				"name": "description",
+				"type": "string",
+				"optional": true
+			},
+			{
+				"name": "name",
+				"type": "string"
+			}
+		]
+	}
+}
