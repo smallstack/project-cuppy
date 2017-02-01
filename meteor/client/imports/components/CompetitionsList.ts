@@ -3,6 +3,7 @@ import {
 	QueryObject
 } from "smallstack";
 
+import { Competition, CompetitionsService } from "smallstack-datalayer";
 
 class CompetitionsList {
 
@@ -13,34 +14,34 @@ class CompetitionsList {
 	private competitionsService: CompetitionsService;
 
 
-	constructor(private $scope: CompetitionsScope, private $timeout: angular.ITimeoutService, private $state: angular.ui.IStateService) {
+	constructor() {
 
-		switch ($state.current.name) {
+		// switch ($state.current.name) {
 
-			case "website.competitions":
-				$scope.title = "navigation.competitions";
-				this.loadAllCompetitions(this.competitionsService.getAllCompetitions({}));
-				break;
+		// 	case "website.competitions":
+		// 		$scope.title = "navigation.competitions";
+		// 		this.loadAllCompetitions(this.competitionsService.getAllCompetitions({}));
+		// 		break;
 
-			case "website.mycompetitions":
-				$scope.title = "navigation.mycompetitions";
-				this.loadAllCompetitions(this.competitionsService.getMyCompetitions({}));
-				break;
+		// 	case "website.mycompetitions":
+		// 		$scope.title = "navigation.mycompetitions";
+		// 		this.loadAllCompetitions(this.competitionsService.getMyCompetitions({}));
+		// 		break;
 
-			default:
-				this.notificationService.popup.error("No valid state name given : " + $state.current.name);
-		}
+		// 	default:
+		// 		this.notificationService.popup.error("No valid state name given : " + $state.current.name);
+		// }
 
 	}
 
 	private loadAllCompetitions(queryObject: QueryObject<Competition>) {
-		queryObject.subscribe(() => {
-			queryObject.expand(["ownerId"], () => {
-				this.$timeout(() => {
-					this.$scope.competitions = queryObject.vals();
-				});
-			});
-		});
+		// queryObject.subscribe(() => {
+		// 	queryObject.expand(["ownerId"], () => {
+		// 		this.$timeout(() => {
+		// 			this.$scope.competitions = queryObject.vals();
+		// 		});
+		// 	});
+		// });
 	}
 }
 

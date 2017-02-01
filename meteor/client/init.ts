@@ -11,6 +11,8 @@ import { InitLevelService, IOC } from "smallstack";
 import { clientInit, bootstrapAngular } from "smallstack";
 import { LocalizationService } from "smallstack";
 
+import { createDatalayerCollections, registerDatalayerServices } from "smallstack-datalayer";
+
 import { AppComponent } from "./imports/app/AppComponent";
 
 import "./imports/home/home";
@@ -20,6 +22,8 @@ if (Meteor.isProduction)
     enableProdMode();
 
 clientInit();
+createDatalayerCollections();
+registerDatalayerServices();
 let initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
 
 
