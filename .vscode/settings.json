@@ -1,0 +1,10 @@
+{
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.wrappingColumn": 0,
+    "editor.formatOnSave": true,
+    "files.eol": "\n",
+    "autoimport.doubleQuotes": true,
+    "autoimport.showNotifications": true
+}
