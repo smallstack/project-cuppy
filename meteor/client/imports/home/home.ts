@@ -6,6 +6,7 @@ import { Component } from "@angular/core";
 	template
 })
 class HomeController {
+	public competitions = [{ "test": "hallo" }, { "test": "dudu" }];
 
 }
 

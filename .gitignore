@@ -9,3 +9,4 @@ smallstack/
 built/meteor.tar.gz
 meteor/packages/
 datalayer/node_modules/
+built/

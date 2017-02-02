@@ -1,4 +1,4 @@
-import { serverInit } from "smallstack";
+import { serverInit, MeteorBaseCollection } from "smallstack";
 import { createDatalayerCollections, registerDatalayerServices } from "smallstack-datalayer";
 
 serverInit();

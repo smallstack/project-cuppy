@@ -1,12 +1,14 @@
 
-interface CompetitionRank {
+import { CompetitionMatch } from "../models/CompetitionMatch";
+import { Bet } from "../models/Bet";
+
+export interface CompetitionRank {
     userId: string;
     rank: number;
     points: number;
 };
 
-
-interface ICompetitionService {
+export interface ICompetitionService {
     updatePoints(match: CompetitionMatch, force: boolean);
     getPoints(match: CompetitionMatch, bet: Bet, multiplier: number);
 

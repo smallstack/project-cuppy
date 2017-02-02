@@ -1,11 +1,25 @@
-/// <reference path="../../../typedefinitions/generated.d.ts" />
-/// <reference path="ICompetitionSyncer.ts" />
+import { Utils } from 'smallstack';
+import { CompetitionMatchesCollection } from './../../collections/CompetitionMatchesCollection';
+import { CollectionsService } from 'smallstack';
+import { CompetitionRoundsCollection } from './../../collections/CompetitionRoundsCollection';
+import { CompetitionMatch } from './../../models/CompetitionMatch';
+import { CompetitionTeam } from './../../models/CompetitionTeam';
+import { CompetitionRound } from './../../models/CompetitionRound';
+import { ICompetitionService } from './../ICompetitionService';
+import { Competition } from './../../models/Competition';
+import { Autowired, ConfigurationService } from 'smallstack';
+import { AbstractCompetitionSyncer } from "./AbstractCompetitionSyncer";
+import { ICompetitionSyncer } from "./ICompetitionSyncer";
 
+import * as _ from 'underscore';
 
 class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetitionSyncer {
 
-    @Autowired
+    @Autowired()
     private configurationService: ConfigurationService;
+
+    @Autowired()
+    private collectionsService: CollectionsService;
 
     private apiUrl: string = "http://api.football-data.org/v1";
     private apiKey: string;
@@ -99,7 +113,7 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
     }
 
     private getRound(competitionId: string, roundIndex: number): CompetitionRound {
-        var competitionRound: CompetitionRound = CompetitionRoundsCollection.getMongoCollection().findOne({
+        var competitionRound: CompetitionRound = this.collectionsService.getCollectionByName("competitionrounds").findOne({
             competitionId: competitionId,
             index: roundIndex
         });
@@ -109,13 +123,13 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
             competitionRound.competitionId = competitionId;
             competitionRound.index = roundIndex;
             competitionRound.name = "round_" + roundIndex;
-            competitionRound.id = this.competitionRoundsService.saveCompetitionRound(competitionRound);
+            competitionRound.id = this.competitionRoundsService.save(competitionRound);
         }
         return competitionRound;
     }
 
     private getMatch(competitionId: string, homeTeamId: string, awayTeamId: string, date: Date, round: CompetitionRound): CompetitionMatch {
-        var match: CompetitionMatch = CompetitionMatchesCollection.getMongoCollection().findOne({
+        var match: CompetitionMatch = CompetitionMatchesCollection.getCollection().findOne({
             competitionId: competitionId,
             teamIds: { $all: [homeTeamId, awayTeamId] },
             roundId: round.id
@@ -130,7 +144,7 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
             match.teamIds[1] = awayTeamId;
             match.roundId = round.id;
             match.maxPoints = round.multiplier * 3;
-            match.id = this.competitionMatchesService.saveCompetitionMatch(match);
+            match.id = this.competitionMatchesService.save(match);
         }
         return match;
     }
@@ -138,11 +152,11 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
     private getTeamByName(name: string): CompetitionTeam {
         var dbName: string = Utils.createUrlConformIdFromInput(name);
 
-        var team: CompetitionTeam = this.competitionTeamsService.getTeamByName({ teamName: dbName }).val(0);
+        var team: CompetitionTeam = this.competitionTeamsService.getTeamByName<CompetitionTeam>({ teamName: dbName }).val(0);
         if (!team) {
             team = new CompetitionTeam();
             team.name = dbName;
-            team.id = this.competitionTeamsService.saveCompetitionTeam(team);
+            team.id = this.competitionTeamsService.save(team);
         }
         return team;
     }
