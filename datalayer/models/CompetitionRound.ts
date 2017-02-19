@@ -1,4 +1,4 @@
-import { IOC } from "smallstack";
+import { IOC } from "@smallstack/core";
 import { GeneratedCompetitionRound } from "../generated/models/GeneratedCompetitionRound";
 
 export class CompetitionRound extends GeneratedCompetitionRound {

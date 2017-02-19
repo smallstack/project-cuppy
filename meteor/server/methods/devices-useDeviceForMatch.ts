@@ -1,4 +1,4 @@
-import { Utils } from "smallstack";
+import { Utils } from "@smallstack/core";
 
 /**
  * This method is getting executed on the server only. See http://docs.meteor.com/#/full/meteor_methods
@@ -6,8 +6,8 @@ import { Utils } from "smallstack";
 
 Meteor.methods({
 	"devices-useDeviceForMatch" : function(params: {modelId: string, matchId: string}){
-		Utils.check(params.modelId, String, "modelId");
-		Utils.check(params.matchId, String, "matchId");
+		Utils.check(params.modelId, "string", "modelId");
+		Utils.check(params.matchId, "string", "matchId");
 
 		
 		throw new Meteor.Error("501", "This method is not implemented yet!");

@@ -1,7 +1,8 @@
 
 import { GeneratedDevicesService } from "../generated/services/GeneratedDevicesService";
+import { Device } from "../models/Device";
 
-export class DevicesService extends GeneratedDevicesService {
+export class DevicesService extends GeneratedDevicesService<Device> {
 
 	/**
 	 * If you want to you can implement your own service methods here. 

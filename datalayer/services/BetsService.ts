@@ -1,7 +1,8 @@
 
 import { GeneratedBetsService } from "../generated/services/GeneratedBetsService";
+import { Bet } from "../models/Bet";
 
-export class BetsService extends GeneratedBetsService {
+export class BetsService extends GeneratedBetsService<Bet> {
 
 	/**
 	 * If you want to you can implement your own service methods here. 

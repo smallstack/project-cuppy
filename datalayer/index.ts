@@ -8,8 +8,6 @@ export * from "./services/CompetitionRoundsService";
 export * from "./services/CompetitionTeamsService";
 export * from "./services/CompetitionsService";
 export * from "./services/DevicesService";
-export * from "./services/SidebetuserbetsService";
-export * from "./services/SidebetsService";
 
 
 export * from "./models/BetGroup";
@@ -19,8 +17,6 @@ export * from "./models/CompetitionRound";
 export * from "./models/CompetitionTeam";
 export * from "./models/Competition";
 export * from "./models/Device";
-export * from "./models/SideBetUserBet";
-export * from "./models/SideBet";
 
 
 export * from "./collections/BetgroupsCollection";
@@ -30,9 +26,8 @@ export * from "./collections/CompetitionRoundsCollection";
 export * from "./collections/CompetitionTeamsCollection";
 export * from "./collections/CompetitionsCollection";
 export * from "./collections/DevicesCollection";
-export * from "./collections/SidebetuserbetsCollection";
-export * from "./collections/SidebetsCollection";
 
 
 
 export * from "./init";
+export * from "./typesystem";

@@ -1,5 +1,5 @@
 {
-  "name": "smallstack-datalayer",
+  "name": "@smallstack/datalayer",
   "version": "0.8.0",
   "main": "./server.umd.js",
   "types": "./dts/index.d.ts",

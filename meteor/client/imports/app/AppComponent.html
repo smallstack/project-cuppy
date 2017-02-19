@@ -4,20 +4,18 @@
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="/">Cuppy</a>
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse">
+            <a class="navbar-brand" href="/">Cuppy</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 pull-right">
+                <li class="nav-item" *ngFor="let entry of navigationEntries">
+                    <a class="nav-link" [routerLink]="[entry.getRoute()]">
+                        <i class="{{entry.getIcon()}}"></i>
+                        <span *ngIf="entry.getI18nLabel()">{{entry.getI18nLabel() | translate}}</span>
+                        <span *ngIf="entry.getLabel()">{{entry.getLabel()}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </nav>
     <router-outlet></router-outlet>
 </div>

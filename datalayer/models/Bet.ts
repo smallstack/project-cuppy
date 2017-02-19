@@ -1,4 +1,4 @@
-import { IOC } from "smallstack";
+import { IOC } from "@smallstack/core";
 import { GeneratedBet } from "../generated/models/GeneratedBet";
 
 export class Bet extends GeneratedBet {

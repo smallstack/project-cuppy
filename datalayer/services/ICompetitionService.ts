@@ -12,7 +12,7 @@ export interface ICompetitionService {
     updatePoints(match: CompetitionMatch, force: boolean);
     getPoints(match: CompetitionMatch, bet: Bet, multiplier: number);
 
-    updateSideBetPoints(sideBetId: string);
+    // updateSideBetPoints(sideBetId: string);
 
     updateRanking(competitionId: string, ranking: CompetitionRank[]);
     getRanking(competitionId: string): CompetitionRank[];

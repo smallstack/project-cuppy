@@ -1,5 +1,5 @@
 {
-  "name": "smallstack-datalayer",
+  "name": "@smallstack/datalayer",
   "version": "1.0.0",
   "main": "dist/bundles/server.umd.js",
   "browser": "dist/bundles/browser.umd.js",
@@ -11,7 +11,7 @@
     "build-only": "tsc",
     "build": "npm run build-only && npm run copydts && npm run bundle",
     "bundle": "npm run rollup:browser && npm run rollup:server && npm run copypackagejson",
-    "copydts": "copyfiles -u 1 dist/**/*.d.ts dist/bundles/dts",
+    "copydts": "copyfiles -u 1 \"dist/**/*.d.ts\" dist/bundles/dts",
     "copypackagejson": "cp package_bundle.json dist/bundles/package.json",
     "prepublish": "npm run build",
     "lint": "tslint **/*.ts",

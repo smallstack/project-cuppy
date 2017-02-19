@@ -1,4 +1,4 @@
-import { Utils } from "smallstack";
+import { Utils } from "@smallstack/core";
 
 /**
  * This method is getting executed on the server only. See http://docs.meteor.com/#/full/meteor_methods
@@ -6,10 +6,10 @@ import { Utils } from "smallstack";
 
 Meteor.methods({
 	"competitionRounds-updateRoundDetails" : function(params: {modelId: string, roundName: string, multiplier: number, index: number}){
-		Utils.check(params.modelId, String, "modelId");
-		Utils.check(params.roundName, String, "roundName");
-		Utils.check(params.multiplier, Number, "multiplier");
-		Utils.check(params.index, Number, "index");
+		Utils.check(params.modelId, "string", "modelId");
+		Utils.check(params.roundName, "string", "roundName");
+		Utils.check(params.multiplier, "number", "multiplier");
+		Utils.check(params.index, "number", "index");
 
 		
 		throw new Meteor.Error("501", "This method is not implemented yet!");

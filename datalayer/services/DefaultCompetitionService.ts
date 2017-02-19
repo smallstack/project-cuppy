@@ -1,27 +1,21 @@
 import { CompetitionsCollection } from './../collections/CompetitionsCollection';
-import { SidebetuserbetsCollection } from './../collections/SidebetuserbetsCollection';
-import { SideBetUserBet } from './../models/SideBetUserBet';
-import { SidebetsCollection } from './../collections/SidebetsCollection';
-import { SideBet } from './../models/SideBet';
 import { Bet } from './../models/Bet';
 import { CompetitionRound } from './../models/CompetitionRound';
 import { CompetitionMatch } from './../models/CompetitionMatch';
 import { CompetitionsService } from './CompetitionsService';
-import { SidebetuserbetsService } from './SidebetuserbetsService';
 import { BetsService } from './BetsService';
-import { Autowired } from 'smallstack';
+import { Autowired } from '@smallstack/core';
 import { ICompetitionService, CompetitionRank } from './ICompetitionService';
 
 import * as _ from 'underscore';
-
 
 export class DefaultCompetitionService implements ICompetitionService {
 
     @Autowired()
     private betsService: BetsService;
 
-    @Autowired()
-    private sidebetuserbetsService: SidebetuserbetsService;
+    // @Autowired()
+    // private sidebetuserbetsService: SidebetuserbetsService;
 
     @Autowired()
     private competitionsService: CompetitionsService;
@@ -30,11 +24,10 @@ export class DefaultCompetitionService implements ICompetitionService {
         if (!match.isFinished() && !force)
             return;
 
-        var round: CompetitionRound = match.getRound<CompetitionRound>().val(0);
+        var round: CompetitionRound = match.getRound().getModels()[0];
         var multiplier: number = round.multiplier ? round.multiplier : 1;
 
-        var bets: Bet[] = this.betsService.getBetsForMatchId<Bet>({ matchId: match.id }).vals();
-
+        var bets: Bet[] = this.betsService.getBetsForMatchId({ matchId: match.id }).getModels();
         _.each<Bet>(bets, (bet: Bet) => {
             bet.points = this.getPoints(match, bet, multiplier);
             bet.update();
@@ -64,19 +57,19 @@ export class DefaultCompetitionService implements ICompetitionService {
     public updateMatchResult(match: CompetitionMatch, results: number[], updatePoints: boolean = true, updateRanking: boolean = true, updateRound: boolean = true) {
         match.result = results;
         if (match.update() !== 1)
-            throw new Meteor.Error("501", "Scores could not be updated!");
+            throw new Error("Scores could not be updated!");
         if (updatePoints)
             this.updatePoints(match);
         if (updateRanking)
             this.updateRanking(match.competitionId, this.getRanking(match.competitionId));
         if (updateRound) {
-            this.updateRound(match.getRound<CompetitionRound>().val(0));
+            this.updateRound(match.getRound().getModel(0));
         }
     }
 
     public updateRound(round: CompetitionRound) {
         var allMatchesFinished: boolean = true;
-        round.getMatches().cursor.forEach((match: CompetitionMatch) => {
+        round.getMatches().getModels().forEach((match: CompetitionMatch) => {
             if (!match.isFinished())
                 allMatchesFinished = false;
         });
@@ -85,22 +78,22 @@ export class DefaultCompetitionService implements ICompetitionService {
         round.update();
     }
 
-    public updateSideBetPoints(sideBetId: string) {
-        var sideBet: SideBet = SidebetsCollection.getCollection().findOne(sideBetId);
-        if (!sideBet)
-            throw new Error("Could not find sidebet with id : " + sideBetId);
+    // public updateSideBetPoints(sideBetId: string) {
+    // var sideBet: SideBet = SidebetsCollection.getCollection().findOne(sideBetId);
+    //     if (!sideBet)
+    //         throw new Error("Could not find sidebet with id : " + sideBetId);
 
-        // update user sidebets
-        SidebetuserbetsCollection.getCollection().find({ sideBetId: sideBetId }).forEach((sideBetUserBet: SideBetUserBet) => {
-            // compare result
-            var points: number = 0;
-            if (sideBet.result === sideBetUserBet.result)
-                points = sideBet.points;
-            SidebetuserbetsCollection.getCollection().update(sideBetUserBet.id, { $set: { points: points } });
-        });
+    //     // update user sidebets
+    //     SidebetuserbetsCollection.getCollection().find({ sideBetId: sideBetId }).forEach((sideBetUserBet: SideBetUserBet) => {
+    //         // compare result
+    //         var points: number = 0;
+    //         if (sideBet.result === sideBetUserBet.result)
+    //             points = sideBet.points;
+    //         SidebetuserbetsCollection.getCollection().update(sideBetUserBet.id, { $set: { points: points } });
+    //     });
 
-        this.updateRanking(sideBet.competitionId, this.getRanking(sideBet.competitionId));
-    }
+    //     this.updateRanking(sideBet.competitionId, this.getRanking(sideBet.competitionId));
+    // }
 
     public updateRanking(competitionId: string, ranking: CompetitionRank[]) {
         if (CompetitionsCollection.getCollection().update(competitionId, { $set: { ranking: ranking } }) !== 1)
@@ -112,7 +105,7 @@ export class DefaultCompetitionService implements ICompetitionService {
         var groupedByUser: { [userId: string]: number } = {};
 
         // bets
-        this.betsService.getBetsForCompetitionId({ competitionId: competitionId }).cursor.forEach((bet: Bet, index: number, cursor: Mongo.Cursor<Bet>) => {
+        this.betsService.getBetsForCompetitionId({ competitionId: competitionId }).getModels().forEach((bet: Bet, index: number) => {
             if (_.isNumber(bet.points)) {
                 if (groupedByUser[bet.ownerId] === undefined)
                     groupedByUser[bet.ownerId] = 0;
@@ -121,13 +114,13 @@ export class DefaultCompetitionService implements ICompetitionService {
         });
 
         // sidebets
-        this.sidebetuserbetsService.getForCompetitionId({ competitionId: competitionId }).cursor.forEach((sideBetUserBet: SideBetUserBet, index: number, cursor: Mongo.Cursor<SideBetUserBet>) => {
-            if (_.isNumber(sideBetUserBet.points)) {
-                if (groupedByUser[sideBetUserBet.ownerId] === undefined)
-                    groupedByUser[sideBetUserBet.ownerId] = 0;
-                groupedByUser[sideBetUserBet.ownerId] += sideBetUserBet.points;
-            }
-        });
+        // this.sidebetuserbetsService.getForCompetitionId({ competitionId: competitionId }).cursor.forEach((sideBetUserBet: SideBetUserBet, index: number, cursor: Mongo.Cursor<SideBetUserBet>) => {
+        //     if (_.isNumber(sideBetUserBet.points)) {
+        //         if (groupedByUser[sideBetUserBet.ownerId] === undefined)
+        //             groupedByUser[sideBetUserBet.ownerId] = 0;
+        //         groupedByUser[sideBetUserBet.ownerId] += sideBetUserBet.points;
+        //     }
+        // });
 
         // create ranking entries
         var ranking: CompetitionRank[] = [];

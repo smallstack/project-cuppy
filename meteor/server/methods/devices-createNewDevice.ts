@@ -1,4 +1,4 @@
-import { Utils } from "smallstack";
+import { Utils } from "@smallstack/core";
 
 /**
  * This method is getting executed on the server only. See http://docs.meteor.com/#/full/meteor_methods
@@ -6,7 +6,7 @@ import { Utils } from "smallstack";
 
 Meteor.methods({
 	"devices-createNewDevice" : function(params: {deviceId: string}){
-		Utils.check(params.deviceId, String, "deviceId");
+		Utils.check(params.deviceId, "string", "deviceId");
 
 		
 		throw new Meteor.Error("501", "This method is not implemented yet!");

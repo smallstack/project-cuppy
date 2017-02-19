@@ -1,4 +1,4 @@
-import { IOC } from "smallstack";
+import { IOC } from "@smallstack/core";
 import { GeneratedDevice } from "../generated/models/GeneratedDevice";
 
 export class Device extends GeneratedDevice {

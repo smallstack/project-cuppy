@@ -1,16 +1,16 @@
-import { Utils } from 'smallstack';
+import { Utils } from '@smallstack/core';
 import { CompetitionMatchesCollection } from './../../collections/CompetitionMatchesCollection';
-import { CollectionsService } from 'smallstack';
+import { CollectionsService } from '@smallstack/core';
 import { CompetitionRoundsCollection } from './../../collections/CompetitionRoundsCollection';
 import { CompetitionMatch } from './../../models/CompetitionMatch';
 import { CompetitionTeam } from './../../models/CompetitionTeam';
 import { CompetitionRound } from './../../models/CompetitionRound';
 import { ICompetitionService } from './../ICompetitionService';
 import { Competition } from './../../models/Competition';
-import { Autowired, ConfigurationService } from 'smallstack';
+import { Autowired, ConfigurationService } from '@smallstack/core';
 import { AbstractCompetitionSyncer } from "./AbstractCompetitionSyncer";
 import { ICompetitionSyncer } from "./ICompetitionSyncer";
-
+import * as request from "request";
 import * as _ from 'underscore';
 
 class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetitionSyncer {
@@ -55,7 +55,7 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
 
         var queryUrl: string = this.apiUrl + '/soccerseasons/' + competition.metadata.footballDataId + "/fixtures";
 
-        var response: any = HTTP.get(queryUrl, {
+        var response: any = request.get(queryUrl, {
             headers: { 'X-Auth-Token': this.apiKey }
         });
 

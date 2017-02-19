@@ -1,7 +1,8 @@
 
 import { GeneratedCompetitionMatchesService } from "../generated/services/GeneratedCompetitionMatchesService";
+import { CompetitionMatch } from "../models/CompetitionMatch";
 
-export class CompetitionMatchesService extends GeneratedCompetitionMatchesService {
+export class CompetitionMatchesService extends GeneratedCompetitionMatchesService<CompetitionMatch> {
 
 	/**
 	 * If you want to you can implement your own service methods here. 
