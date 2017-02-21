@@ -40,49 +40,53 @@ export class CompetitionComponent extends Angular2BaseComponentController implem
     public afterInitialization() {
         this.loaded = false;
 
-        // TODO: get these from current route
-        let competitionName: string;
-        let competitionRoundId: string;
-
-        if (competitionName === undefined) {
-            this.notificationService.popup.error("No competition name given!");
-            return;
-        }
-
-        this.loadCompetition(competitionName, (competitionId: string) => {
-            // get rounds
-            var roundsQuery: QueryObject<CompetitionRound> = this.competitionRoundsService.getAllRoundsForCompetitionId({ competitionId: competitionId });
-            roundsQuery.subscribe(() => {
-                this.rounds = roundsQuery.getModels();
-
-                // if competitionRound === current
-                if (competitionRoundId === "current") {
-                    var currentRound: CompetitionRound = _.find(this.rounds, (round: CompetitionRound) => !round.allMatchesFinished);
-                    if (currentRound !== undefined)
-                        competitionRoundId = currentRound.id;
-                    else
-                        competitionRoundId = undefined;
+        this.getRouteParameter("competitionName", (competitionName: string) => {
+            console.log("competitionnAME", competitionName);
+            this.getRouteParameter("competitionRoundId", (competitionRoundId: string) => {
+                if (competitionName === undefined) {
+                    this.notificationService.popup.error("No competition name present in URL!");
+                    return;
                 }
 
-                if (competitionRoundId === undefined)
-                    this.roundName = "competition.allmatches";
-                else {
-                    this.selectedRound = _.find(this.rounds, (round: CompetitionRound) => round.id === competitionRoundId);
-                    if (this.selectedRound)
-                        this.roundName = this.selectedRound.name;
-                }
+                this.loadCompetition(competitionName, (competitionId: string) => {
+                    this.loadCompetitionRounds(competitionId, competitionRoundId);
+                });
 
-                this.loadMatches(competitionId, competitionRoundId, (competitionId: string) => {
-                    this.loadMyBets(competitionId, () => {
-                        this.ngZone.run(() => {
-                            this.loaded = true;
-                        });
+            });
+        });
+    }
+
+    public loadCompetitionRounds(competitionId: string, competitionRoundId: string) {
+        // get rounds
+        var roundsQuery: QueryObject<CompetitionRound> = this.competitionRoundsService.getAllRoundsForCompetitionId({ competitionId: competitionId });
+        roundsQuery.subscribe(() => {
+            this.rounds = roundsQuery.getModels();
+
+            // if competitionRound === current
+            if (competitionRoundId === "current") {
+                var currentRound: CompetitionRound = _.find(this.rounds, (round: CompetitionRound) => !round.allMatchesFinished);
+                if (currentRound !== undefined)
+                    competitionRoundId = currentRound.id;
+                else
+                    competitionRoundId = undefined;
+            }
+
+            if (competitionRoundId === undefined)
+                this.roundName = "competition.allmatches";
+            else {
+                this.selectedRound = _.find(this.rounds, (round: CompetitionRound) => round.id === competitionRoundId);
+                if (this.selectedRound)
+                    this.roundName = this.selectedRound.name;
+            }
+
+            this.loadMatches(competitionId, competitionRoundId, (competitionId: string) => {
+                this.loadMyBets(competitionId, () => {
+                    this.ngZone.run(() => {
+                        this.loaded = true;
                     });
                 });
             });
         });
-
-        this.openModal = this.openModal.bind(this);
     }
 
 

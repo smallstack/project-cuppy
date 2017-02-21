@@ -1,4 +1,5 @@
 <div class="container">
+    <page-header text="Create Tournament"></page-header>
     <div>
         <spacer height="30"></spacer>
         <h4>{{"competition.name" | translate}}</h4>
@@ -20,15 +21,15 @@
             </p>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-md-6 col-lg-4 text-center" *ngFor="let type of types">
-                <div class="card card-default text-center">
-                    <div class="card-body competition-types-entry">
+            <div class="card-deck">
+                <div class="card card-default text-center" *ngFor="let type of types">
+                    <div class="card-block competition-types-entry">
                         <img src="/images/competitiontypes/{{type}}.png" height="50px">
                         <h3>{{'competition.types.' + type | translate}}</h3>
                         <p class="text-center">{{'competition.typedescriptions.' + type | translate}}</p>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-block btn-success" (click)="createCompetition(type)">Create</button>
+                        <button class="btn btn-block btn-success btn-lg" (click)="createCompetition(type)">Create</button>
                     </div>
                 </div>
             </div>

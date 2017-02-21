@@ -5,7 +5,7 @@
 		or join an already started one!
 	</p>
 
-	<list [models]="competitions"></list>
+	<list [models]="competitions" [fields]="['name']" (selectedEntry)="onCompetitionSelect($event)"></list>
     <list-pager></list-pager>
     
 </div>

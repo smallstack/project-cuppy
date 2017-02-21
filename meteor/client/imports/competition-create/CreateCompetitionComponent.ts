@@ -74,7 +74,7 @@ IOC.onRegister("navigationService", (navigationService: NavigationService) => {
         .setComponent(CreateCompetitionComponent)
         .setIndex(2)
         .setLabel("navigation.newcompetition")
-        .setRequiresAuthentication(true)
+        .setRequiresAuthentication(true, "/login")
         .setVisible(false)
         .setType("main")
     );

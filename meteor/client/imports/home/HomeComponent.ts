@@ -24,6 +24,11 @@ export class HomeComponent extends Angular2BaseComponentController {
         });
     }
 
+    public onCompetitionSelect(competition: Competition) {
+        console.log(competition);
+        this.router.navigate(["competition", competition.name]);
+    }
+
 }
 
 IOC.onRegister("navigationService", (navigationService: NavigationService) => {
