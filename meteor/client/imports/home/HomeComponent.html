@@ -1,11 +1,10 @@
+<page-header i18nKey="navigation.competitions"></page-header>
 <div class="container">
-	<h2>Welcome to Cuppy!</h2>
-	<p>
-		Cuppy is a sportbet platform for any kind of sports. You can create your own competitions, even for games like FIFA or PES,
-		or join an already started one!
-	</p>
-
-	<list [models]="competitions" [fields]="['name']" (selectedEntry)="onCompetitionSelect($event)"></list>
-    <list-pager></list-pager>
-    
+    <h2>Welcome to Cuppy!</h2>
+    <p>
+        Cuppy is a sportbet platform for any kind of sports. You can create your own competitions, even for games like FIFA or PES,
+        or join an already started one!
+    </p>
+    <list [models]="competitions" [fields]="['name']" (selectedEntry)="onCompetitionSelect($event)"></list>
+    <list-pager (pageChange)="pageChange($event)" [pageCount]="pageCount"></list-pager>
 </div>

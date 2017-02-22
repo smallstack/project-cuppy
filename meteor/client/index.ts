@@ -26,6 +26,7 @@ initializeTypesystem();
 import "./imports/login/LoginComponent";
 import "./imports/competition-create/CreateCompetitionComponent";
 import "./imports/competition/CompetitionComponent";
+import "./imports/competition-admin/CompetitionAdminComponent";
 
 let initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
 

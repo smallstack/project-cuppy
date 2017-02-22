@@ -5,9 +5,7 @@ import { CompetitionsService } from "@smallstack/datalayer";
 import template from "./LoginComponent.html";
 import { Component } from "@angular/core";
 
-export class LoginComponent {
-
-}
+export class LoginComponent { }
 
 Angular2Component.new("LoginComponent", LoginComponent)
     .setTemplate(template)
@@ -18,10 +16,10 @@ IOC.onRegister("navigationService", (navigationService: NavigationService) => {
         .setRoute("/login")
         .setIndex(1000)
         .setComponent(LoginComponent)
-        .setI18nLabel("cuppy.navigation.login")
+        .setI18nLabel("navigation.login")
         .setIcon("fa fa-user")
         .setRequiresAuthentication(false)
-        .setVisible(true)
+        .setVisibility(NavigationEntry.enums.visibility.ONLYANONYMOUS)
         .setType("main")
     );
 });

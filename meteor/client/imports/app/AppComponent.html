@@ -1,21 +1,34 @@
 <div>
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01"
-            aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md navbar-light bg-faded sticky-top">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-            </button>
-        <div class="collapse navbar-collapse">
-            <a class="navbar-brand" href="/">Cuppy</a>
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 pull-right">
-                <li class="nav-item" *ngFor="let entry of navigationEntries">
-                    <a class="nav-link" [routerLink]="[entry.getRoute()]">
-                        <i class="{{entry.getIcon()}}"></i>
-                        <span *ngIf="entry.getI18nLabel()">{{entry.getI18nLabel() | translate}}</span>
-                        <span *ngIf="entry.getLabel()">{{entry.getLabel()}}</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+        </button>
+        <a class="navbar-brand" [routerLink]="['/']">Cuppy</a>
+        <ul class="navbar-nav">
+            <li class="nav-item" *ngFor="let entry of navigationEntries">
+                <a class="nav-link" [routerLink]="[entry.getRoute()]" *ngIf="entry.isVisible()">
+                    <span *ngIf="entry.getI18nLabel()">{{entry.getI18nLabel() | translate}}</span>
+                    <span *ngIf="entry.getLabel()">{{entry.getLabel()}}</span>
+                </a>
+            </li>
+        </ul>
     </nav>
     <router-outlet></router-outlet>
 </div>
+<page-footer>
+    <div class="col-md-3 col-xs-12">
+        <h4>Links</h4>
+        <a href="https://github.com/smallstack/project-cuppy">Github Project</a><br>
+        <a href="https://smallstack.io">Smallstack Framework</a>
+    </div>
+    <div class="col-md-3 col-xs-12">
+        <h4>Resources</h4>
+        <a [routerLink]="['devices']">Cuppy Devices</a><br>
+        <a [routerLink]="['api']">Cuppy API</a>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <h4>About</h4>
+        cuppy.io is a demonstration project for the smallstack.io platform. The bet system is not based on money or any other valuable things, just fame and pride.
+    </div>
+</page-footer>
+<online-status></online-status>

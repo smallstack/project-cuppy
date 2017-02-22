@@ -73,9 +73,10 @@ IOC.onRegister("navigationService", (navigationService: NavigationService) => {
         .setRoute("/competitions/new")
         .setComponent(CreateCompetitionComponent)
         .setIndex(2)
-        .setLabel("navigation.newcompetition")
+        .setI18nLabel("navigation.newcompetition")
+        .setIcon("fa fa-trophy")
         .setRequiresAuthentication(true, "/login")
-        .setVisible(false)
+        .setVisible(true)
         .setType("main")
     );
 });

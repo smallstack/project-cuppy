@@ -14,12 +14,23 @@ export class HomeComponent extends Angular2BaseComponentController {
     private competitionsService: CompetitionsService;
 
     public competitions: Competition[];
+    public queryObject: QueryObject<Competition>;
+    public pageCount: number = 0;
 
     constructor() {
         super();
-        this.competitionsService.getAllCompetitions().subscribe((error: Error, queryObject: QueryObject<Competition>) => {
+        this.queryObject = this.competitionsService.getAllCompetitions({}, { entriesPerPage: 5 });
+        console.log("subscribing to all competitions!");
+        this.queryObject.subscribe((error: Error, queryObject: QueryObject<Competition>) => {
+            console.log("successfully subscribed to all competitions!");
             this.ngZone.run(() => {
                 this.competitions = queryObject.getModels();
+                console.log("all competitions!", this.competitions);
+            });
+        });
+        this.queryObject.getCount((count: number) => {
+            this.ngZone.run(() => {
+                this.pageCount = Math.ceil(count / 5);
             });
         });
     }
@@ -27,6 +38,13 @@ export class HomeComponent extends Angular2BaseComponentController {
     public onCompetitionSelect(competition: Competition) {
         console.log(competition);
         this.router.navigate(["competition", competition.name]);
+    }
+
+    public pageChange(pageNumber: number) {
+        console.log(pageNumber);
+        this.queryObject.getPage(pageNumber, (models: Competition[]) => {
+            this.competitions = models;
+        });
     }
 
 }

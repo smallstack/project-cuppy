@@ -9,14 +9,12 @@ import { Angular2BaseComponentController } from "@smallstack/meteor";
     template,
     styles: [style]
 })
-export class AppComponent extends Angular2BaseComponentController {
+export class AppComponent {
 
     public navigationEntries: NavigationEntry[];
 
     constructor() {
-        super();
-        this.navigationEntries = NavigationService.instance().getNavigationEntriesForNavigationType("main");
+        this.navigationEntries = NavigationService.instance().getNavigationEntriesForNavigationType("main").sort((a: NavigationEntry, b: NavigationEntry) => a.index - b.index);
     }
-
 }
 

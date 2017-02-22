@@ -1,25 +1,25 @@
+<page-header text="{{competition?.displayName}}"></page-header>
 <div *ngIf="loaded && !competition" class="text-center">
     {{'competition.errors.notfound' | translate}}
 </div>
 <div *ngIf="!loaded" class="text-center mt40">Loading Competition...</div>
 <div class="container" *ngIf="loaded && competition">
-    <page-header text="{{competition.displayName}}"></page-header>
     <div class="row">
         <div class="btn-group btn-group-justified col-xs-12 col-md-6 col-lg-4">
-            <a class="btn btn-danger" href="competition/{{competition.name}}/admin" *ngIf="isAdministrator"><i class="fa fa-edit" aria-hidden="true"></i> <span class="hidden-xs">Manage</span></a>
-            <a class="btn btn-default" href="competition/{{competition.name}}/table"><i class="fa fa-hashtag" aria-hidden="true"></i> <span class="hidden-xs">Ranking</span></a>
+            <a class="btn btn-danger" [routerLink]="['/competition', competition.name, 'admin']" *ngIf="isAdministrator"><i class="fa fa-edit" aria-hidden="true"></i> <span class="hidden-xs">Manage</span></a>
+            <a class="btn btn-default" [routerLink]="['/competition', competition.name, 'ranking']"><i class="fa fa-hashtag" aria-hidden="true"></i> <span class="hidden-xs">Ranking</span></a>
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="hidden-xs">Round</span> <span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="competition/{{competition.name}}">{{("competition.allmatches" | translate:true)}}</a></li>
                     <li><a href="competition/{{competition.name}}/rounds/current">{{("competition.rounds.current" | translate:true)}}</a></li>
                     <li role="separator" class="divider"></li>
-                    <li ng-repeat="round in rounds"><a href="competition/{{competition.name}}/rounds/{{round.id}}">{{(round.name | translate:true)}}</a></li>
+                    <!--<li ng-repeat="round in rounds"><a href="competition/{{competition.name}}/rounds/{{round.id}}">{{(round.name | translate:true)}}</a></li>-->
                 </ul>
             </div>
             <!--<a class="btn btn-default" href="competition/{{competition.name}}/sidebets"><i class="fa fa-birthday-cake" aria-hidden="true"></i> Sidebets</a>-->
         </div>
-        <div *ngIf="matches.length > 0" class="col-xs-12">
+        <div *ngIf="matches?.length > 0" class="col-xs-12">
             <h4>
                 {{(roundName | translate:true)}}
             </h4>
@@ -31,7 +31,7 @@
         </div>
     </div>
     <!-- Bet Modal -->
-    <div class="modal fade" id="betModal" tabindex="-1" role="dialog" data-backdrop="false">
+    <!--<div class="modal fade" id="betModal" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog mobile-modal-dialog" role="document">
             <div class="modal-content mobile-modal-content">
                 <div class="modal-body">
@@ -68,9 +68,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <!-- Match Edit Modal -->
-    <div class="modal fade" id="matchEditModal" tabindex="-1" role="dialog" data-backdrop="false">
+    <!--<div class="modal fade" id="matchEditModal" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog mobile-modal-dialog" role="document">
             <div class="modal-content mobile-modal-content">
                 <div class="modal-body">
@@ -114,9 +114,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <!-- Admin Modal -->
-    <div class="modal fade" id="adminModal" tabindex="-1" role="dialog" data-backdrop="false">
+    <!--<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog mobile-modal-dialog" role="document">
             <div class="modal-content mobile-modal-content">
                 <div class="modal-body">
@@ -134,5 +134,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>

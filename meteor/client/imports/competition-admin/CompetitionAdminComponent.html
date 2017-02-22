@@ -1,208 +1,207 @@
-<page-header i18n-key="competition.updatecompetition"></page-header>
+<page-header i18nKey="competition.updatecompetition"></page-header>
 <spacer height="50" class="hidden-xs"></spacer>
 
 
-<div class="container">
-	<div class="row">
+<div class="container" *ngIf="competition">
 
-		<div align="right">
-			<div class="btn btn-success btn-xs-block" ng-click="competition.startCompetition()" ng-if="competition.syncer === undefined && !competition.started">
-				<i class="fa fa-play"></i> Start Competition
-			</div>
-			<div class="btn btn-warning btn-xs-block" ng-click="competition.restartCompetition()" ng-if="competition.syncer === undefined && competition.started">
-				<i class="fa fa-play"></i> Restart Competition
-			</div>
-			<div class="btn btn-danger btn-xs-block" ng-click="competition.sync()" ng-if="competition.syncer !== undefined">
-				<i class="fa fa-refresh"></i> Sync Competition
-			</div>
-			<div class="btn btn-primary btn-xs-block" ng-click="go('/competition/' + competition.name)">
-				<i class="fa fa-arrow-right"></i> Goto Competition
-			</div>
-		</div>
+    <div align="right">
+        <div class="btn btn-success btn-xs-block" (click)="competition.startCompetition()" *ngIf="competition.syncer === undefined && !competition.started">
+            <i class="fa fa-play"></i> Start Competition
+        </div>
+        <div class="btn btn-warning btn-xs-block" (click)="competition.restartCompetition()" *ngIf="competition.syncer === undefined && competition.started">
+            <i class="fa fa-play"></i> Restart Competition
+        </div>
+        <div class="btn btn-danger btn-xs-block" (click)="competition.sync()" *ngIf="competition.syncer !== undefined">
+            <i class="fa fa-refresh"></i> Sync Competition
+        </div>
+        <button class="btn btn-primary btn-xs-block" [routerLink]="['/competition', competition.name]">
+            <i class="fa fa-arrow-right"></i> Goto Competition
+        </button>
+    </div>
 
-		<p>&nbsp;</p>
+    <p>&nbsp;</p>
 
-		<h4>Competition Details</h4>
-		<div class="col-xs-12 col-md-4 form-group">
-			<label><smallstack-translate key="common.id"></smallstack-translate></label>
-			<input class="form-control" type="text" placeholder="Competition ID" ng-model="competition.name" disabled>
-		</div>
-		<div class="col-xs-12 col-md-4 form-group">
-			<label><smallstack-translate key="common.name"></smallstack-translate></label>
-			<input class="form-control" type="text" placeholder="Competition Name" ng-model="competition.displayName" required>
-		</div>
-		<div class="col-xs-12 col-md-4 form-group">
-			<label><smallstack-translate key="competition.type"></smallstack-translate></label>
-			<input class="form-control" type="text" placeholder="Competition Name" ng-model="competition.type" disabled>
-		</div>
+    <div class="row">
+        <h4>Competition Details</h4>
+        <div class="col-xs-12 col-md-4 form-group">
+            <label>{{"common.id" | translate }}</label>
+            <input class="form-control" type="text" placeholder="Competition ID" [(ngModel)]="competition.name" disabled>
+        </div>
+        <div class="col-xs-12 col-md-4 form-group">
+            <label>{{"common.name" | translate}}</label>
+            <input class="form-control" type="text" placeholder="Competition Name" [(ngModel)]="competition.displayName" required>
+        </div>
+        <div class="col-xs-12 col-md-4 form-group">
+            <label>{{"competition.type" | translate}}</label>
+            <input class="form-control" type="text" placeholder="Competition Name" [(ngModel)]="competition.type" disabled>
+        </div>
 
-		<p>&nbsp;</p>
+        <p>&nbsp;</p>
 
-		<h4>Administrators</h4>
-		<div class="col-xs-12 form-group">
-			<editor-field type="userlist" model="competition.administratorIds"></editor-field>
-		</div>
+        <!--<h4>Administrators</h4>
+    <div class="col-xs-12 form-group">
+        <!--<editor-field type="userlist" model="competition.administratorIds"></editor-field>-->
+    </div>
 
-		<p>&nbsp;</p>
+    <p>&nbsp;</p>
 
-		<h4>Team &amp; Match Setup</h4>
-		<div class="form-group col-xs-12">
-			<small>{{"competition.tips.datasync" | translate}}</small>
-			<select class="form-control" ng-model="competitionSyncer">
+    <h4>Team &amp; Match Setup</h4>
+    <div class="form-group col-xs-12">
+        <small>{{"competition.tips.datasync" | translate}}</small>
+        <select class="form-control" [(ngModel)]="competitionSyncer">
 			<option value="">Manual</option>
 			<!--<option value="openligadb">OpenLigaDB.de</option>-->
 			<option value="footballdata">Football-Data.org</option>
 		</select>
-		</div>
+    </div>
 
-		<p>&nbsp;</p>
+    <!--<p>&nbsp;</p>
 
-		<div ng-if="!competition.syncer">
-			<h4>Manual Configuration</h4>
-			<div class="col-xs-12">
-				<div class="col-xs-12">
-					<div class="col-xs-12 col-md-4 form-group">
-						<div class="checkbox">
-							<label>
-						<input type="checkbox" id="randomizeTeamNames" name="randomizeTeamNames" ng-model="competition.randomizeTeams"> Randomize Teams on Tournament Start
+    <div *ngIf="!competition.syncer">
+        <h4>Manual Configuration</h4>
+        <div class="col-xs-12">
+            <div class="col-xs-12">
+                <div class="col-xs-12 col-md-4 form-group">
+                    <div class="checkbox">
+                        <label>
+						<input type="checkbox" id="randomizeTeamNames" name="randomizeTeamNames" [(ngModel)]="competition.randomizeTeams"> Randomize Teams on Tournament Start
 					</label>
-						</div>
-					</div>
-					<div class="col-xs-12 col-md-4 form-group">
-						<div class="checkbox">
-							<label>
-						<input type="checkbox" id="returnRound" name="returnRound" ng-model="competition.returnRound">Hin- und Rückrunde
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-4 form-group">
+                    <div class="checkbox">
+                        <label>
+						<input type="checkbox" id="returnRound" name="returnRound" [(ngModel)]="competition.returnRound">Hin- und Rückrunde
 					</label>
-						</div>
-					</div>
-				</div>
+                    </div>
+                </div>
+            </div>
 
-				<h5>Team Configuration</h5>
-				<div class="col-xs-12">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>Index</th>
-								<th colspan="2">Team Name - Players</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="competitionTeam in competitionTeams track by competitionTeam.id">
-								<td>{{($index+1)}}</td>
-								<td>
-									<div class="col-md-6 col-xs-12">{{competitionTeam.name}}</div>
-									<div class="col-md-6 col-xs-12">{{competitionTeam.getLinkedUsersTitle()}}</div>
-								</td>
-								<td>
-									<button class="btn btn-xs btn-danger" ng-click="competition.removeTeam(competitionTeam)">Remove</button>
-								</td>
-							</tr>
-						</tbody>
+            <h5>Team Configuration</h5>
+            <div class="col-xs-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th colspan="2">Team Name - Players</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="competitionTeam in competitionTeams track by competitionTeam.id">
+                            <td>{{($index+1)}}</td>
+                            <td>
+                                <div class="col-md-6 col-xs-12">{{competitionTeam.name}}</div>
+                                <div class="col-md-6 col-xs-12">{{competitionTeam.getLinkedUsersTitle()}}</div>
+                            </td>
+                            <td>
+                                <button class="btn btn-xs btn-danger" (click)="competition.removeTeam(competitionTeam)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
 
-					</table>
+                </table>
 
-					<div class="col-md-10 col-xs-12" align="center" smallstack-list service="competitionTeamsService" method="getAllCompetitionTeams"
-						models="allCompetitionTeams" options="{expand: ['linkedUserIds']}" entries-per-page="500">
-						<select class="form-control" ng-model="newCompetitionTeam" ng-options="team as (team.name + ' - ' + team.getLinkedUsersTitle()) for team in allCompetitionTeams track by team.id"></select>
-					</div>
-					<div class="col-md-2 col-xs-12" align="center">
-						<button class="btn" ng-click="competition.addTeam(newCompetitionTeam)">Add Team</button>
-					</div>
-				</div>
-			</div>
-		</div>
+                <div class="col-md-10 col-xs-12" align="center" smallstack-list service="competitionTeamsService" method="getAllCompetitionTeams" models="allCompetitionTeams" options="{expand: ['linkedUserIds']}" entries-per-page="500">
+                    <select class="form-control" [(ngModel)]="newCompetitionTeam" ng-options="team as (team.name + ' - ' + team.getLinkedUsersTitle()) for team in allCompetitionTeams track by team.id"></select>
+                </div>
+                <div class="col-md-2 col-xs-12" align="center">
+                    <button class="btn" (click)="competition.addTeam(newCompetitionTeam)">Add Team</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
 
 
-		<!--football-data.org config -->
-		<div ng-if="competition.syncer === 'footballdata'">
-			<h4>Football-Data.org Configuration</h4>
-			<div class="col-xs-12 form-group">
-				<label>ID</label>
-				<input class="form-control" type="text" ng-model="competition.metadata.footballDataId" required>
-			</div>
-		</div>
+    <!--football-data.org config -->
+    <!--<div *ngIf="competition.syncer === 'footballdata'">
+        <h4>Football-Data.org Configuration</h4>
+        <div class="col-xs-12 form-group">
+            <label>ID</label>
+            <input class="form-control" type="text" [(ngModel)]="competition.metadata.footballDataId" required>
+        </div>
+    </div>-->
 
-		<!--openligadb config -->
-		<div ng-if="competition.type === 'openligadb'">
-			<h4>OpenLigaDB Configuration</h4>
+    <!--openligadb config -->
+    <!--<div *ngIf="competition.type === 'openligadb'">
+        <h4>OpenLigaDB Configuration</h4>
 
-			<div class="row">
-				<div class="col-xs-12 col-sm-6 col-md-3 form-group">
-					<label>Liga ID</label>
-					<input class="form-control" type="text" ng-model="competition.metadata.openligadb.id" required>
-				</div>
-				<div class="col-xs-12 col-sm-6 col-md-3 form-group">
-					<label>Liga Shortcut</label>
-					<input class="form-control" type="text" ng-model="competition.metadata.openligadb.shortcut" required>
-				</div>
-				<div class="col-xs-12 col-sm-6 col-md-3 form-group">
-					<label>Liga Saison</label>
-					<input class="form-control" type="text" ng-model="competition.metadata.openligadb.saison" required>
-				</div>
-				<div class="col-xs-12 col-sm-6 col-md-3 form-group">
-					<label>Result Type</label>
-					<select class="form-control" ng-model="competition.metadata.openligadb.resultTypeId" required>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                <label>Liga ID</label>
+                <input class="form-control" type="text" [(ngModel)]="competition.metadata.openligadb.id" required>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                <label>Liga Shortcut</label>
+                <input class="form-control" type="text" [(ngModel)]="competition.metadata.openligadb.shortcut" required>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                <label>Liga Saison</label>
+                <input class="form-control" type="text" [(ngModel)]="competition.metadata.openligadb.saison" required>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3 form-group">
+                <label>Result Type</label>
+                <select class="form-control" [(ngModel)]="competition.metadata.openligadb.resultTypeId" required>
 						<option value="2">Liga (e.g. Bundesliga)</option>
 						<option value="3">Tournament (e.g. Weltmeisterschaft)</option>
 						<option value="4">Tournament mit Hin- und Rückspiel (e.g. Champions League)</option>
 					</select>
-					<div class="ui small">This is used to map OpenLigaDB results to Sportbet Views!</div>
-				</div>
-			</div>
-		</div>
+                <div class="ui small">This is used to map OpenLigaDB results to Sportbet Views!</div>
+            </div>
+        </div>
+    </div>
 
-		<p>&nbsp;</p>
+    <p>&nbsp;</p>-->
 
-		<!-- round naming -->
-		<div ng-if="competition.roundIds !== undefined && competition.roundIds.length > 0">
-			<h4>Competition Rounds</h4>
-			<div class="col-xs-12">
-				<div ng-if="!rounds || rounds.length === 0"><i>No rounds defined yet</i></div>
-				<div ng-repeat="round in rounds | orderBy: 'index'" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<div class="form-group">
-								<label>Round Name</label>
-								<input class="form-control" type="text" ng-model="round.name" required>
-							</div>
-							<div class="form-group">
-								<label>Multiplier</label>
-								<input class="form-control" type="number" ng-model="round.multiplier" required>
-							</div>
-							<div class="form-group">
-								<label>Index</label>
-								<input class="form-control" type="number" ng-model="round.index" required>
-							</div>
-							<a class="btn btn-primary btn-xs" role="button" data-toggle="collapse" href="#collapse-{{round.id}}">Show Matches</a>
-							<a class="btn btn-primary btn-xs" role="button" ng-click="round.updateRoundDetails(round.name, round.multiplier, round.index)">Update Round</a>
-							<div class="collapse" id="collapse-{{round.id}}">
-								<div class="well">
-									<div ng-repeat="match in ::matchesByRound[round.id]">
-										<match-row-entry match-ref="match"></match-row-entry>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<spacer height="20"></spacer>
-		<button class="btn btn-lg btn-block btn-success" ng-click="vm.updateCompetition();">
+    <!-- round naming -->
+    <!--<div *ngIf="competition.roundIds !== undefined && competition.roundIds.length > 0">
+        <h4>Competition Rounds</h4>
+        <div class="col-xs-12">
+            <div *ngIf="!rounds || rounds.length === 0"><i>No rounds defined yet</i></div>
+            <div ng-repeat="round in rounds | orderBy: 'index'" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>Round Name</label>
+                            <input class="form-control" type="text" [(ngModel)]="round.name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Multiplier</label>
+                            <input class="form-control" type="number" [(ngModel)]="round.multiplier" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Index</label>
+                            <input class="form-control" type="number" [(ngModel)]="round.index" required>
+                        </div>
+                        <a class="btn btn-primary btn-xs" role="button" data-toggle="collapse" href="#collapse-{{round.id}}">Show Matches</a>
+                        <a class="btn btn-primary btn-xs" role="button" (click)="round.updateRoundDetails(round.name, round.multiplier, round.index)">Update Round</a>
+                        <div class="collapse" id="collapse-{{round.id}}">
+                            <div class="well">
+                                <div ng-repeat="match in ::matchesByRound[round.id]">
+                                    <match-row-entry match-ref="match"></match-row-entry>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <spacer height="20"></spacer>
+    <button class="btn btn-lg btn-block btn-success" (click)="updateCompetition();">
 			<i class="fa fa-floppy-o"></i>
-			<smallstack-translate key="common.save"></smallstack-translate>
+			{{"common.save" | translate}}
 		</button>
-		<spacer height="20"></spacer>
+    <spacer height="20"></spacer>-->
 
 
-		<!--special bets -->
-		<!--<h4>Side Bets</h4>
+    <!--special bets -->
+    <!--<h4>Side Bets</h4>
 
 		<div class="row">
 			<div class="col-xs-12" ng-repeat="sidebet in sideBets">
 				<div class="form-group">
 					<label>Question</label>
-					<input class="form-control" type="text" ng-model="sidebet.question" required>
+					<input class="form-control" type="text" [(ngModel)]="sidebet.question" required>
 				</div>
 				<div class="form-group">
 					<label>Points</label>
@@ -210,11 +209,11 @@
 				</div>
 				<div class="form-group">
 					<label>Result Type</label>
-					<select class="form-control" ng-model="sidebet.resultType" required ng-options="type for type in ::sideBetTypes"></select>
+					<select class="form-control" [(ngModel)]="sidebet.resultType" required ng-options="type for type in ::sideBetTypes"></select>
 				</div>
-				<div class="form-group" ng-if="sidebet.resultType === 'competitionTeam'">
+				<div class="form-group" *ngIf="sidebet.resultType === 'competitionTeam'">
 					<label>Resulting Competition Team</label>
-					<select class="form-control" ng-model="sidebet.result" required ng-options="competitionTeam.id as competitionTeam.name for competitionTeam in allCompetitionTeams">
+					<select class="form-control" [(ngModel)]="sidebet.result" required ng-options="competitionTeam.id as competitionTeam.name for competitionTeam in allCompetitionTeams">
 					<option value=""></option>
 			</select>
 				</div>
@@ -224,8 +223,8 @@
 				</div>
 			</div>
 
-			<button class="btn btn-default" ng-click="vm.addSideBet()">Add New Sidebet</button>
-			<button class="btn btn-default" ng-click="vm.saveSideBets()">Save Sidebets</button>
+			<button class="btn btn-default" (click)="addSideBet()">Add New Sidebet</button>
+			<button class="btn btn-default" (click)="saveSideBets()">Save Sidebets</button>
 		</div>-->
-	</div>
+</div>
 </div>

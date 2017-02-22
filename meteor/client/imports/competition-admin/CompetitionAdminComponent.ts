@@ -1,24 +1,26 @@
-import { Angular2BaseComponentController } from "@smallstack/meteor";
-import { InitializationAware, QueryObject } from "@smallstack/core";
-import { Competition, CompetitionsService, CompetitionRound, CompetitionTeam } from "@smallstack/datalayer";
+import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor";
+import { InitializationAware, QueryObject, IOC, NavigationService, NavigationEntry } from "@smallstack/core";
+import { Competition, CompetitionsService, CompetitionRound, CompetitionTeam, CompetitionTeamsService, CompetitionMatchesService, CompetitionMatch } from "@smallstack/datalayer";
 
 import * as _ from 'underscore';
 
-export class CompetitionAdministrationController extends Angular2BaseComponentController implements InitializationAware {
+import template from "./CompetitionAdminComponent.html";
+
+export class CompetitionAdminComponent extends Angular2BaseComponentController implements InitializationAware {
 
     public competition: Competition;
     public competitionSyncer: string;
     public competitionTeams: CompetitionTeam[];
     // public administrators: User[];
-    // public allCompetitionTeams: CompetitionTeam[];
+    public allCompetitionTeams: CompetitionTeam[];
     // public sideBets: SideBet[];
     // public sideBetTypes: string[];
-    // public vm: CompetitionAdministrationController;
+    // public vm: CompetitionAdminComponent;
     // public range: Function;
     public isLoaded: boolean;
     public rounds: CompetitionRound[];
-    // public allCompetitionMatches: CompetitionMatch[];
-    // public matchesByRound: { [groupId: string]: CompetitionMatch[] };
+    public allCompetitionMatches: CompetitionMatch[];
+    public matchesByRound: { [groupId: string]: CompetitionMatch[] };
 
     public afterInitialization() {
         this.isLoaded = false;
@@ -31,13 +33,13 @@ export class CompetitionAdministrationController extends Angular2BaseComponentCo
 
 
             // load competition
-            var competitionQuery: QueryObject<Competition> = CompetitionsService.instance().getCompetitionByName({ name: name }, { reactive: true });
+            var competitionQuery: QueryObject<Competition> = CompetitionsService.instance().getCompetitionByName({ name: competitionName }, { reactive: true });
             competitionQuery.subscribe(() => {
                 competitionQuery.expand(["roundIds", "teamIds.linkedUserIds"], () => {
                     Tracker.autorun(() => {
                         let competition: Competition = competitionQuery.getModel(0);
                         if (competition === undefined)
-                            this.notificationService.popup.error("Competition '" + name + "' could not be loaded!");
+                            this.notificationService.popup.error("Competition '" + competitionName + "' could not be loaded!");
                         else {
                             this.ngZone.run(() => {
                                 this.competition = competition;
@@ -45,7 +47,7 @@ export class CompetitionAdministrationController extends Angular2BaseComponentCo
                                 this.competitionSyncer = competition.syncer;
                                 this.competitionTeams = competition.getTeams().getModels();
                             });
-                            this.loadSideBets(competition.id);
+                            // this.loadSideBets(competition.id);
                             this.loadAllMatches(competition.id);
                         }
                     });
@@ -54,29 +56,29 @@ export class CompetitionAdministrationController extends Angular2BaseComponentCo
 
             this.loadAllCompetitionTeams();
 
-            $scope.$watch("competitionSyncer", (newVal: string) => {
-                if (this.competition) {
-                    if (newVal === undefined || newVal === "")
-                        this.competition.syncer = undefined;
-                    else
-                        this.competition.syncer = newVal;
-                }
-            });
+            // $scope.$watch("competitionSyncer", (newVal: string) => {
+            //     if (this.competition) {
+            //         if (newVal === undefined || newVal === "")
+            //             this.competition.syncer = undefined;
+            //         else
+            //             this.competition.syncer = newVal;
+            //     }
+            // });
         });
     }
 
     public loadAllCompetitionTeams() {
         var competitionTeamQuery: QueryObject<CompetitionTeam> = CompetitionTeamsService.instance().getAllHumanTeams({}, { entriesPerPage: 5000 });
         competitionTeamQuery.subscribe(() => {
-            this.allCompetitionTeams = competitionTeamQuery.vals();
+            this.allCompetitionTeams = competitionTeamQuery.getModels();
         });
     }
 
     public loadAllMatches(competitionId: string) {
         var competitionMatchesQuery: QueryObject<CompetitionMatch> = CompetitionMatchesService.instance().getMatchesForCompetitionId({ competitionId: competitionId });
         competitionMatchesQuery.subscribe(() => {
-            this.$timeout(() => {
-                this.allCompetitionMatches = competitionMatchesQuery.vals();
+            this.ngZone.run(() => {
+                this.allCompetitionMatches = competitionMatchesQuery.getModels();
                 this.matchesByRound = {};
                 _.each(this.allCompetitionMatches, (match: CompetitionMatch) => {
                     if (this.matchesByRound[match.roundId] === undefined)
@@ -88,39 +90,40 @@ export class CompetitionAdministrationController extends Angular2BaseComponentCo
     }
 
     public updateCompetition() {
-        this.competition.updateCompetitionViaMethod(this.competition.toDocument(), NotificationService.instance().getStandardCallback("Could not update competition!", "Successfully updated competition!"));
+        this.competition.updateCompetitionViaMethod(this.competition.toDocument(), this.notificationService.getStandardCallback("Could not update competition!", "Successfully updated competition!"));
     }
 
-    public loadSideBets(competitionId: string) {
-        // load sidebets
-        var sideBetsQuery: QueryObject<SideBet> = SidebetsService.instance().getSideBetsByCompetitionId({ competitionId: competitionId });
-        sideBetsQuery.subscribe(() => {
-            this.$timeout(() => {
-                this.sideBets = sideBetsQuery.vals();
-            });
-        });
-    }
+    // public loadSideBets(competitionId: string) {
+    //     // load sidebets
+    //     var sideBetsQuery: QueryObject<SideBet> = SidebetsService.instance().getSideBetsByCompetitionId({ competitionId: competitionId });
+    //     sideBetsQuery.subscribe(() => {
+    //         this.$timeout(() => {
+    //             this.sideBets = sideBetsQuery.vals();
+    //         });
+    //     });
+    // }
 
-    public addSideBet() {
-        var sideBet: SideBet = new SideBet();
-        sideBet.competitionId = this.competition.id;
-        this.sideBets.push(sideBet);
-    }
+    // public addSideBet() {
+    //     var sideBet: SideBet = new SideBet();
+    //     sideBet.competitionId = this.competition.id;
+    //     this.sideBets.push(sideBet);
+    // }
 
-    public saveSideBets() {
-        SidebetsService.instance().updateSideBets(this.sideBets, NotificationService.instance().getStandardCallback());
-    }
+    // public saveSideBets() {
+    //     SidebetsService.instance().updateSideBets(this.sideBets, NotificationService.instance().getStandardCallback());
+    // }
 }
-smallstack.angular.app.controller("CompetitionAdministrationController", CompetitionAdministrationController);
 
 
+Angular2Component.new("CompetitionAdminComponent", CompetitionAdminComponent)
+    .setTemplate(template)
+    .register();
 
-smallstack.ioc.get<NavigationService>("navigationService").addNavigationEntry(NavigationEntry.new()
-    .setControllerName("CompetitionAdministrationController")
-    .setRoute("/competition/:competitionName/admin")
-    .setRequiresAuthentication(true)
-    .setTemplateUrl("client/views/competitions/admin/competition.admin.ng.html")
-    .setVisible(false)
-    .setStateName("website.competitionAdmin")
-    .setSubstateOfNamed("website.competitions")
-);
+IOC.onRegister("navigationService", (navigationService: NavigationService) => {
+    navigationService.addNavigationEntry(NavigationEntry.new()
+        .setComponent(CompetitionAdminComponent)
+        .setRoute("/competition/:competitionName/admin")
+        .setRequiresAuthentication(true)
+        .setVisible(false)
+    );
+});

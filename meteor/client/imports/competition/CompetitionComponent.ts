@@ -3,7 +3,6 @@ import { Angular2BaseComponentController, Angular2Component } from "@smallstack/
 import { CompetitionMatchesService, BetsService, CompetitionsService, CompetitionRoundsService, Competition, CompetitionRound, CompetitionMatch, Bet } from "@smallstack/datalayer";
 
 import * as _ from "underscore";
-
 import * as $ from "jquery";
 
 import template from "./CompetitionComponent.html";
@@ -39,14 +38,14 @@ export class CompetitionComponent extends Angular2BaseComponentController implem
 
     public afterInitialization() {
         this.loaded = false;
+        console.log("afterInit called");
 
         this.getRouteParameter("competitionName", (competitionName: string) => {
-            console.log("competitionnAME", competitionName);
+            if (competitionName === undefined) {
+                this.notificationService.popup.error("No competition name present in URL!");
+                return;
+            }
             this.getRouteParameter("competitionRoundId", (competitionRoundId: string) => {
-                if (competitionName === undefined) {
-                    this.notificationService.popup.error("No competition name present in URL!");
-                    return;
-                }
 
                 this.loadCompetition(competitionName, (competitionId: string) => {
                     this.loadCompetitionRounds(competitionId, competitionRoundId);
@@ -94,8 +93,10 @@ export class CompetitionComponent extends Angular2BaseComponentController implem
         // get the competition
         var competitionQuery: QueryObject<Competition> = this.competitionsService.getCompetitionByName({ name: name });
         competitionQuery.subscribe(() => {
-            this.competition = competitionQuery.getModel(0);
-            this.loaded = true;
+            this.ngZone.run(() => {
+                this.competition = competitionQuery.getModel(0);
+                this.loaded = true;
+            });
             if (this.competition === undefined) {
                 this.notificationService.popup.error("Competition not found : '" + name + "'!");
                 return;
@@ -118,9 +119,9 @@ export class CompetitionComponent extends Angular2BaseComponentController implem
             this.ngZone.run(() => {
                 this.matches = query.getModels();
             });
-            query.expand(["teamIds.linkedUserIds"], () => {
-                callback(competitionId);
-            });
+            // query.expand(["teamIds.linkedUserIds"], () => {
+            //     callback(competitionId);
+            // });
         });
     }
 
