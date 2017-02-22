@@ -20,11 +20,12 @@ IOC.onRegister("localizationService", (localizationService: LocalizationService)
             "title": "Cuppy"
         },
         "account": {
-            "notloggedin": "Benutzernichteingeloggt",
-            "notverified": "E-MailAdressewurdenochnichtbestätigt",
+            "notloggedin": "Benutzer nicht eingeloggt",
+            "notverified": "E-Mail Adresse wurde noch nicht bestätigt",
             "login": "Anmelden",
             "signup": "Benutzer erstellen",
-            "profile": "Profil"
+            "profile": "Profil",
+            "successfullyloggedout": "Erfolgreich abgemeldet"
         },
         "common": {
             "name": "Name",

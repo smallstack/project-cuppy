@@ -24,6 +24,7 @@ initializeTypesystem();
 
 // include backoffices and other components
 import "./imports/login/LoginComponent";
+import "./imports/logout/LogoutComponent";
 import "./imports/competition-create/CreateCompetitionComponent";
 import "./imports/competition/CompetitionComponent";
 import "./imports/competition-admin/CompetitionAdminComponent";

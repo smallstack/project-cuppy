@@ -22,7 +22,8 @@ IOC.onRegister("localizationService", (localizationService: LocalizationService)
             "notverified": "E-Mailaddressnotverifiedyet",
             "login": "Login",
             "signup": "Sign Up",
-            "profile": "Profile"
+            "profile": "Profile",
+            "successfullyloggedout": "Successfully logged out"
         },
         "common": {
             "name": "Name",
