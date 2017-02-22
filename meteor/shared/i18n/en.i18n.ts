@@ -11,6 +11,7 @@ IOC.onRegister("localizationService", (localizationService: LocalizationService)
             "competitionTeams": "Teams",
             "newcompetitionTeam": "New Team",
             "login": "Login",
+            "logout": "Logout",
             "register": "Register",
             "devices": "Devices"
         },

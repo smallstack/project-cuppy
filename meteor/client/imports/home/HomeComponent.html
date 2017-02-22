@@ -1,10 +1,10 @@
-<page-header i18nKey="navigation.competitions"></page-header>
+<PageHeader i18nKey="navigation.competitions"></PageHeader>
 <div class="container">
     <h2>Welcome to Cuppy!</h2>
     <p>
         Cuppy is a sportbet platform for any kind of sports. You can create your own competitions, even for games like FIFA or PES,
         or join an already started one!
     </p>
-    <list [models]="competitions" [fields]="['name']" (selectedEntry)="onCompetitionSelect($event)"></list>
-    <list-pager (pageChange)="pageChange($event)" [pageCount]="pageCount"></list-pager>
+    <List [models]="competitions" [fields]="['name']" (selectedEntry)="onCompetitionSelect($event)"></List>
+    <ListPager (pageChange)="pageChange($event)" [pageCount]="pageCount"></ListPager>
 </div>

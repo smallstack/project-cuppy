@@ -1,5 +1,5 @@
 <a href="/competition/{{competition.name}}" ng-show="competition"><i class="mobile-menu-button fa fa-angle-left" aria-hidden="true"></i></a>
-<page-header text="Sidebets {{competition.displayName}}"></page-header>
+<PageHeader text="Sidebets {{competition.displayName}}"></PageHeader>
 
 <div class="container">
 
@@ -17,7 +17,7 @@
 		</div>
 	</div>
 
-	<spacer height="40"></spacer>
+	<Spacer height="40"></Spacer>
 
 	<button class="btn btn-block btn-success" ng-click="vm.saveAllSideBets()">Save</button>
 </div>

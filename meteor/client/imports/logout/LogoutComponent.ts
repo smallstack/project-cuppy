@@ -23,7 +23,7 @@ IOC.onRegister("navigationService", (navigationService: NavigationService) => {
         .setRoute("/logout")
         .setIndex(1000)
         .setComponent(LogoutComponent)
-        .setI18nLabel("navigation.login")
+        .setI18nLabel("navigation.logout")
         .setIcon("fa fa-user")
         .setRequiresAuthentication(false)
         .setVisibility(NavigationEntry.enums.visibility.ONLYAUTHENTICATED)
