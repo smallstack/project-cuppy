@@ -1,8 +1,7 @@
 {
   "name": "@smallstack/datalayer",
   "version": "1.0.0",
-  "main": "dist/bundles/server.umd.js",
-  "browser": "dist/bundles/browser.umd.js",
+  "main": "dist/bundles/index.umd.js",
   "typings": "dist/index.d.ts",
   "homepage": "https://smallstack.io",
   "description": "smallstack datalayer",
@@ -10,14 +9,11 @@
     "prebuild": "rimraf dist",
     "build-only": "tsc",
     "build": "npm run build-only && npm run copydts && npm run bundle",
-    "bundle": "npm run rollup:browser && npm run rollup:server && npm run copypackagejson",
+    "bundle": "npm run rollup && npm run copypackagejson",
     "copydts": "copyfiles -u 1 \"dist/**/*.d.ts\" dist/bundles/dts",
     "copypackagejson": "cp package_bundle.json dist/bundles/package.json",
     "prepublish": "npm run build",
-    "lint": "tslint **/*.ts",
-    "watch": "nodemon -e ts --ignore dist/ -x npm run build",
-    "rollup:browser": "rollup -i ./dist/browser.js -o ./dist/bundles/browser.umd.js -n ng.meteor -c rollup.config.js",
-    "rollup:server": "rollup -i ./dist/server.js -o ./dist/bundles/server.umd.js -n ng.meteor -c rollup.config.js"
+    "rollup": "rollup -i ./dist/index.js -o ./dist/bundles/index.umd.js -n ng.meteor -c rollup.config.js"
   },
   "devDependencies": {
     "@angular/common": "2.4.5",

@@ -1,6 +1,6 @@
 
-import { CompetitionMatch } from "../models/CompetitionMatch";
-import { Bet } from "../models/Bet";
+
+import { CompetitionMatch, Bet } from "@smallstack/datalayer";
 
 export interface CompetitionRank {
     userId: string;

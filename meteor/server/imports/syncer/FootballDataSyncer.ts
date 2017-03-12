@@ -1,17 +1,11 @@
-import { Utils } from '@smallstack/core';
-import { CompetitionMatchesCollection } from './../../collections/CompetitionMatchesCollection';
-import { CollectionsService } from '@smallstack/core';
-import { CompetitionRoundsCollection } from './../../collections/CompetitionRoundsCollection';
-import { CompetitionMatch } from './../../models/CompetitionMatch';
-import { CompetitionTeam } from './../../models/CompetitionTeam';
-import { CompetitionRound } from './../../models/CompetitionRound';
-import { ICompetitionService } from './../ICompetitionService';
-import { Competition } from './../../models/Competition';
-import { Autowired, ConfigurationService } from '@smallstack/core';
+import { Utils } from '@smallstack/core-common';
+import { CompetitionMatchesCollection, Competition, CompetitionRound, CompetitionTeam, CompetitionMatch } from '@smallstack/datalayer';
+import { Autowired, ConfigurationService, CollectionsService } from '@smallstack/core-common';
 import { AbstractCompetitionSyncer } from "./AbstractCompetitionSyncer";
 import { ICompetitionSyncer } from "./ICompetitionSyncer";
 import * as request from "request";
 import * as _ from 'underscore';
+import { ICompetitionService } from "../services/ICompetitionService";
 
 class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetitionSyncer {
 
@@ -51,7 +45,7 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
         if (!(competition.roundIds instanceof Array))
             competition.roundIds = [];
 
-        var compService: ICompetitionService = competition.getCompetitionService();
+        var compService: ICompetitionService; // competition.getCompetitionService();
 
         var queryUrl: string = this.apiUrl + '/soccerseasons/' + competition.metadata.footballDataId + "/fixtures";
 
@@ -152,12 +146,13 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
     private getTeamByName(name: string): CompetitionTeam {
         var dbName: string = Utils.createUrlConformIdFromInput(name);
 
-        var team: CompetitionTeam = this.competitionTeamsService.getTeamByName<CompetitionTeam>({ teamName: dbName }).val(0);
-        if (!team) {
-            team = new CompetitionTeam();
-            team.name = dbName;
-            team.id = this.competitionTeamsService.save(team);
-        }
-        return team;
+        // var team: CompetitionTeam = this.competitionTeamsService.getTeamByName<CompetitionTeam>({ teamName: dbName }).val(0);
+        // if (!team) {
+        //     team = new CompetitionTeam();
+        //     team.name = dbName;
+        //     team.id = this.competitionTeamsService.save(team);
+        // }
+        // return team;
+        return undefined;
     }
 }

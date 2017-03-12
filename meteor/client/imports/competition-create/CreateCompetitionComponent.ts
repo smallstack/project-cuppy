@@ -1,6 +1,6 @@
-import { Autowired, NotificationService, IOC, NavigationService, NavigationEntry } from "@smallstack/core";
+import { Autowired, NotificationService, IOC, NavigationService, NavigationEntry } from "@smallstack/core-common";
 import { CompetitionsService, Competition } from "@smallstack/datalayer";
-import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor";
+import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor-client";
 import { Router } from "@angular/router";
 
 import * as _ from "underscore";

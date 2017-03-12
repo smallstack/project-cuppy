@@ -1,5 +1,5 @@
-import { IOC, Autowired, NavigationEntry, NavigationService, QueryObject } from "@smallstack/core";
-import { Angular2Component, Angular2BaseComponentController } from "@smallstack/meteor";
+import { IOC, Autowired, NavigationEntry, NavigationService, QueryObject } from "@smallstack/core-common";
+import { Angular2Component, Angular2BaseComponentController } from "@smallstack/meteor-client";
 import { CompetitionsService, Competition } from "@smallstack/datalayer";
 
 import template from "./HomeComponent.html";

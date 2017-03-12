@@ -1,5 +1,5 @@
-import { IOC, Utils, CollectionsService, Collection, User } from "@smallstack/core";
-import { TestDataGenerator } from "@smallstack/meteor";
+import { IOC, Utils, CollectionsService, Collection, User } from "@smallstack/core-common";
+import { TestDataGenerator } from "@smallstack/meteor-server";
 import {
     Competition, CompetitionsService, CompetitionMatchesService, CompetitionTeam, CompetitionTeamsService,
     CompetitionRound, CompetitionRoundsService

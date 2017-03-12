@@ -1,4 +1,4 @@
-import { IOC } from "@smallstack/core";
+import { IOC } from "@smallstack/core-common";
 import { GeneratedCompetitionTeam } from "../generated/models/GeneratedCompetitionTeam";
 
 export class CompetitionTeam extends GeneratedCompetitionTeam {

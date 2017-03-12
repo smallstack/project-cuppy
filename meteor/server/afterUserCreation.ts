@@ -1,4 +1,4 @@
-import { UserService, IOC } from "@smallstack/core";
+import { UserService, IOC } from "@smallstack/core-common";
 import { CompetitionTeam } from "@smallstack/datalayer";
 
 IOC.onRegister("userService", (userService: UserService) => {

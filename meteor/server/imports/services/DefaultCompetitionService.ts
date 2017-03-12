@@ -1,13 +1,13 @@
-import { CompetitionsCollection } from './../collections/CompetitionsCollection';
-import { Bet } from './../models/Bet';
-import { CompetitionRound } from './../models/CompetitionRound';
-import { CompetitionMatch } from './../models/CompetitionMatch';
-import { CompetitionsService } from './CompetitionsService';
-import { BetsService } from './BetsService';
-import { Autowired } from '@smallstack/core';
-import { ICompetitionService, CompetitionRank } from './ICompetitionService';
+import { CompetitionsCollection } from "@smallstack/datalayer";
+import { Bet } from "@smallstack/datalayer";
+import { CompetitionRound } from "@smallstack/datalayer";
+import { CompetitionMatch } from "@smallstack/datalayer";
+import { CompetitionsService } from "@smallstack/datalayer";
+import { BetsService } from "@smallstack/datalayer";
+import { Autowired } from "@smallstack/core-common";
+import { ICompetitionService, CompetitionRank } from "./ICompetitionService";
 
-import * as _ from 'underscore';
+import * as _ from "underscore";
 
 export class DefaultCompetitionService implements ICompetitionService {
 

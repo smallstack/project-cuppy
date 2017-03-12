@@ -1,6 +1,6 @@
 import { CompetitionMatchesService } from './../services/CompetitionMatchesService';
 import { CompetitionTeam } from './CompetitionTeam';
-import { IOC, NotificationService } from "@smallstack/core";
+import { IOC, NotificationService } from "@smallstack/core-common";
 import { GeneratedCompetitionMatch } from "../generated/models/GeneratedCompetitionMatch";
 
 declare var TimeSync: any;

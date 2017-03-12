@@ -2,7 +2,7 @@
  * THIS FILE IS AUTO-GENERATED AND WILL BE REPLACED ON ANY RE-GENERATION
  */
 
-import { Utils, IOC, CollectionsService } from "@smallstack/core";
+import { Utils, IOC, CollectionsService } from "@smallstack/core-common";
 
 IOC.onRegister("collectionsService", (collectionsService: CollectionsService) => {
 
@@ -12,6 +12,15 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
             let parameters:any = data.parameters;
 
             switch (data.queryName) {
+                case "getPageById":
+        return collectionsService.getCollectionByName("pages").find({"_id": parameters.id }).count();
+                            
+                case "getAllPages":
+        return collectionsService.getCollectionByName("pages").find({}).count();
+                            
+                case "getPageByName":
+        return collectionsService.getCollectionByName("pages").find({"name": parameters.name }).count();
+                            
                 case "getConfiguration":
         return collectionsService.getCollectionByName("configuration").find({"scope":"everywhere"}).count();
                             
@@ -42,6 +51,39 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                 case "getLocalizedTextById":
         return collectionsService.getCollectionByName("localizations").find({"_id": parameters.id }).count();
                             
+                case "getNavigationForType":
+        return collectionsService.getCollectionByName("navigation").find({"type": parameters.type }).count();
+                            
+                case "getNavigationEntryById":
+        return collectionsService.getCollectionByName("navigation").find({"_id": parameters.id }).count();
+                            
+                case "getAllPushNotifications":
+        return collectionsService.getCollectionByName("pushnotifications").find({}).count();
+                            
+                case "getRoleByName":
+        return collectionsService.getCollectionByName("roles").find({"name": parameters.name }).count();
+                            
+                case "getRoleById":
+        return collectionsService.getCollectionByName("roles").find({"_id": parameters.id }).count();
+                            
+                case "getRolesByIds":
+        return collectionsService.getCollectionByName("roles").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getAllRoles":
+        return collectionsService.getCollectionByName("roles").find({}).count();
+                            
+                case "getUsersByIds":
+        return collectionsService.getCollectionByName("users").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getUserById":
+        return collectionsService.getCollectionByName("users").find({"_id": parameters.id }).count();
+                            
+                case "getAllUsers":
+        return collectionsService.getCollectionByName("users").find({}).count();
+                            
+                case "getMyUser":
+        return collectionsService.getCollectionByName("users").find({"_id":this.userId}).count();
+                            
                 case "getMediaFormatByName":
         return collectionsService.getCollectionByName("mediaformats").find({"name": parameters.name }).count();
                             
@@ -65,54 +107,6 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                             
                 case "getMediasByTag":
         return collectionsService.getCollectionByName("medias").find({"tags": parameters.tag }).count();
-                            
-                case "getNavigationForType":
-        return collectionsService.getCollectionByName("navigation").find({"type": parameters.type }).count();
-                            
-                case "getNavigationEntryById":
-        return collectionsService.getCollectionByName("navigation").find({"_id": parameters.id }).count();
-                            
-                case "getPageById":
-        return collectionsService.getCollectionByName("pages").find({"_id": parameters.id }).count();
-                            
-                case "getAllPages":
-        return collectionsService.getCollectionByName("pages").find({}).count();
-                            
-                case "getPageByName":
-        return collectionsService.getCollectionByName("pages").find({"name": parameters.name }).count();
-                            
-                case "getAllPushNotifications":
-        return collectionsService.getCollectionByName("pushnotifications").find({}).count();
-                            
-                case "getRoleByName":
-        return collectionsService.getCollectionByName("roles").find({"name": parameters.name }).count();
-                            
-                case "getRoleById":
-        return collectionsService.getCollectionByName("roles").find({"_id": parameters.id }).count();
-                            
-                case "getRolesByIds":
-        return collectionsService.getCollectionByName("roles").find({"_id":{"$in": parameters.ids }}).count();
-                            
-                case "getAllRoles":
-        return collectionsService.getCollectionByName("roles").find({}).count();
-                            
-                case "getUploadedFilesByIds":
-        return collectionsService.getCollectionByName("uploadedfiles").find({"_id":{"$in": parameters.ids },"ownerId":this.userId}).count();
-                            
-                case "getFileById":
-        return collectionsService.getCollectionByName("uploadedfiles").find({"_id": parameters.id }).count();
-                            
-                case "getUsersByIds":
-        return collectionsService.getCollectionByName("users").find({"_id":{"$in": parameters.ids }}).count();
-                            
-                case "getUserById":
-        return collectionsService.getCollectionByName("users").find({"_id": parameters.id }).count();
-                            
-                case "getAllUsers":
-        return collectionsService.getCollectionByName("users").find({}).count();
-                            
-                case "getMyUser":
-        return collectionsService.getCollectionByName("users").find({"_id":this.userId}).count();
                             
                 case "getBetgroupsByIds":
         return collectionsService.getCollectionByName("betgroups").find({"_id":{"$in": parameters.ids }}).count();

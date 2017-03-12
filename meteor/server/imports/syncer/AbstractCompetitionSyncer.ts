@@ -1,8 +1,4 @@
-import { Competition } from './../../models/Competition';
-import { CompetitionRoundsService } from './../CompetitionRoundsService';
-import { CompetitionTeamsService } from './../CompetitionTeamsService';
-import { CompetitionMatchesService } from './../CompetitionMatchesService';
-import { CompetitionsService } from '../../services/CompetitionsService';
+import { Competition, CompetitionsService, CompetitionMatchesService, CompetitionTeamsService, CompetitionRoundsService } from '@smallstack/datalayer';
 
 export class AbstractCompetitionSyncer {
 
@@ -19,7 +15,7 @@ export class AbstractCompetitionSyncer {
     }
 
     protected getCompetitionById(competitionId: string) {
-        var competition: Competition = this.competitionsService.getCompetitionById<Competition>({ id: competitionId }).val(0);
+        var competition: Competition = this.competitionsService.getCompetitionById({ id: competitionId }).getModel(0);
         if (!competition)
             throw new Error("Could not find competition with id: " + competitionId);
         return competition;

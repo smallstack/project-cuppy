@@ -1,6 +1,5 @@
 import html from "rollup-plugin-html";
 import sass from "rollup-plugin-sass";
-import angular from 'rollup-plugin-angular';
 
 export default {
     format: "umd",

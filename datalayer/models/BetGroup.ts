@@ -1,4 +1,4 @@
-import { IOC } from "@smallstack/core";
+import { IOC } from "@smallstack/core-common";
 import { GeneratedBetGroup } from "../generated/models/GeneratedBetGroup";
 
 export class BetGroup extends GeneratedBetGroup {
