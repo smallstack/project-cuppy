@@ -4,13 +4,14 @@ import "reflect-metadata";
 import "angular2-meteor-polyfills";
 import * as _ from 'underscore';
 import { enableProdMode } from "@angular/core";
-import { InitLevelService, IOC, Logger, ConfigurationService, Configuration } from "@smallstack/core";
-import { initClient } from "@smallstack/core";
-import { LocalizationService, QueryObject } from "@smallstack/core";
-import { initMeteorShared, bootstrapAngular } from "@smallstack/meteor";
+import { InitLevelService, IOC, Logger, ConfigurationService, Configuration } from "@smallstack/core-common";
+import { initClient } from "@smallstack/core-client";
+import { LocalizationService, QueryObject } from "@smallstack/core-common";
+import { initMeteorShared } from "@smallstack/meteor-common";
+import { bootstrapAngular } from "@smallstack/meteor-client";
 import { createDatalayerCollections, registerDatalayerServices, initializeTypesystem } from "@smallstack/datalayer";
 import { AppComponent } from "./imports/app/AppComponent";
-import { HomeComponent } from "./imports/home/HomeComponent";
+import { CompetitionsComponent } from "./imports/competitions/CompetitionsComponent";
 
 
 if (Meteor.isProduction)
@@ -27,7 +28,9 @@ import "./imports/login/LoginComponent";
 import "./imports/logout/LogoutComponent";
 import "./imports/competition-create/CreateCompetitionComponent";
 import "./imports/competition/CompetitionComponent";
+import "./imports/competitions/CompetitionsComponent";
 import "./imports/competition-admin/CompetitionAdminComponent";
+
 
 let initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
 
@@ -44,7 +47,7 @@ initLevelService.addInitLevelFn(10, "ConfigurationSync", (cb: (error: Error, suc
 
 
 initLevelService.addInitLevelFn(100, "Angular2", (cb: (error: Error, success: boolean) => void) => {
-    bootstrapAngular(AppComponent, [HomeComponent], () => {
+    bootstrapAngular(AppComponent, [CompetitionsComponent], () => {
         cb(undefined, true);
     });
 });

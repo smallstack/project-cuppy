@@ -1,4 +1,4 @@
-import { Utils } from "@smallstack/core";
+import { Utils } from "@smallstack/core-common";
 import { Competition, CompetitionsService } from "@smallstack/datalayer";
 import * as _ from "underscore";
 import * as Chance from "chance";

@@ -1,6 +1,8 @@
-import { initServer, Logger } from "@smallstack/core";
-import { initMeteorShared, initMeteorServer } from "@smallstack/meteor";
-import { MeteorBaseCollection, createDefaultAdministrator } from "@smallstack/meteor";
+import { Logger } from "@smallstack/core-common";
+import { initServer } from "@smallstack/core-server";
+import { initMeteorServer } from "@smallstack/meteor-server";
+import { initMeteorShared, MeteorBaseCollection } from "@smallstack/meteor-common";
+import { createDefaultAdministrator } from "@smallstack/meteor-server";
 import { createDatalayerCollections, registerDatalayerServices, initializeTypesystem } from "@smallstack/datalayer";
 
 initializeTypesystem();

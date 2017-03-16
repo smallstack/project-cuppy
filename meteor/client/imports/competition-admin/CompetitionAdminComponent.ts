@@ -1,5 +1,6 @@
-import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor";
-import { InitializationAware, QueryObject, IOC, NavigationService, NavigationEntry } from "@smallstack/core";
+import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor-client";
+import { InitializationAware} from "@smallstack/core-client";
+import { QueryObject, IOC, NavigationService, NavigationEntry } from "@smallstack/core-common";
 import { Competition, CompetitionsService, CompetitionRound, CompetitionTeam, CompetitionTeamsService, CompetitionMatchesService, CompetitionMatch } from "@smallstack/datalayer";
 
 import * as _ from 'underscore';

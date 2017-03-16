@@ -1,6 +1,6 @@
 import { ICompetitionType } from "./ICompetitionType";
 import { Competition, CompetitionRound, CompetitionRoundsService, CompetitionMatch, CompetitionMatchesService } from "@smallstack/datalayer";
-import { Utils } from "@smallstack/core";
+import { Utils } from "@smallstack/core-common";
 
 
 import * as _ from "underscore";

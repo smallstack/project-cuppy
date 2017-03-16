@@ -1,4 +1,4 @@
-import { LocalizationService, IOC } from "@smallstack/core";
+import { LocalizationService, IOC } from "@smallstack/core-common";
 
 IOC.onRegister("localizationService", (localizationService: LocalizationService) => {
 

@@ -2,7 +2,7 @@
  * THIS FILE IS AUTO-GENERATED AND WILL BE REPLACED ON ANY RE-GENERATION
  */
 
-import { Utils, IOC, CollectionsService } from "@smallstack/core";
+import { Utils, IOC, CollectionsService } from "@smallstack/core-common";
 
 IOC.onRegister("collectionsService", (collectionsService: CollectionsService) => {
 

@@ -1,4 +1,4 @@
-import { Utils } from "@smallstack/core";
+import { Utils } from "@smallstack/core-common";
 
 /**
  * This method is getting executed on the server only. See http://docs.meteor.com/#/full/meteor_methods

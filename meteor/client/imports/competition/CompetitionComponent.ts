@@ -1,5 +1,6 @@
-import { IOC, Logger, Autowired, NavigationEntry, NavigationService, InitializationAware, LocalizationService, QueryObject } from "@smallstack/core";
-import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor";
+import { IOC, Logger, Autowired, NavigationEntry, NavigationService, LocalizationService, QueryObject } from "@smallstack/core-common";
+import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor-client";
+import { InitializationAware } from "@smallstack/core-client";
 import { CompetitionMatchesService, BetsService, CompetitionsService, CompetitionRoundsService, Competition, CompetitionRound, CompetitionMatch, Bet } from "@smallstack/datalayer";
 
 import * as _ from "underscore";
