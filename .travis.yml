@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - "6.9.1"
 before_install:
-  - "curl https://install.meteor.com | /bin/sh"
+  - "curl -L https://install.meteor.com | /bin/sh"
+  - export PATH="$HOME/.meteor:$PATH"
 install:
   - npm install -g @smallstack/cli
 services:
