@@ -7,12 +7,12 @@ declare var TimeSync: any;
 
 export class CompetitionMatch extends GeneratedCompetitionMatch {
 
-    public static fromDocument(doc: any) {
-        var model: CompetitionMatch = super.fromDocument<CompetitionMatch>(doc);
-        if (!(model.result instanceof Array))
-            model.result = [];
-        return model;
-    }
+    // public static fromDocument(doc: any) {
+    //     var model: CompetitionMatch = super.fromDocument<CompetitionMatch>(doc);
+    //     if (!(model.result instanceof Array))
+    //         model.result = [];
+    //     return model;
+    // }
 
 
     public getHomeTeamId(): string {

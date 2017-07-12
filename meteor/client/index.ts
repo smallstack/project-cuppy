@@ -5,19 +5,15 @@ import "angular2-meteor-polyfills";
 import * as _ from 'underscore';
 import { enableProdMode } from "@angular/core";
 import { InitLevelService, IOC, Logger, ConfigurationService, Configuration } from "@smallstack/core-common";
-import { initClient } from "@smallstack/core-client";
 import { LocalizationService, QueryObject } from "@smallstack/core-common";
-import { initMeteorShared } from "@smallstack/meteor-common";
 import { bootstrapAngular } from "@smallstack/meteor-client";
 import { createDatalayerCollections, registerDatalayerServices, initializeTypesystem } from "@smallstack/datalayer";
-import { AppComponent } from "./imports/app/AppComponent";
 import { CompetitionsComponent } from "./imports/competitions/CompetitionsComponent";
 
 import "./imports/initClient";
 import { initClient, startClient } from "./imports/initClient";
 
 import { AppComponent } from "./imports/app/AppComponent";
-import { HomeComponent } from "./imports/home/HomeComponent";
 
 initClient();
 
@@ -50,5 +46,5 @@ initLevelService.addInitLevelFn(100, "Angular2", (cb: (error: Error, success: bo
     });
 });
 
-startClient(AppComponent, [HomeComponent]);
+startClient(AppComponent, []);
 

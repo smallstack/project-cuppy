@@ -12,23 +12,38 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
             let parameters:any = data.parameters;
 
             switch (data.queryName) {
-                case "getPageById":
-        return collectionsService.getCollectionByName("pages").find({"_id": parameters.id }).count();
+                case "getAllApps":
+        return collectionsService.getCollectionByName("apps").find({}).count();
                             
-                case "getAllPages":
-        return collectionsService.getCollectionByName("pages").find({}).count();
+                case "getAppById":
+        return collectionsService.getCollectionByName("apps").find({"_id": parameters.id }).count();
                             
-                case "getPageByName":
-        return collectionsService.getCollectionByName("pages").find({"name": parameters.name }).count();
+                case "getAppByIdentifier":
+        return collectionsService.getCollectionByName("apps").find({"identifier": parameters.identifier }).count();
+                            
+                case "getAppVersions":
+        return collectionsService.getCollectionByName("appversions").find({"appId": parameters.appId }).count();
                             
                 case "getConfiguration":
         return collectionsService.getCollectionByName("configuration").find({"scope":"everywhere"}).count();
+                            
+                case "getAllCronjobs":
+        return collectionsService.getCollectionByName("cronjobs").find({}).count();
                             
                 case "getAllMails":
         return collectionsService.getCollectionByName("emails").find({}).count();
                             
                 case "getAllTemplates":
         return collectionsService.getCollectionByName("emailtemplates").find({}).count();
+                            
+                case "getFileById":
+        return collectionsService.getCollectionByName("files").find({"_id": parameters.id }).count();
+                            
+                case "getFilesByIds":
+        return collectionsService.getCollectionByName("files").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getAllFiles":
+        return collectionsService.getCollectionByName("files").find({}).count();
                             
                 case "getAllLanguages":
         return collectionsService.getCollectionByName("languages").find({}).count();
@@ -54,11 +69,44 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                 case "getNavigationForType":
         return collectionsService.getCollectionByName("navigation").find({"type": parameters.type }).count();
                             
+                case "getNavigationForTree":
+        return collectionsService.getCollectionByName("navigation").find({"navigationTreeId": parameters.navigationTreeId }).count();
+                            
                 case "getNavigationEntryById":
         return collectionsService.getCollectionByName("navigation").find({"_id": parameters.id }).count();
                             
+                case "getNavigationEntryByPageId":
+        return collectionsService.getCollectionByName("navigation").find({"pageId": parameters.pageId }).count();
+                            
+                case "getNavigationTree":
+        return collectionsService.getCollectionByName("navigationtrees").find({"name": parameters.name }).count();
+                            
+                case "getNavigationTreeById":
+        return collectionsService.getCollectionByName("navigationtrees").find({"_id": parameters.id }).count();
+                            
+                case "getNavigationTreesByIds":
+        return collectionsService.getCollectionByName("navigationtrees").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getPageById":
+        return collectionsService.getCollectionByName("pages").find({"_id": parameters.id }).count();
+                            
+                case "getPagesByIds":
+        return collectionsService.getCollectionByName("pages").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getAllPages":
+        return collectionsService.getCollectionByName("pages").find({}).count();
+                            
+                case "getPageByName":
+        return collectionsService.getCollectionByName("pages").find({"name": parameters.name }).count();
+                            
+                case "getPageByIdentifier":
+        return collectionsService.getCollectionByName("pages").find({"identifier": parameters.identifier }).count();
+                            
                 case "getAllPushNotifications":
         return collectionsService.getCollectionByName("pushnotifications").find({}).count();
+                            
+                case "getPushNotificationsByIds":
+        return collectionsService.getCollectionByName("pushnotifications").find({"_id":{"$in": parameters.ids }}).count();
                             
                 case "getRoleByName":
         return collectionsService.getCollectionByName("roles").find({"name": parameters.name }).count();
@@ -72,6 +120,33 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                 case "getAllRoles":
         return collectionsService.getCollectionByName("roles").find({}).count();
                             
+                case "getAllExecutions":
+        return collectionsService.getCollectionByName("taskexecutions").find({}).count();
+                            
+                case "getTaskExecutionsByIds":
+        return collectionsService.getCollectionByName("taskexecutions").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getTaskExecutionById":
+        return collectionsService.getCollectionByName("taskexecutions").find({"_id": parameters.id }).count();
+                            
+                case "getTaskExecutionsForTaskId":
+        return collectionsService.getCollectionByName("taskexecutions").find({"taskId": parameters.id }).count();
+                            
+                case "getRecentExecutions":
+        return collectionsService.getCollectionByName("taskexecutions").find({}).count();
+                            
+                case "getAllTasks":
+        return collectionsService.getCollectionByName("tasks").find({}).count();
+                            
+                case "getTaskByIdentifier":
+        return collectionsService.getCollectionByName("tasks").find({"identifier": parameters.identifier }).count();
+                            
+                case "getTaskById":
+        return collectionsService.getCollectionByName("tasks").find({"_id": parameters.id }).count();
+                            
+                case "getTasksByIds":
+        return collectionsService.getCollectionByName("tasks").find({"_id":{"$in": parameters.ids }}).count();
+                            
                 case "getUsersByIds":
         return collectionsService.getCollectionByName("users").find({"_id":{"$in": parameters.ids }}).count();
                             
@@ -79,6 +154,9 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
         return collectionsService.getCollectionByName("users").find({"_id": parameters.id }).count();
                             
                 case "getAllUsers":
+        return collectionsService.getCollectionByName("users").find({}).count();
+                            
+                case "getFullUsers":
         return collectionsService.getCollectionByName("users").find({}).count();
                             
                 case "getMyUser":
@@ -205,6 +283,8 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
         return collectionsService.getCollectionByName("devices").find({"ownerId":this.userId}).count();
                             
                 
+                default:
+                    throw new Error("Could not find server count method for query name : " + data.queryName);
             }
         }
     });

@@ -2,3 +2,5 @@ node_modules/
 dist/
 generated/
 typesystem.ts
+index.ts
+init.ts

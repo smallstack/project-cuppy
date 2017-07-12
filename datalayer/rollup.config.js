@@ -1,9 +1,9 @@
 import html from "rollup-plugin-html";
-import sass from "rollup-plugin-sass";
 
 export default {
     format: "umd",
     sourceMap: true,
+    moduleName: "@smallstack/datalayer",
     globals: {
         "@angular/core": "ng.core",
         "@angular/common": "ng.common",
@@ -31,8 +31,7 @@ export default {
                 collapseWhitespace: true,
                 removeComments: true
             }
-        }),
-        sass()
+        })
     ],
     external: [
         "@angular/core",

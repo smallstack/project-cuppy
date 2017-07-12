@@ -1,15 +1,13 @@
-import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor-client";
+import { AngularBaseComponentController, AngularComponent } from "@smallstack/core-client";
 import { QueryObject, IOC, NavigationService, NavigationEntry } from "@smallstack/core-common";
-import { InitializationAware } from "@smallstack/core-client";
-import { InitializationAware} from "@smallstack/core-client";
-import { QueryObject, IOC, NavigationService, NavigationEntry } from "@smallstack/core-common";
+import { InitializationAware } from "@smallstack/core-common";
 import { Competition, CompetitionsService, CompetitionRound, CompetitionTeam, CompetitionTeamsService, CompetitionMatchesService, CompetitionMatch } from "@smallstack/datalayer";
 
 import * as _ from 'underscore';
 
 import template from "./CompetitionAdminComponent.html";
 
-export class CompetitionAdminComponent extends Angular2BaseComponentController implements InitializationAware {
+export class CompetitionAdminComponent extends AngularBaseComponentController implements InitializationAware {
 
     public competition: Competition;
     public competitionSyncer: string;
@@ -118,7 +116,7 @@ export class CompetitionAdminComponent extends Angular2BaseComponentController i
 }
 
 
-Angular2Component.new("CompetitionAdminComponent", CompetitionAdminComponent)
+AngularComponent.new("CompetitionAdminComponent", CompetitionAdminComponent)
     .setTemplate(template)
     .register();
 

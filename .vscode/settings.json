@@ -2,6 +2,7 @@
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
-    "editor.wrappingColumn": 0,
+    "editor.wordWrap": "on",
+    "vsicons.presets.angular": true,
     "files.eol": "\n"
 }

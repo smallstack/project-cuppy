@@ -1,8 +1,6 @@
 import { IOC, Logger, Autowired, NavigationEntry, NavigationService, LocalizationService, QueryObject } from "@smallstack/core-common";
-import { InitializationAware } from "@smallstack/core-client";
-import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor-client";
-import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor-client";
-import { InitializationAware } from "@smallstack/core-client";
+import { InitializationAware } from "@smallstack/core-common";
+import { AngularBaseComponentController, AngularComponent } from "@smallstack/core-client";
 import { CompetitionMatchesService, BetsService, CompetitionsService, CompetitionRoundsService, Competition, CompetitionRound, CompetitionMatch, Bet } from "@smallstack/datalayer";
 
 import * as _ from "underscore";
@@ -10,13 +8,10 @@ import * as $ from "jquery";
 
 import template from "./CompetitionComponent.html";
 
-export class CompetitionComponent extends Angular2BaseComponentController implements InitializationAware {
+export class CompetitionComponent extends AngularBaseComponentController implements InitializationAware {
 
     @Autowired()
     private competitionMatchesService: CompetitionMatchesService;
-
-    @Autowired()
-    private localizationService: LocalizationService;
 
     @Autowired()
     private betsService: BetsService;
@@ -300,7 +295,7 @@ export class CompetitionComponent extends Angular2BaseComponentController implem
     }
 }
 
-Angular2Component.new("CompetitionComponent", CompetitionComponent)
+AngularComponent.new("CompetitionComponent", CompetitionComponent)
     .setTemplate(template)
     .register();
 
