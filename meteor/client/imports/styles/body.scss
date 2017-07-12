@@ -25,3 +25,7 @@ html {
 .forced-pointer {
     cursor: pointer;
 }
+
+[ng-reflect-router-link] {
+    cursor:pointer;
+}

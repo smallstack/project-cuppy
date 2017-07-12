@@ -2,13 +2,13 @@ import { IOC, Autowired, NavigationEntry, NavigationService, QueryObject } from 
 import { Angular2Component, Angular2BaseComponentController } from "@smallstack/meteor-client";
 import { CompetitionsService, Competition } from "@smallstack/datalayer";
 
-import template from "./HomeComponent.html";
+import template from "./CompetitionsComponent.html";
 import { Component } from "@angular/core";
 
 @Component({
     template
 })
-export class HomeComponent extends Angular2BaseComponentController {
+export class CompetitionsComponent extends Angular2BaseComponentController {
 
     @Autowired()
     private competitionsService: CompetitionsService;
@@ -16,10 +16,13 @@ export class HomeComponent extends Angular2BaseComponentController {
     public competitions: Competition[];
     public queryObject: QueryObject<Competition>;
     public pageCount: number = 0;
+    public entriesPerPage: number = 6;
+
+    public dt: Date = new Date();
 
     constructor() {
         super();
-        this.queryObject = this.competitionsService.getAllCompetitions({}, { entriesPerPage: 5 });
+        this.queryObject = this.competitionsService.getAllCompetitions({}, { entriesPerPage: this.entriesPerPage });
         console.log("subscribing to all competitions!");
         this.queryObject.subscribe((error: Error, queryObject: QueryObject<Competition>) => {
             console.log("successfully subscribed to all competitions!");
@@ -30,14 +33,9 @@ export class HomeComponent extends Angular2BaseComponentController {
         });
         this.queryObject.getCount((count: number) => {
             this.ngZone.run(() => {
-                this.pageCount = Math.ceil(count / 5);
+                this.pageCount = Math.ceil(count / this.entriesPerPage);
             });
         });
-    }
-
-    public onCompetitionSelect(competition: Competition) {
-        console.log(competition);
-        this.router.navigate(["competition", competition.name]);
     }
 
     public pageChange(pageNumber: number) {
@@ -53,9 +51,9 @@ IOC.onRegister("navigationService", (navigationService: NavigationService) => {
     navigationService.addNavigationEntry(NavigationEntry.new()
         .setRoute("/")
         .setIndex(1)
-        .setComponent(HomeComponent)
-        .setLabel("Home")
-        .setIcon("fa fa-home")
+        .setComponent(CompetitionsComponent)
+        .setI18nLabel("navigation.competitions")
+        .setIcon("fa fa-trophy")
         .setRequiresAuthentication(false)
         .setVisible(true)
         .setType("main")
