@@ -1,6 +1,6 @@
 import { AngularBaseComponentController, AngularComponent } from "@smallstack/core-client";
 import { QueryObject, IOC, NavigationService, NavigationEntry } from "@smallstack/core-common";
-import { InitializationAware } from "@smallstack/core-common";
+import { InitializationAware, Autowired, Logger } from "@smallstack/core-common";
 import { Competition, CompetitionsService, CompetitionRound, CompetitionTeam, CompetitionTeamsService, CompetitionMatchesService, CompetitionMatch } from "@smallstack/datalayer";
 
 import * as _ from 'underscore';
@@ -23,22 +23,26 @@ export class CompetitionAdminComponent extends AngularBaseComponentController im
     public allCompetitionMatches: CompetitionMatch[];
     public matchesByRound: { [groupId: string]: CompetitionMatch[] };
 
+    @Autowired()
+    private competitionsService: CompetitionsService;
+
     public afterInitialization() {
         this.isLoaded = false;
 
+        Logger.info("CompetitionAdminComponent", "afterInit");
+
         this.getRouteParameter("competitionName", (competitionName: string) => {
+            Logger.info("CompetitionAdminComponent", "comp param : " + competitionName);
             if (competitionName === undefined) {
                 this.notificationService.popup.error("No competition name present in URL!");
                 return;
             }
 
-
             // load competition
-            var competitionQuery: QueryObject<Competition> = CompetitionsService.instance().getCompetitionByName({ name: competitionName }, { reactive: true });
-            competitionQuery.subscribe(() => {
-                competitionQuery.expand(["roundIds", "teamIds.linkedUserIds"], () => {
+            this.competitionsService.getCompetitionByName({ name: competitionName }, { reactive: true }).subscribe((error: Error, queryObject: QueryObject<Competition>) => {
+                queryObject.expand(["roundIds", "teamIds.linkedUserIds"], () => {
                     Tracker.autorun(() => {
-                        let competition: Competition = competitionQuery.getModel(0);
+                        let competition: Competition = queryObject.getModel(0);
                         if (competition === undefined)
                             this.notificationService.popup.error("Competition '" + competitionName + "' could not be loaded!");
                         else {

@@ -4,5 +4,6 @@
     "editor.detectIndentation": false,
     "editor.wordWrap": "on",
     "vsicons.presets.angular": true,
-    "files.eol": "\n"
+    "files.eol": "\n",
+    "tslint.alwaysShowRuleFailuresAsWarnings": true
 }

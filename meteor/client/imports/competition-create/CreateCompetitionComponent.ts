@@ -1,14 +1,11 @@
 import { Autowired, NotificationService, IOC, NavigationService, NavigationEntry } from "@smallstack/core-common";
-import { CompetitionsService, Competition } from "@smallstack/datalayer";
-import { Angular2BaseComponentController, Angular2Component } from "@smallstack/meteor-client";
 import { Router } from "@angular/router";
-
+import { CompetitionsService, Competition } from "@smallstack/datalayer";
 import * as _ from "underscore";
-
 import template from "./CreateCompetitionComponent.html";
+import { AngularComponent, AngularBaseComponentController } from "@smallstack/core-client";
 
-
-export class CreateCompetitionComponent extends Angular2BaseComponentController {
+export class CreateCompetitionComponent extends AngularBaseComponentController {
 
     @Autowired()
     private competitionsService: CompetitionsService;
@@ -21,8 +18,11 @@ export class CreateCompetitionComponent extends Angular2BaseComponentController 
         this.competitionsService.createCompetition(this.newCompetition.name, this.newCompetition.type, (error: Error, competitionName: string) => {
             if (error)
                 this.notificationService.getStandardErrorPopup(error, "Could not create new Competition!");
-            else
-                this.router.navigate(["competition", competitionName, "admin"]);
+            else {
+                this.ngZone.run(() => {
+                    this.router.navigate(["competition", competitionName, "admin"]);
+                });
+            }
         });
     }
 
@@ -49,22 +49,14 @@ export class CreateCompetitionComponent extends Angular2BaseComponentController 
                 name += "Night ";
         }
 
-        // competition time
-        switch (type) {
-            case "pingpong":
-                name += _.sample<string>(["Ping Pong ", "Pong Pong ", "Peng Pong ", "Wong Pong ", "Table Tennis "]);
-                break;
-            default:
-        }
-
-        // random cup name thin
+        // random cup name thing
         name += _.sample<string>(["Cup", "Super Cup", "Tournament", "Derby", "Local Derby", "Breakdown", "Degradation", "World Cup", "Bowl", "Super Bowl", "Contest", "Fight", "Blast"]);
 
         this.newCompetition.name = name;
     }
 }
 
-Angular2Component.new("CreateCompetitionComponent", CreateCompetitionComponent)
+AngularComponent.new("CreateCompetitionComponent", CreateCompetitionComponent)
     .setTemplate(template)
     .register();
 

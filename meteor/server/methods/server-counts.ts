@@ -30,6 +30,12 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                 case "getAllCronjobs":
         return collectionsService.getCollectionByName("cronjobs").find({}).count();
                             
+                case "getAllCurrencies":
+        return collectionsService.getCollectionByName("currencies").find({}).count();
+                            
+                case "getCurrencyById":
+        return collectionsService.getCollectionByName("currencies").find({"_id": parameters.id }).count();
+                            
                 case "getAllMails":
         return collectionsService.getCollectionByName("emails").find({}).count();
                             
@@ -69,7 +75,7 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                 case "getNavigationForType":
         return collectionsService.getCollectionByName("navigation").find({"type": parameters.type }).count();
                             
-                case "getNavigationForTree":
+                case "getNavigationForTreeId":
         return collectionsService.getCollectionByName("navigation").find({"navigationTreeId": parameters.navigationTreeId }).count();
                             
                 case "getNavigationEntryById":
@@ -79,13 +85,22 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
         return collectionsService.getCollectionByName("navigation").find({"pageId": parameters.pageId }).count();
                             
                 case "getNavigationTree":
-        return collectionsService.getCollectionByName("navigationtrees").find({"name": parameters.name }).count();
+        return collectionsService.getCollectionByName("navigationtrees").find({"identifier": parameters.identifier }).count();
                             
                 case "getNavigationTreeById":
         return collectionsService.getCollectionByName("navigationtrees").find({"_id": parameters.id }).count();
                             
                 case "getNavigationTreesByIds":
         return collectionsService.getCollectionByName("navigationtrees").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getNavigationTreesForTag":
+        return collectionsService.getCollectionByName("navigationtrees").find({"tags": parameters.tag }).count();
+                            
+                case "getAllOrders":
+        return collectionsService.getCollectionByName("orders").find({}).count();
+                            
+                case "getMyOrders":
+        return collectionsService.getCollectionByName("orders").find({"ownerId":this.userId}).count();
                             
                 case "getPageById":
         return collectionsService.getCollectionByName("pages").find({"_id": parameters.id }).count();
@@ -101,6 +116,18 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                             
                 case "getPageByIdentifier":
         return collectionsService.getCollectionByName("pages").find({"identifier": parameters.identifier }).count();
+                            
+                case "getAllProducts":
+        return collectionsService.getCollectionByName("products").find({}).count();
+                            
+                case "getProducts":
+        return collectionsService.getCollectionByName("products").find({}).count();
+                            
+                case "getProductsByIds":
+        return collectionsService.getCollectionByName("products").find({"_id":{"$in": parameters.ids },"active":true}).count();
+                            
+                case "getProductById":
+        return collectionsService.getCollectionByName("products").find({"_id": parameters.id }).count();
                             
                 case "getAllPushNotifications":
         return collectionsService.getCollectionByName("pushnotifications").find({}).count();
@@ -161,6 +188,42 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                             
                 case "getMyUser":
         return collectionsService.getCollectionByName("users").find({"_id":this.userId}).count();
+                            
+                case "getAllWorkflowActions":
+        return collectionsService.getCollectionByName("workflowactions").find({}).count();
+                            
+                case "getWorkflowActionById":
+        return collectionsService.getCollectionByName("workflowactions").find({"_id": parameters.id }).count();
+                            
+                case "getWorkflowActionsByIds":
+        return collectionsService.getCollectionByName("workflowactions").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getAllWorkflowConditions":
+        return collectionsService.getCollectionByName("workflowconditions").find({}).count();
+                            
+                case "getWorkflowConditionById":
+        return collectionsService.getCollectionByName("workflowconditions").find({"_id": parameters.id }).count();
+                            
+                case "getWorkflowConditionsByIds":
+        return collectionsService.getCollectionByName("workflowconditions").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getAllWorkflowEvents":
+        return collectionsService.getCollectionByName("workflowevents").find({}).count();
+                            
+                case "getWorkflowEventById":
+        return collectionsService.getCollectionByName("workflowevents").find({"_id": parameters.id }).count();
+                            
+                case "getWorkflowEventsByIds":
+        return collectionsService.getCollectionByName("workflowevents").find({"_id":{"$in": parameters.ids }}).count();
+                            
+                case "getAllWorkflows":
+        return collectionsService.getCollectionByName("workflows").find({}).count();
+                            
+                case "getWorkflowById":
+        return collectionsService.getCollectionByName("workflows").find({"_id": parameters.id }).count();
+                            
+                case "getWorkflowsByIds":
+        return collectionsService.getCollectionByName("workflows").find({"_id":{"$in": parameters.ids }}).count();
                             
                 case "getMediaFormatByName":
         return collectionsService.getCollectionByName("mediaformats").find({"name": parameters.name }).count();
