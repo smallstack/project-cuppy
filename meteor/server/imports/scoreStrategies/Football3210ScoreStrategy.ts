@@ -5,11 +5,11 @@ import { CompetitionMatch } from "@smallstack/datalayer";
 import { CompetitionsService } from "@smallstack/datalayer";
 import { BetsService } from "@smallstack/datalayer";
 import { Autowired } from "@smallstack/core-common";
-import { ICompetitionService, CompetitionRank } from "./ICompetitionService";
+import { CompetitionRank, IScoreStrategyService } from "./ICompetitionService";
 
 import * as _ from "underscore";
 
-export class DefaultCompetitionService implements ICompetitionService {
+export class Football3210ScoreStrategy implements IScoreStrategyService {
 
     @Autowired()
     private betsService: BetsService;
@@ -25,7 +25,7 @@ export class DefaultCompetitionService implements ICompetitionService {
             return;
 
         var round: CompetitionRound = match.getRound().getModels()[0];
-        var multiplier: number = round.multiplier ? round.multiplier : 1;
+        var multiplier: number = round.betMultiplier ? round.betMultiplier : 1;
 
         var bets: Bet[] = this.betsService.getBetsForMatchId({ matchId: match.id }).getModels();
         _.each<Bet>(bets, (bet: Bet) => {

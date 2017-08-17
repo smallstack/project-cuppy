@@ -5,7 +5,6 @@ import { GeneratedCompetition } from "../generated/models/GeneratedCompetition";
 import { CompetitionTeam } from "../models/CompetitionTeam";
 import { CompetitionsService } from "../services/CompetitionsService";
 import { CompetitionMatchesService } from "../services/CompetitionMatchesService";
-// import { ICompetitionService } from "../services/ICompetitionService";
 
 export class Competition extends GeneratedCompetition {
 
@@ -76,18 +75,6 @@ export class Competition extends GeneratedCompetition {
         else
             CompetitionsService.instance().removeTeam(this.id, team.id, NotificationService.instance().getStandardCallback("Could not remove Team!", "Successfully removed Team!"));
     }
-
-    // public getCompetitionService(): ICompetitionService {
-    //     if (this.dataBridge.isClient())
-    //         throw new Error("CompetitionsServices are only available on the server!");
-
-    //     switch (this.type) {
-    //         case Competition.enums.type.TOURNAMENT:
-    //             return new DefaultCompetitionService();
-    //         case Competition.enums.type.LEAGUE:
-    //             return new DefaultCompetitionService();
-    //     }
-    // }
 
     public isAdministrator(userId: string): boolean {
         return this.administratorIds.indexOf(userId) !== -1;

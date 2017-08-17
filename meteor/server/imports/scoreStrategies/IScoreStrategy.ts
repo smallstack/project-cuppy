@@ -8,7 +8,7 @@ export interface CompetitionRank {
     points: number;
 };
 
-export interface ICompetitionService {
+export interface IScoreStrategy {
     updatePoints(match: CompetitionMatch, force: boolean);
     getPoints(match: CompetitionMatch, bet: Bet, multiplier: number);
 

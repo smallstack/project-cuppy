@@ -60,9 +60,9 @@
 				"optional": true
 			},
 			{
-				"name": "multiplier",
+				"name": "betMultiplier",
 				"type": "number",
-				"min": 0,
+				"min": 1,
 				"defaultValue": 1
 			},
 			{

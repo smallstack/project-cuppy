@@ -5,15 +5,19 @@ import { AbstractCompetitionSyncer } from "./AbstractCompetitionSyncer";
 import { ICompetitionSyncer } from "./ICompetitionSyncer";
 import * as request from "request";
 import * as _ from 'underscore';
-import { ICompetitionService } from "../services/ICompetitionService";
+import { IScoreStrategy } from "../scoreStrategies/IScoreStrategy";
+import { CuppyStrategyManager } from "../CuppyStrategyManager";
 
-class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetitionSyncer {
+export class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetitionSyncer {
 
     @Autowired()
     private configurationService: ConfigurationService;
 
     @Autowired()
     private collectionsService: CollectionsService;
+
+    @Autowired()
+    private cuppyStrategyManager: CuppyStrategyManager;
 
     private apiUrl: string = "http://api.football-data.org/v1";
     private apiKey: string;
@@ -45,19 +49,19 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
         if (!(competition.roundIds instanceof Array))
             competition.roundIds = [];
 
-        var compService: ICompetitionService; // competition.getCompetitionService();
+        let scoreStrategy: IScoreStrategy = this.cuppyStrategyManager.getScoreStrategy(competition.scoreStrategy);
 
-        var queryUrl: string = this.apiUrl + '/soccerseasons/' + competition.metadata.footballDataId + "/fixtures";
+        let queryUrl: string = this.apiUrl + '/soccerseasons/' + competition.metadata.footballDataId + "/fixtures";
 
-        var response: any = request.get(queryUrl, {
+        let response: any = request.get(queryUrl, {
             headers: { 'X-Auth-Token': this.apiKey }
         });
 
         if (!response || !response.data)
             throw new Error("Could not get response from " + queryUrl);
 
-        var data: any = response.data;
-        var fixtures: any = data.fixtures;
+        let data: any = response.data;
+        let fixtures: any = data.fixtures;
 
         if (!(fixtures instanceof Array))
             throw new Error("response.data.fixtures is not instanceof Array!");
@@ -87,7 +91,7 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
             if (match.manuallyUpdated === true)
                 console.warn("Skipping match : " + fixture.homeTeamName + " vs. " + fixture.awayTeamName + " since results were set manually!");
             else {
-                compService.updateMatchResult(match, [fixture.result.goalsHomeTeam, fixture.result.goalsAwayTeam], true, false, true);
+                scoreStrategy.updateMatchResult(match, [fixture.result.goalsHomeTeam, fixture.result.goalsAwayTeam], true, false, true);
             }
 
             // update roundIds
@@ -103,7 +107,7 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
 
         // save changes done to competition
         competition.update();
-        compService.updateRanking(competition.id, compService.getRanking(competition.id));
+        scoreStrategy.updateRanking(competition.id, scoreStrategy.getRanking(competition.id));
     }
 
     private getRound(competitionId: string, roundIndex: number): CompetitionRound {
@@ -137,7 +141,7 @@ class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetiti
             match.teamIds[0] = homeTeamId;
             match.teamIds[1] = awayTeamId;
             match.roundId = round.id;
-            match.maxPoints = round.multiplier * 3;
+            match.maxPoints = round.betMultiplier * 3;
             match.id = this.competitionMatchesService.save(match);
         }
         return match;

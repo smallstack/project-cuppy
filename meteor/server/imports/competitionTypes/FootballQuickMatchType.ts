@@ -2,7 +2,7 @@ import { ICompetitionType } from "./ICompetitionType";
 import { Competition, CompetitionRound, CompetitionRoundsService, CompetitionMatch, CompetitionMatchesService } from "@smallstack/datalayer";
 import { Utils } from "@smallstack/core-common";
 
-export class QuickMatchType implements ICompetitionType {
+export class FootballQuickMatchType implements ICompetitionType {
 
     public createRoundsAndMatches(competition: Competition) {
 
@@ -13,7 +13,7 @@ export class QuickMatchType implements ICompetitionType {
         // hinspiel
         var round: CompetitionRound = new CompetitionRound();
         round.name = Utils.createUrlConformIdFromInput("first round");
-        round.multiplier = 1;
+        round.betMultiplier = 1;
         round.competitionId = competition.id;
         round.id = CompetitionRoundsService.instance().save(round);
         competition.roundIds.push(round.id);

@@ -3,7 +3,8 @@
         "name": "competitions"
     },
     "service": {
-        "queries": [{
+        "queries": [
+            {
                 "name": "getCompetitionById",
                 "selector": {
                     "_id": ":id:string"
@@ -39,7 +40,8 @@
                 }
             }
         ],
-        "securedmethods": [{
+        "securedmethods": [
+            {
                 "name": "createCompetition",
                 "parameters": [
                     "competitionName:string",
@@ -88,7 +90,8 @@
     },
     "model": {
         "name": "Competition",
-        "schema": [{
+        "schema": [
+            {
                 "name": "ownerId",
                 "type": "foreign",
                 "foreignType": "User"
@@ -182,6 +185,13 @@
                     "openligadb"
                 ],
                 "optional": true
+            },
+            {
+                "name": "scoreStrategy",
+                "type": "string",
+                "allowedValues": [
+                    "football321"
+                ]
             },
             {
                 "name": "ranking",

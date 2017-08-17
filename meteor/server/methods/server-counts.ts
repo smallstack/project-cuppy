@@ -27,6 +27,9 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                 case "getConfiguration":
         return collectionsService.getCollectionByName("configuration").find({"scope":"everywhere"}).count();
                             
+                case "getCompleteConfiguration":
+        return collectionsService.getCollectionByName("configuration").find({}).count();
+                            
                 case "getAllCronjobs":
         return collectionsService.getCollectionByName("cronjobs").find({}).count();
                             
@@ -100,7 +103,7 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
         return collectionsService.getCollectionByName("orders").find({}).count();
                             
                 case "getMyOrders":
-        return collectionsService.getCollectionByName("orders").find({"ownerId":this.userId}).count();
+        return collectionsService.getCollectionByName("orders").find({"userId":this.userId}).count();
                             
                 case "getPageById":
         return collectionsService.getCollectionByName("pages").find({"_id": parameters.id }).count();
@@ -146,6 +149,12 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                             
                 case "getAllRoles":
         return collectionsService.getCollectionByName("roles").find({}).count();
+                            
+                case "getAllShoppingCarts":
+        return collectionsService.getCollectionByName("shoppingcarts").find({}).count();
+                            
+                case "getShoppingCartForUserId":
+        return collectionsService.getCollectionByName("shoppingcarts").find({"userId": parameters.userId }).count();
                             
                 case "getAllExecutions":
         return collectionsService.getCollectionByName("taskexecutions").find({}).count();

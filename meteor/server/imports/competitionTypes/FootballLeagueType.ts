@@ -5,7 +5,7 @@ import { Utils } from "@smallstack/core-common";
 
 import * as _ from "underscore";
 
-export class LeagueType implements ICompetitionType {
+export class FootballLeagueType implements ICompetitionType {
 
     public createRoundsAndMatches(competition: Competition) {
 
@@ -36,7 +36,7 @@ export class LeagueType implements ICompetitionType {
             round.competitionId = competition.id;
             round.index = leagueDay;
             round.name = Utils.createUrlConformIdFromInput(leagueDayName);
-            round.multiplier = 1;
+            round.betMultiplier = 1;
             round.id = CompetitionRoundsService.instance().save(round);
             competition.addRoundIds([round.id]);
             competition.update();

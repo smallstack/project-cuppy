@@ -136,9 +136,9 @@
 			},
 			{
 				"name": "result",
-				"type": "number[]",
-				"optional": true,
-				"defaultValue": []
+                "type": "any",
+                "blackbox": true,
+				"optional": true
 			},
 			{
 				"name": "statusInternal",
