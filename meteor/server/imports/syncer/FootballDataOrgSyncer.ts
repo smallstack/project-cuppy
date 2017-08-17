@@ -1,14 +1,14 @@
-import { Utils } from '@smallstack/core-common';
-import { CompetitionMatchesCollection, Competition, CompetitionRound, CompetitionTeam, CompetitionMatch } from '@smallstack/datalayer';
-import { Autowired, ConfigurationService, CollectionsService } from '@smallstack/core-common';
+import { Utils } from "@smallstack/core-common";
+import { Autowired, CollectionsService, ConfigurationService } from "@smallstack/core-common";
+import { Competition, CompetitionMatch, CompetitionMatchesCollection, CompetitionRound, CompetitionRoundsCollection, CompetitionTeam, CompetitionTeamsService } from "@smallstack/datalayer";
+import * as request from "request";
+import * as _ from "underscore";
+import { CuppyStrategyManager } from "../CuppyStrategyManager";
+import { IScoreStrategy } from "../scoreStrategies/IScoreStrategy";
 import { AbstractCompetitionSyncer } from "./AbstractCompetitionSyncer";
 import { ICompetitionSyncer } from "./ICompetitionSyncer";
-import * as request from "request";
-import * as _ from 'underscore';
-import { IScoreStrategy } from "../scoreStrategies/IScoreStrategy";
-import { CuppyStrategyManager } from "../CuppyStrategyManager";
 
-export class FootballDataSyncer extends AbstractCompetitionSyncer implements ICompetitionSyncer {
+export class FootballDataOrgSyncer extends AbstractCompetitionSyncer implements ICompetitionSyncer {
 
     @Autowired()
     private configurationService: ConfigurationService;
@@ -37,9 +37,9 @@ export class FootballDataSyncer extends AbstractCompetitionSyncer implements ICo
 
     public updateCompetition(competitionId: string) {
 
-        var competition: Competition = this.getCompetitionById(competitionId);
+        const competition: Competition = this.getCompetitionById(competitionId);
 
-        if (competition.syncer !== Competition.enums.syncer.FOOTBALLDATA)
+        if (competition.syncer !== Competition.enums.syncer.FOOTBALLDATAORG)
             throw new Error("Competition is not a Football-Data.org competition!");
 
         if (!competition.metadata.footballDataId)
@@ -49,37 +49,37 @@ export class FootballDataSyncer extends AbstractCompetitionSyncer implements ICo
         if (!(competition.roundIds instanceof Array))
             competition.roundIds = [];
 
-        let scoreStrategy: IScoreStrategy = this.cuppyStrategyManager.getScoreStrategy(competition.scoreStrategy);
+        const scoreStrategy: IScoreStrategy = this.cuppyStrategyManager.getScoreStrategy(competition.scoreStrategy);
 
-        let queryUrl: string = this.apiUrl + '/soccerseasons/' + competition.metadata.footballDataId + "/fixtures";
+        const queryUrl: string = this.apiUrl + "/competitions/" + competition.metadata.footballDataId + "/fixtures";
 
-        let response: any = request.get(queryUrl, {
-            headers: { 'X-Auth-Token': this.apiKey }
+        const response: HTTP.HTTPResponse = HTTP.get(queryUrl, {
+            headers: { "X-Auth-Token": this.apiKey }
         });
 
         if (!response || !response.data)
             throw new Error("Could not get response from " + queryUrl);
 
-        let data: any = response.data;
-        let fixtures: any = data.fixtures;
+        const data: any = response.data;
+        const fixtures: any = data.fixtures;
 
         if (!(fixtures instanceof Array))
             throw new Error("response.data.fixtures is not instanceof Array!");
 
-        console.log("Updating " + fixtures.length + " fixtures!");
+        console.log("Updating " + fixtures.length + " fixtures!", competition);
 
         _.each(fixtures, (fixture: any) => {
-            var date: Date = new Date(Date.parse(fixture.date));
+            const date: Date = new Date(Date.parse(fixture.date));
 
             // lookup competition round
-            var round: CompetitionRound = this.getRound(competition.id, parseInt(fixture.matchday));
+            const round: CompetitionRound = this.getRound(competition.id, parseInt(fixture.matchday));
 
             // look up teams
-            var homeTeam: CompetitionTeam = this.getTeamByName(fixture.homeTeamName);
-            var awayTeam: CompetitionTeam = this.getTeamByName(fixture.awayTeamName);
+            const homeTeam: CompetitionTeam = this.getTeamByName(fixture.homeTeamName);
+            const awayTeam: CompetitionTeam = this.getTeamByName(fixture.awayTeamName);
 
             // look up match
-            var match: CompetitionMatch = this.getMatch(competition.id, homeTeam.id, awayTeam.id, date, round);
+            const match: CompetitionMatch = this.getMatch(competition.id, homeTeam.id, awayTeam.id, date, round);
 
             // update match date
             if (match.date !== date) {
@@ -90,7 +90,7 @@ export class FootballDataSyncer extends AbstractCompetitionSyncer implements ICo
             // update match result
             if (match.manuallyUpdated === true)
                 console.warn("Skipping match : " + fixture.homeTeamName + " vs. " + fixture.awayTeamName + " since results were set manually!");
-            else {
+            else if (fixture.result.goalsHomeTeam !== null && fixture.result.goalsAwayTeam !== null) {
                 scoreStrategy.updateMatchResult(match, [fixture.result.goalsHomeTeam, fixture.result.goalsAwayTeam], true, false, true);
             }
 
@@ -111,8 +111,8 @@ export class FootballDataSyncer extends AbstractCompetitionSyncer implements ICo
     }
 
     private getRound(competitionId: string, roundIndex: number): CompetitionRound {
-        var competitionRound: CompetitionRound = this.collectionsService.getCollectionByName("competitionrounds").findOne({
-            competitionId: competitionId,
+        let competitionRound: CompetitionRound = CompetitionRoundsCollection.getCollection().findOne({
+            competitionId,
             index: roundIndex
         });
 
@@ -127,8 +127,8 @@ export class FootballDataSyncer extends AbstractCompetitionSyncer implements ICo
     }
 
     private getMatch(competitionId: string, homeTeamId: string, awayTeamId: string, date: Date, round: CompetitionRound): CompetitionMatch {
-        var match: CompetitionMatch = CompetitionMatchesCollection.getCollection().findOne({
-            competitionId: competitionId,
+        let match: CompetitionMatch = CompetitionMatchesCollection.getCollection().findOne({
+            competitionId,
             teamIds: { $all: [homeTeamId, awayTeamId] },
             roundId: round.id
         });
@@ -148,15 +148,13 @@ export class FootballDataSyncer extends AbstractCompetitionSyncer implements ICo
     }
 
     private getTeamByName(name: string): CompetitionTeam {
-        var dbName: string = Utils.createUrlConformIdFromInput(name);
-
-        // var team: CompetitionTeam = this.competitionTeamsService.getTeamByName<CompetitionTeam>({ teamName: dbName }).val(0);
-        // if (!team) {
-        //     team = new CompetitionTeam();
-        //     team.name = dbName;
-        //     team.id = this.competitionTeamsService.save(team);
-        // }
-        // return team;
-        return undefined;
+        const dbName: string = Utils.createUrlConformIdFromInput(name);
+        let team: CompetitionTeam = this.competitionTeamsService.getTeamByName({ teamName: dbName }).getModel(0);
+        if (!team) {
+            team = new CompetitionTeam();
+            team.name = dbName;
+            team.id = this.competitionTeamsService.save(team);
+        }
+        return team;
     }
 }

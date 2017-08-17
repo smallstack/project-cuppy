@@ -1,42 +1,43 @@
-<PageHeader text="{{competition?.displayName}}"></PageHeader>
-<div *ngIf="loaded && !competition" class="text-center">
-    {{'competition.errors.notfound' | translate}}
-</div>
-<div *ngIf="!loaded" class="text-center mt40">Loading Competition...</div>
-<div class="container" *ngIf="loaded && competition">
-    <div class="row">
-        <div class="btn-group btn-group-justified col-xs-12 col-md-6 col-lg-4">
-            <a class="btn btn-danger" [routerLink]="['/competition', competition.name, 'admin']" *ngIf="isAdministrator"><i class="fa fa-edit" aria-hidden="true"></i> <span class="hidden-xs">Manage</span></a>
-            <a class="btn btn-default" [routerLink]="['/competition', competition.name, 'ranking']"><i class="fa fa-hashtag" aria-hidden="true"></i> <span class="hidden-xs">Ranking</span></a>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="hidden-xs">Round</span> <span class="caret"></span></button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="competition/{{competition.name}}">{{("competition.allmatches" | translate:true)}}</a></li>
-                    <li><a href="competition/{{competition.name}}/rounds/current">{{("competition.rounds.current" | translate:true)}}</a></li>
-                    <li role="separator" class="divider"></li>
-                    <!--<li ng-repeat="round in rounds"><a href="competition/{{competition.name}}/rounds/{{round.id}}">{{(round.name | translate:true)}}</a></li>-->
-                </ul>
+<FrontendComponent>
+    <PageHeader text="{{competition?.displayName}}"></PageHeader>
+    <div *ngIf="loaded && !competition" class="text-center">
+        {{'competition.errors.notfound' | translate}}
+    </div>
+    <div *ngIf="!loaded" class="text-center mt40">Loading Competition...</div>
+    <div class="container" *ngIf="loaded && competition">
+        <div class="row">
+            <div class="btn-group btn-group-justified col-12 col-md-6 col-lg-4">
+                <a class="btn btn-danger" [routerLink]="['/competition', competition.name, 'admin']" *ngIf="isAdministrator"><i class="fa fa-edit" aria-hidden="true"></i> <span class="hidden-xs">Manage</span></a>
+                <a class="btn btn-default" [routerLink]="['/competition', competition.name, 'ranking']"><i class="fa fa-hashtag" aria-hidden="true"></i> <span class="hidden-xs">Ranking</span></a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="hidden-xs">Round</span> <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="competition/{{competition.name}}">{{("competition.allmatches" | translate:true)}}</a></li>
+                        <li><a href="competition/{{competition.name}}/rounds/current">{{("competition.rounds.current" | translate:true)}}</a></li>
+                        <li role="separator" class="divider"></li>
+                        <!--<li ng-repeat="round in rounds"><a href="competition/{{competition.name}}/rounds/{{round.id}}">{{(round.name | translate:true)}}</a></li>-->
+                    </ul>
+                </div>
+                <!--<a class="btn btn-default" href="competition/{{competition.name}}/sidebets"><i class="fa fa-birthday-cake" aria-hidden="true"></i> Sidebets</a>-->
             </div>
-            <!--<a class="btn btn-default" href="competition/{{competition.name}}/sidebets"><i class="fa fa-birthday-cake" aria-hidden="true"></i> Sidebets</a>-->
-        </div>
-        <div *ngIf="matches?.length > 0" class="col-xs-12">
-            <h4>
-                {{(roundName | translate:true)}}
-            </h4>
-            <div class="row">
-                <div ng-repeat="match in matches | orderBy:'index' track by match.id" class="col-xs-12 col-sm-12 col-md-4">
-                    <!--<match-row-entry ng-click="vm.openModal(match)" match-ref="match" bet-ref="bets[match.id]" place-bet-ref="vm.openModal"></match-row-entry>-->
+            <div *ngIf="matches?.length > 0" class="col-12">
+                <h4>
+                    {{(roundName | translate:true)}}
+                </h4>
+                <div class="row">
+                    <div *ngFor="let match of matches" class="col-12 col-sm-12 col-md-4">
+                        <MatchRowEntry (click)="openModal(match)" [match]="match" [bet]="getBet(match.id)" (placeBet)="openModal($event)"></MatchRowEntry>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Bet Modal -->
-    <!--<div class="modal fade" id="betModal" tabindex="-1" role="dialog" data-backdrop="false">
+        <!-- Bet Modal -->
+        <!--<div class="modal fade" id="betModal" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog mobile-modal-dialog" role="document">
             <div class="modal-content mobile-modal-content">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xs-5 text-center" style="white-space: nowrap;">
+                        <div class="col-5 text-center" style="white-space: nowrap;">
                             <div>
                                 <img src="{{src}}" height="30px" align="center" ng-repeat="src in currentMatch.getHomeTeam().getAvatarUrls() track by $index">
                             </div>
@@ -47,10 +48,10 @@
                                 <button class="btn btn-default mobile-modal-big-font" ng-click="vm.updateCurrentBet(0,1)"><i class="fa fa-plus"></i></button>
                             </div>
                         </div>
-                        <div class="col-xs-2 text-center mt40">
+                        <div class="col-2 text-center mt40">
                             <strong style="font-size: 20px;">vs.</strong>
                         </div>
-                        <div class="col-xs-5 text-center" style="white-space: nowrap;">
+                        <div class="col-5 text-center" style="white-space: nowrap;">
                             <div>
                                 <img src="{{src}}" height="30px" align="center" ng-repeat="src in currentMatch.getAwayTeam().getAvatarUrls() track by $index">
                             </div>
@@ -69,13 +70,13 @@
             </div>
         </div>
     </div>-->
-    <!-- Match Edit Modal -->
-    <!--<div class="modal fade" id="matchEditModal" tabindex="-1" role="dialog" data-backdrop="false">
+        <!-- Match Edit Modal -->
+        <!--<div class="modal fade" id="matchEditModal" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog mobile-modal-dialog" role="document">
             <div class="modal-content mobile-modal-content">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xs-5 text-center" style="white-space: nowrap;">
+                        <div class="col-5 text-center" style="white-space: nowrap;">
                             <div>
                                 <img src="{{src}}" height="30px" align="center" ng-repeat="src in currentMatch.getHomeTeam().getAvatarUrls() track by $index">
                             </div>
@@ -86,10 +87,10 @@
                                 <button class="btn btn-default mobile-modal-big-font" ng-click="vm.updateCurrentMatch(0,1)"><i class="fa fa-plus"></i></button>
                             </div>
                         </div>
-                        <div class="col-xs-2 text-center mt40">
+                        <div class="col-2 text-center mt40">
                             <strong style="font-size: 20px;">vs.</strong>
                         </div>
-                        <div class="col-xs-5 text-center" style="white-space: nowrap;">
+                        <div class="col-5 text-center" style="white-space: nowrap;">
                             <div>
                                 <img src="{{src}}" height="30px" align="center" ng-repeat="src in currentMatch.getAwayTeam().getAvatarUrls() track by $index">
                             </div>
@@ -104,10 +105,10 @@
                 </div>
                 <div class="modal-footer">
                     <div class="row">
-                        <div class="col-xs-6">
+                        <div class="col-6">
                             <button type="button" class="btn btn-danger btn-flat btn-block btn-md" ng-click="vm.resetCurrentScores()">Reset Scores</button>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-6">
                             <button type="button" class="btn btn-danger btn-flat btn-block btn-md" ng-click="vm.saveCurrentMatch()">Save Result</button>
                         </div>
                     </div>
@@ -115,19 +116,19 @@
             </div>
         </div>
     </div>-->
-    <!-- Admin Modal -->
-    <!--<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" data-backdrop="false">
+        <!-- Admin Modal -->
+        <!--<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog mobile-modal-dialog" role="document">
             <div class="modal-content mobile-modal-content">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xs-6">
+                        <div class="col-6">
                             <button class="btn btn-danger btn-block" ng-click="vm.openMatchEditModal()">Edit Result</button>
                         </div>
-                        <div class="col-xs-6" *ngIf="currentMatch.isBetable()">
+                        <div class="col-6" *ngIf="currentMatch.isBetable()">
                             <button class="btn btn-danger btn-block" ng-click="vm.openBetModal()">Place Bet</button>
                         </div>
-                        <div class="col-xs-6" *ngIf="currentMatch.isFinished()">
+                        <div class="col-6" *ngIf="currentMatch.isFinished()">
                             <button class="btn btn-danger btn-block" ng-click="vm.goToDetails(currentMatch)">Open Details</button>
                         </div>
                     </div>
@@ -135,4 +136,5 @@
             </div>
         </div>
     </div>-->
-</div>
+    </div>
+</FrontendComponent>

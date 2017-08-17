@@ -45,7 +45,8 @@
                 "name": "createCompetition",
                 "parameters": [
                     "competitionName:string",
-                    "competitionType:string"
+                    "competitionType:string",
+                    "scoreStrategy:string"
                 ],
                 "returns": "string"
             },
@@ -181,17 +182,14 @@
                 "name": "syncer",
                 "type": "string",
                 "allowedValues": [
-                    "footballdata",
-                    "openligadb"
+                    "footballDataOrg",
+                    "manual"
                 ],
                 "optional": true
             },
             {
                 "name": "scoreStrategy",
-                "type": "string",
-                "allowedValues": [
-                    "football321"
-                ]
+                "type": "string"
             },
             {
                 "name": "ranking",

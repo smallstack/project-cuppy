@@ -1,33 +1,24 @@
-import { CompetitionMatchesService } from './../services/CompetitionMatchesService';
-import { CompetitionTeam } from './CompetitionTeam';
 import { IOC, NotificationService } from "@smallstack/core-common";
+import { find } from "underscore";
 import { GeneratedCompetitionMatch } from "../generated/models/GeneratedCompetitionMatch";
+import { CompetitionMatchesService } from "./../services/CompetitionMatchesService";
+import { CompetitionTeam } from "./CompetitionTeam";
 
 declare var TimeSync: any;
 
 export class CompetitionMatch extends GeneratedCompetitionMatch {
-
-    // public static fromDocument(doc: any) {
-    //     var model: CompetitionMatch = super.fromDocument<CompetitionMatch>(doc);
-    //     if (!(model.result instanceof Array))
-    //         model.result = [];
-    //     return model;
-    // }
-
 
     public getHomeTeamId(): string {
         return this.teamIds[0];
     }
 
     public getHomeTeam(): CompetitionTeam {
-        var that = this;
-        var teams: CompetitionTeam[] = this.getTeams().getModels();
-        for (var t = 0; t < teams.length; t++) {
-            if (teams[t].id == that.getHomeTeamId())
-                return teams[t];
-        };
-        // console.log("home team not found!", this.getTeams().cursor.fetch());
-        return undefined;
+        return find(this.getTeams().getModels(), (team: CompetitionTeam) => team.id === this.getHomeTeamId());
+    }
+
+    public getHomeTeamName(): string {
+        const team: CompetitionTeam = this.getHomeTeam();
+        return team !== undefined ? team.name : undefined;
     }
 
     public getAwayTeamId(): string {
@@ -35,14 +26,12 @@ export class CompetitionMatch extends GeneratedCompetitionMatch {
     }
 
     public getAwayTeam(): CompetitionTeam {
-        var that = this;
-        var teams: CompetitionTeam[] = this.getTeams().getModels();
-        for (var t = 0; t < teams.length; t++) {
-            if (teams[t].id == that.getAwayTeamId())
-                return teams[t];
-        };
-        // console.log("away team not found!", this.getTeams().cursor.fetch());
-        return undefined;
+        return find(this.getTeams().getModels(), (team: CompetitionTeam) => team.id === this.getAwayTeamId());
+    }
+
+    public getAwayTeamName(): string {
+        const team: CompetitionTeam = this.getAwayTeam();
+        return team !== undefined ? team.name : undefined;
     }
 
     public updateScores(callback?: (error: Error, result: boolean) => void): void {

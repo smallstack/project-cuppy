@@ -10,18 +10,6 @@ import template from "./CompetitionComponent.html";
 
 export class CompetitionComponent extends AngularBaseComponentController implements InitializationAware {
 
-    @Autowired()
-    private competitionMatchesService: CompetitionMatchesService;
-
-    @Autowired()
-    private betsService: BetsService;
-
-    @Autowired()
-    private competitionsService: CompetitionsService;
-
-    @Autowired()
-    private competitionRoundsService: CompetitionRoundsService;
-
     public competition: Competition;
     public loaded: boolean;
     public selectedRound: CompetitionRound;
@@ -33,6 +21,18 @@ export class CompetitionComponent extends AngularBaseComponentController impleme
     public currentBetAway: number;
     public roundName: string;
     public rounds: CompetitionRound[];
+
+    @Autowired()
+    private competitionMatchesService: CompetitionMatchesService;
+
+    @Autowired()
+    private betsService: BetsService;
+
+    @Autowired()
+    private competitionsService: CompetitionsService;
+
+    @Autowired()
+    private competitionRoundsService: CompetitionRoundsService;
 
     public afterInitialization() {
         this.loaded = false;
@@ -106,20 +106,24 @@ export class CompetitionComponent extends AngularBaseComponentController impleme
         });
     }
 
+    public getBet(matchId: string): Bet {
+        return _.find(this.bets, (bet: Bet) => bet.matchId === matchId);
+    }
+
     private loadMatches(competitionId: string, roundId: string, callback: (competitionId: string) => void) {
-        var query: QueryObject<CompetitionMatch> = undefined;
+        let query: QueryObject<CompetitionMatch>;
         if (roundId === undefined)
-            query = this.competitionMatchesService.getMatchesForCompetitionId({ competitionId: competitionId });
+            query = this.competitionMatchesService.getMatchesForCompetitionId({ competitionId });
         else
-            query = this.competitionMatchesService.getMatchesForCompetitionAndRound({ competitionId: competitionId, roundId: roundId });
+            query = this.competitionMatchesService.getMatchesForCompetitionAndRound({ competitionId, roundId });
 
         query.subscribe(() => {
             this.ngZone.run(() => {
                 this.matches = query.getModels();
             });
-            // query.expand(["teamIds.linkedUserIds"], () => {
-            //     callback(competitionId);
-            // });
+            query.expand(["teamIds.linkedUserIds"], () => {
+                callback(competitionId);
+            });
         });
     }
 
@@ -164,7 +168,7 @@ export class CompetitionComponent extends AngularBaseComponentController impleme
                     betQuery.subscribe(() => {
                         this.ngZone.run(() => {
                             this.bets[this.currentMatch.id] = betQuery.getModel(0);
-                            (<any>$("#betModal")).modal('hide');
+                            ($("#betModal") as any).modal('hide');
                         });
                     });
                 }
@@ -208,7 +212,7 @@ export class CompetitionComponent extends AngularBaseComponentController impleme
                     this.notificationService.getStandardErrorPopup(error, "Could not reset results!");
                 else {
                     this.ngZone.run(() => {
-                        (<any>$("#matchEditModal")).modal('hide');
+                        ($("#matchEditModal") as any).modal('hide');
 
                         // reset that one match
                         _.each(this.matches, (match: CompetitionMatch) => {
@@ -269,7 +273,7 @@ export class CompetitionComponent extends AngularBaseComponentController impleme
 
     public openBetModal() {
         if (this.isAdministrator)
-            (<any>$("#adminModal")).modal('hide');
+            ($("#adminModal") as any).modal('hide');
 
         if (this.bets[this.currentMatch.id] === undefined) {
             this.currentBetHome = 0;
@@ -279,19 +283,19 @@ export class CompetitionComponent extends AngularBaseComponentController impleme
             this.currentBetAway = this.bets[this.currentMatch.id].result[1];
         }
 
-        (<any>$("#betModal")).modal();
+        ($("#betModal") as any).modal();
     }
 
     public goToDetails(match: CompetitionMatch) {
         if (this.isAdministrator)
-            (<any>$("#adminModal")).modal('hide');
+            ($("#adminModal") as any).modal('hide');
         this.router.navigate(["competition", this.competition.name, "matches", match.id]);
     }
 
     public openMatchEditModal() {
         if (this.isAdministrator)
-            (<any>$("#adminModal")).modal('hide');
-        (<any>$("#matchEditModal")).modal();
+            ($("#adminModal") as any).modal('hide');
+        ($("#matchEditModal") as any).modal();
     }
 }
 
@@ -316,4 +320,4 @@ IOC.onRegister("navigationService", (navigationService: NavigationService) => {
         .setComponent(CompetitionComponent)
         .setVisible(false)
     );
-})
+});

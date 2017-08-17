@@ -1,17 +1,17 @@
-import { ICompetitionType } from "./ICompetitionType";
-import { Competition, CompetitionRound, CompetitionRoundsService, CompetitionMatch, CompetitionMatchesService } from "@smallstack/datalayer";
 import { Utils } from "@smallstack/core-common";
+import { Competition, CompetitionMatch, CompetitionMatchesService, CompetitionRound, CompetitionRoundsService } from "@smallstack/datalayer";
+import { ICompetitionType } from "./ICompetitionType";
 
 export class FootballQuickMatchType implements ICompetitionType {
 
     public createRoundsAndMatches(competition: Competition) {
 
-        var teamCount: number = competition.teamIds.length;
+        const teamCount: number = competition.teamIds.length;
         if (teamCount !== 2)
             throw new Meteor.Error("501", "A Quick Match has to have exactly 2 competition teams!");
 
         // hinspiel
-        var round: CompetitionRound = new CompetitionRound();
+        const round: CompetitionRound = new CompetitionRound();
         round.name = Utils.createUrlConformIdFromInput("first round");
         round.betMultiplier = 1;
         round.competitionId = competition.id;
@@ -19,7 +19,7 @@ export class FootballQuickMatchType implements ICompetitionType {
         competition.roundIds.push(round.id);
         competition.update();
 
-        var match: CompetitionMatch = new CompetitionMatch();
+        const match: CompetitionMatch = new CompetitionMatch();
         match.competitionId = competition.id;
         match.teamIds = [competition.teamIds[0], competition.teamIds[1]];
         match.roundId = round.id;
@@ -30,15 +30,15 @@ export class FootballQuickMatchType implements ICompetitionType {
 
         // rückspiel
         if (competition.returnRound) {
-            var secondRound: CompetitionRound = new CompetitionRound();
+            const secondRound: CompetitionRound = new CompetitionRound();
             secondRound.name = Utils.createUrlConformIdFromInput("second round");
-            secondRound.multiplier = 1;
+            secondRound.betMultiplier = 1;
             secondRound.competitionId = competition.id;
             secondRound.id = CompetitionRoundsService.instance().save(secondRound);
             competition.roundIds.push(secondRound.id);
             competition.update();
 
-            var returnMatch: CompetitionMatch = new CompetitionMatch();
+            const returnMatch: CompetitionMatch = new CompetitionMatch();
             returnMatch.competitionId = competition.id;
             returnMatch.teamIds = [competition.teamIds[1], competition.teamIds[0]];
             returnMatch.roundId = secondRound.id;

@@ -1,21 +1,21 @@
-import { Autowired, NotificationService, IOC, NavigationService, NavigationEntry } from "@smallstack/core-common";
 import { Router } from "@angular/router";
-import { CompetitionsService, Competition } from "@smallstack/datalayer";
+import { AngularBaseComponentController, AngularComponent } from "@smallstack/core-client";
+import { Autowired, IOC, NavigationEntry, NavigationService, NotificationService } from "@smallstack/core-common";
+import { Competition, CompetitionsService } from "@smallstack/datalayer";
 import * as _ from "underscore";
 import template from "./CreateCompetitionComponent.html";
-import { AngularComponent, AngularBaseComponentController } from "@smallstack/core-client";
 
 export class CreateCompetitionComponent extends AngularBaseComponentController {
-
-    @Autowired()
-    private competitionsService: CompetitionsService;
 
     public newCompetition: Competition = new Competition();
     public types: string[] = _.toArray<string>(Competition.enums.type);
 
+    @Autowired()
+    private competitionsService: CompetitionsService;
+
     public createCompetition(type: string) {
         this.newCompetition.type = type;
-        this.competitionsService.createCompetition(this.newCompetition.name, this.newCompetition.type, (error: Error, competitionName: string) => {
+        this.competitionsService.createCompetition(this.newCompetition.name, this.newCompetition.type, "football3210", (error: Error, competitionName: string) => {
             if (error)
                 this.notificationService.getStandardErrorPopup(error, "Could not create new Competition!");
             else {
@@ -36,7 +36,7 @@ export class CreateCompetitionComponent extends AngularBaseComponentController {
 
         // time of day
         if (_.random(0, 100) > 40) {
-            let currentHour: number = new Date().getHours();
+            const currentHour: number = new Date().getHours();
             if (currentHour < 6)
                 name += "Night ";
             else if (currentHour < 12)
@@ -72,3 +72,4 @@ IOC.onRegister("navigationService", (navigationService: NavigationService) => {
         .setType("main")
     );
 });
+

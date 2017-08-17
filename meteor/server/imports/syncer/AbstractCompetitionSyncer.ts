@@ -15,7 +15,7 @@ export class AbstractCompetitionSyncer {
     }
 
     protected getCompetitionById(competitionId: string) {
-        var competition: Competition = this.competitionsService.getCompetitionById({ id: competitionId }).getModel(0);
+        const competition: Competition = this.competitionsService.getCompetitionById({ id: competitionId }).getModel(0);
         if (!competition)
             throw new Error("Could not find competition with id: " + competitionId);
         return competition;

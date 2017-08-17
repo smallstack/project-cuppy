@@ -1,11 +1,11 @@
-import { initServer } from "./imports/initServer";
 import { IOC } from "@smallstack/core-common";
-import { CuppyStrategyManager } from "./imports/CuppyStrategyManager";
 import { FootballLeagueType } from "./imports/competitionTypes/FootballLeagueType";
 import { FootballQuickMatchType } from "./imports/competitionTypes/FootballQuickMatchType";
 import { FootballTournamentType } from "./imports/competitionTypes/FootballTournamentType";
-import { FootballDataSyncer } from "./imports/syncer/FootballDataSyncer";
+import { CuppyStrategyManager } from "./imports/CuppyStrategyManager";
+import { initServer } from "./imports/initServer";
 import { Football3210ScoreStrategy } from "./imports/scoreStrategies/Football3210ScoreStrategy";
+import { FootballDataOrgSyncer } from "./imports/syncer/FootballDataOrgSyncer";
 
 initServer();
 
@@ -19,7 +19,7 @@ cuppyStrategyManager.addCompetitionType("footballQuickMatch", new FootballQuickM
 cuppyStrategyManager.addCompetitionType("footballTournament", new FootballTournamentType());
 
 // syncers
-cuppyStrategyManager.addSyncer("footballData", new FootballDataSyncer());
+cuppyStrategyManager.addSyncer("footballDataOrg", new FootballDataOrgSyncer());
 
 // score strategies
 cuppyStrategyManager.addScoreStrategy("football3210", new Football3210ScoreStrategy());

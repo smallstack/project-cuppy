@@ -1,20 +1,23 @@
-<PageHeader i18nKey="navigation.competitions"></PageHeader>
-<div class="container">
-    <List serviceQuery="competitionsService.getAllCompetitions" class="row mt-2 mb-2">
-        <template #entryTemplate let-competition="model">
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="card card-inverse bg-inverse mb-3" style="height: 200px" [routerLink]="['/competition', competition.name]" >
-                    <div class="card-block">
-                        <div class="card-title"><h5>{{competition.displayName}}</h5></div>
-                        <p class="card-text">
-                            Type: {{competition.type}}<br>
-                            Owner: {{competition.ownerId}}<br>
-                            CreatedAt: {{competition.createdAt | date}}
-                        </p>
+<FrontendComponent>
+    <PageHeader i18nKey="navigation.competitions"></PageHeader>
+    <div class="container">
+        <List serviceQuery="competitionsService.getAllCompetitions" class="row mt-2 mb-2">
+            <template #entryTemplate let-competition="model">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="card card-inverse bg-inverse mb-3" style="height: 200px" [routerLink]="['/competition', competition.name]">
+                        <div class="card-block">
+                            <div class="card-title">
+                                <h5>{{competition.displayName}}</h5>
+                            </div>
+                            <p class="card-text">
+                                Type: {{competition.type}}<br> Owner: {{competition.ownerId}}<br> CreatedAt: {{competition.createdAt
+                                | date}}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </template>
-    </List>
-    <ListPager (pageChange)="pageChange($event)" [pageCount]="pageCount"></ListPager>
-</div>
+            </template>
+        </List>
+        <ListPager (pageChange)="pageChange($event)" [pageCount]="pageCount"></ListPager>
+    </div>
+</FrontendComponent>

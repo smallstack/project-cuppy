@@ -1,38 +1,34 @@
-import "toastr";
-import "zone.js";
-import "reflect-metadata";
-import "angular2-meteor-polyfills";
-import * as _ from 'underscore';
-import { enableProdMode } from "@angular/core";
-import { InitLevelService, IOC, Logger, ConfigurationService, Configuration } from "@smallstack/core-common";
-import { LocalizationService, QueryObject } from "@smallstack/core-common";
-import { bootstrapAngular } from "@smallstack/meteor-client";
-import { createDatalayerCollections, registerDatalayerServices, initializeTypesystem } from "@smallstack/datalayer";
-import { CompetitionsComponent } from "./imports/competitions/CompetitionsComponent";
-
 import "./imports/initClient";
-import { initClient, startClient } from "./imports/initClient";
 
+import { enableProdMode } from "@angular/core";
+import { LocalizationService, QueryObject } from "@smallstack/core-common";
+import { Configuration, ConfigurationService, InitLevelService, IOC, Logger } from "@smallstack/core-common";
+import { createDatalayerCollections, initializeTypesystem, registerDatalayerServices } from "@smallstack/datalayer";
+import { bootstrapAngular } from "@smallstack/meteor-client";
+import * as _ from "underscore";
 import { AppComponent } from "./imports/app/AppComponent";
+import { CompetitionsComponent } from "./imports/competitions/CompetitionsComponent";
+import { initClient, startClient } from "./imports/initClient";
 
 initClient();
 
 // include backoffices and other components
-import "./imports/login/LoginComponent";
-import "./imports/logout/LogoutComponent";
+import { FrontendComponent } from "./imports/app/FrontendComponent";
+import "./imports/competition-admin/CompetitionAdminComponent";
 import "./imports/competition-create/CreateCompetitionComponent";
 import "./imports/competition/CompetitionComponent";
 import "./imports/competitions/CompetitionsComponent";
-import "./imports/competition-admin/CompetitionAdminComponent";
+import "./imports/components/match-row-entry/MatchRowEntry";
+import "./imports/login/LoginComponent";
+import "./imports/logout/LogoutComponent";
 
-
-let initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
+const initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
 
 initLevelService.addInitLevelFn(15, "I18N", (cb: (error: Error, success: boolean) => void) => {
-    let languageKey: string = LocalizationService.instance().getCurrentLanguage();
+    const languageKey: string = LocalizationService.instance().getCurrentLanguage();
     LocalizationService.instance().getLocalizationsForLanguage({ languageKey }, { entriesPerPage: 5000000 }).subscribe(() => {
         cb(undefined, true);
-    })
+    });
 });
 
 initLevelService.addInitLevelFn(10, "ConfigurationSync", (cb: (error: Error, success: boolean) => void) => {
@@ -46,5 +42,5 @@ initLevelService.addInitLevelFn(100, "Angular2", (cb: (error: Error, success: bo
     });
 });
 
-startClient(AppComponent, []);
+startClient(AppComponent, [FrontendComponent]);
 

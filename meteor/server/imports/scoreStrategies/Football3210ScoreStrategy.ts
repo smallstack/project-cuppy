@@ -1,15 +1,15 @@
+import { Autowired } from "@smallstack/core-common";
 import { CompetitionsCollection } from "@smallstack/datalayer";
 import { Bet } from "@smallstack/datalayer";
 import { CompetitionRound } from "@smallstack/datalayer";
 import { CompetitionMatch } from "@smallstack/datalayer";
 import { CompetitionsService } from "@smallstack/datalayer";
 import { BetsService } from "@smallstack/datalayer";
-import { Autowired } from "@smallstack/core-common";
-import { CompetitionRank, IScoreStrategyService } from "./ICompetitionService";
+import { CompetitionRank, IScoreStrategy } from "./IScoreStrategy";
 
 import * as _ from "underscore";
 
-export class Football3210ScoreStrategy implements IScoreStrategyService {
+export class Football3210ScoreStrategy implements IScoreStrategy {
 
     @Autowired()
     private betsService: BetsService;
@@ -24,10 +24,10 @@ export class Football3210ScoreStrategy implements IScoreStrategyService {
         if (!match.isFinished() && !force)
             return;
 
-        var round: CompetitionRound = match.getRound().getModels()[0];
-        var multiplier: number = round.betMultiplier ? round.betMultiplier : 1;
+        const round: CompetitionRound = match.getRound().getModels()[0];
+        const multiplier: number = round.betMultiplier ? round.betMultiplier : 1;
 
-        var bets: Bet[] = this.betsService.getBetsForMatchId({ matchId: match.id }).getModels();
+        const bets: Bet[] = this.betsService.getBetsForMatchId({ matchId: match.id }).getModels();
         _.each<Bet>(bets, (bet: Bet) => {
             bet.points = this.getPoints(match, bet, multiplier);
             bet.update();
@@ -41,7 +41,7 @@ export class Football3210ScoreStrategy implements IScoreStrategyService {
         if (bet === undefined)
             return 0;
 
-        var points: number = 0;
+        let points: number = 0;
 
         // calculate points
         if (match.result[0] === bet.result[0] && match.result[1] === bet.result[1])
@@ -68,7 +68,7 @@ export class Football3210ScoreStrategy implements IScoreStrategyService {
     }
 
     public updateRound(round: CompetitionRound) {
-        var allMatchesFinished: boolean = true;
+        let allMatchesFinished: boolean = true;
         round.getMatches().getModels().forEach((match: CompetitionMatch) => {
             if (!match.isFinished())
                 allMatchesFinished = false;
@@ -96,16 +96,16 @@ export class Football3210ScoreStrategy implements IScoreStrategyService {
     // }
 
     public updateRanking(competitionId: string, ranking: CompetitionRank[]) {
-        if (CompetitionsCollection.getCollection().update(competitionId, { $set: { ranking: ranking } }) !== 1)
+        if (CompetitionsCollection.getCollection().update(competitionId, { $set: { ranking } }) !== 1)
             throw new Error("Could not update competition ranking cause it wasn't found!");
     }
 
 
     public getRanking(competitionId: string): CompetitionRank[] {
-        var groupedByUser: { [userId: string]: number } = {};
+        const groupedByUser: { [userId: string]: number } = {};
 
         // bets
-        this.betsService.getBetsForCompetitionId({ competitionId: competitionId }).getModels().forEach((bet: Bet, index: number) => {
+        this.betsService.getBetsForCompetitionId({ competitionId }).getModels().forEach((bet: Bet, index: number) => {
             if (_.isNumber(bet.points)) {
                 if (groupedByUser[bet.ownerId] === undefined)
                     groupedByUser[bet.ownerId] = 0;
@@ -123,12 +123,12 @@ export class Football3210ScoreStrategy implements IScoreStrategyService {
         // });
 
         // create ranking entries
-        var ranking: CompetitionRank[] = [];
+        const ranking: CompetitionRank[] = [];
         _.each(groupedByUser, (entry: number, userId: string) => {
-            ranking.push({ points: entry, userId: userId, rank: 0 });
+            ranking.push({ points: entry, userId, rank: 0 });
         });
 
-        // sort 
+        // sort
         ranking.sort((a: CompetitionRank, b: CompetitionRank) => {
             if (a.points > b.points)
                 return -1;
@@ -138,8 +138,8 @@ export class Football3210ScoreStrategy implements IScoreStrategyService {
         });
 
         // add rank
-        var currentRank = 1;
-        var pointsRank = [];
+        let currentRank = 1;
+        const pointsRank = [];
         _.each(ranking, (rank: CompetitionRank) => {
             if (pointsRank[rank.points] !== undefined)
                 rank.rank = pointsRank[rank.points];

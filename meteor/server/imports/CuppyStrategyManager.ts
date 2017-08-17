@@ -1,10 +1,21 @@
-
-
-import { ICompetitionSyncer } from "./syncer/ICompetitionSyncer";
-import { IScoreStrategy } from "./scoreStrategies/IScoreStrategy";
+import { IOC } from "@smallstack/core-common";
 import { ICompetitionType } from "./competitionTypes/ICompetitionType";
+import { IScoreStrategy } from "./scoreStrategies/IScoreStrategy";
+import { ICompetitionSyncer } from "./syncer/ICompetitionSyncer";
 
 export class CuppyStrategyManager {
+
+    public static instance(): CuppyStrategyManager {
+        return IOC.get("cuppyStrategyManager");
+    }
+
+    public static getScoreStrategy(name: string): IScoreStrategy {
+        return this.instance().getScoreStrategy(name);
+    }
+
+    public static getSyncer(name: string): ICompetitionSyncer {
+        return this.instance().getSyncer(name);
+    }
 
     private syncers: { [name: string]: ICompetitionSyncer } = {};
     private scoreStrategies: { [name: string]: IScoreStrategy } = {};

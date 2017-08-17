@@ -10,7 +10,6 @@ import template from "./CompetitionAdminComponent.html";
 export class CompetitionAdminComponent extends AngularBaseComponentController implements InitializationAware {
 
     public competition: Competition;
-    public competitionSyncer: string;
     public competitionTeams: CompetitionTeam[];
     // public administrators: User[];
     public allCompetitionTeams: CompetitionTeam[];
@@ -42,14 +41,13 @@ export class CompetitionAdminComponent extends AngularBaseComponentController im
             this.competitionsService.getCompetitionByName({ name: competitionName }, { reactive: true }).subscribe((error: Error, queryObject: QueryObject<Competition>) => {
                 queryObject.expand(["roundIds", "teamIds.linkedUserIds"], () => {
                     Tracker.autorun(() => {
-                        let competition: Competition = queryObject.getModel(0);
+                        const competition: Competition = queryObject.getModel(0);
                         if (competition === undefined)
                             this.notificationService.popup.error("Competition '" + competitionName + "' could not be loaded!");
                         else {
                             this.ngZone.run(() => {
                                 this.competition = competition;
                                 this.rounds = competition.getRounds().getModels();
-                                this.competitionSyncer = competition.syncer;
                                 this.competitionTeams = competition.getTeams().getModels();
                             });
                             // this.loadSideBets(competition.id);
@@ -60,15 +58,6 @@ export class CompetitionAdminComponent extends AngularBaseComponentController im
             });
 
             this.loadAllCompetitionTeams();
-
-            // $scope.$watch("competitionSyncer", (newVal: string) => {
-            //     if (this.competition) {
-            //         if (newVal === undefined || newVal === "")
-            //             this.competition.syncer = undefined;
-            //         else
-            //             this.competition.syncer = newVal;
-            //     }
-            // });
         });
     }
 
