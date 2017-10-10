@@ -1,12 +1,8 @@
-import { IOC, Autowired, NavigationEntry, NavigationService } from "@smallstack/core-common";
+import { IOC, NavigationEntry, NavigationService } from "@smallstack/core-common";
 import { Angular2Component } from "@smallstack/meteor-client";
-import { CompetitionsService } from "@smallstack/datalayer";
-
 import template from "./LogoutComponent.html";
-import { Component } from "@angular/core";
 
-
-export class LogoutComponent { 
+export class LogoutComponent {
 
     constructor() {
         Meteor.logout();

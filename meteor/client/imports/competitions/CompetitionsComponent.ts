@@ -1,15 +1,10 @@
-import { IOC, Autowired, NavigationEntry, NavigationService, QueryObject } from "@smallstack/core-common";
-import { AngularComponent, AngularBaseComponentController } from "@smallstack/core-client";
-import { CompetitionsService, Competition } from "@smallstack/datalayer";
-
+import { AngularBaseComponentController, AngularComponent } from "@smallstack/core-client";
+import { IOC, NavigationEntry, NavigationService, QueryObject } from "@smallstack/core-common";
+import { Competition } from "@smallstack/datalayer";
 import template from "./CompetitionsComponent.html";
-import { Component } from "@angular/core";
 
 
 export class CompetitionsComponent extends AngularBaseComponentController {
-
-    @Autowired()
-    private competitionsService: CompetitionsService;
 
     public competitions: Competition[];
     public queryObject: QueryObject<Competition>;
@@ -17,6 +12,7 @@ export class CompetitionsComponent extends AngularBaseComponentController {
     public entriesPerPage: number = 6;
 
     public dt: Date = new Date();
+
 }
 
 AngularComponent.new("CompetitionsComponent", CompetitionsComponent)

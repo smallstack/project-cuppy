@@ -3,7 +3,8 @@
         "name": "competitionTeams"
     },
     "service": {
-        "queries": [{
+        "queries": [
+            {
                 "name": "getCompetitionTeamById",
                 "selector": {
                     "_id": ":id:string"
@@ -35,11 +36,23 @@
                 }
             }
         ],
-        "securedmethods": []
+        "securedmethods": [
+            {
+                "name": "createCompetitionTeam",
+                "parameters": [
+                    "competitionName:string",
+                    "competitionType:string",
+                    "scoreStrategy:string"
+                ],
+                "returns": "string",
+                "api": true
+            }
+        ]
     },
     "model": {
         "name": "CompetitionTeam",
-        "schema": [{
+        "schema": [
+            {
                 "name": "ownerId",
                 "type": "foreign",
                 "foreignType": "User",

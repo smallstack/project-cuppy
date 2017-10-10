@@ -1,10 +1,10 @@
-import { IOC, Logger, Autowired, NavigationEntry, NavigationService, LocalizationService, QueryObject } from "@smallstack/core-common";
-import { InitializationAware } from "@smallstack/core-common";
 import { AngularBaseComponentController, AngularComponent } from "@smallstack/core-client";
-import { CompetitionMatchesService, BetsService, CompetitionsService, CompetitionRoundsService, Competition, CompetitionRound, CompetitionMatch, Bet } from "@smallstack/datalayer";
+import { Autowired, IOC, NavigationEntry, NavigationService, QueryObject } from "@smallstack/core-common";
+import { InitializationAware } from "@smallstack/core-common";
+import { Bet, BetsService, Competition, CompetitionMatch, CompetitionMatchesService, CompetitionRound, CompetitionRoundsService, CompetitionsService } from "@smallstack/datalayer";
 
-import * as _ from "underscore";
 import * as $ from "jquery";
+import * as _ from "underscore";
 
 import template from "./CompetitionComponent.html";
 
@@ -55,7 +55,7 @@ export class CompetitionComponent extends AngularBaseComponentController impleme
 
     public loadCompetitionRounds(competitionId: string, competitionRoundId: string) {
         // get rounds
-        var roundsQuery: QueryObject<CompetitionRound> = this.competitionRoundsService.getAllRoundsForCompetitionId({ competitionId: competitionId });
+        var roundsQuery: QueryObject<CompetitionRound> = this.competitionRoundsService.getAllRoundsForCompetitionId({ competitionId: competitionId }, { entriesPerPage: 100000 });
         roundsQuery.subscribe(() => {
             this.rounds = roundsQuery.getModels();
 

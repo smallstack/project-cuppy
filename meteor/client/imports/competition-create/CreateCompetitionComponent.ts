@@ -1,6 +1,5 @@
-import { Router } from "@angular/router";
 import { AngularBaseComponentController, AngularComponent } from "@smallstack/core-client";
-import { Autowired, IOC, NavigationEntry, NavigationService, NotificationService } from "@smallstack/core-common";
+import { Autowired, IOC, NavigationEntry, NavigationService } from "@smallstack/core-common";
 import { Competition, CompetitionsService } from "@smallstack/datalayer";
 import * as _ from "underscore";
 import template from "./CreateCompetitionComponent.html";
@@ -13,7 +12,7 @@ export class CreateCompetitionComponent extends AngularBaseComponentController {
     @Autowired()
     private competitionsService: CompetitionsService;
 
-    public createCompetition(type: string) {
+    public createCompetition(type: "quickMatch" | "tournament" | "league") {
         this.newCompetition.type = type;
         this.competitionsService.createCompetition(this.newCompetition.name, this.newCompetition.type, "football3210", (error: Error, competitionName: string) => {
             if (error)

@@ -37,7 +37,8 @@
                 },
                 "sort": {
                     "createdAt": -1
-                }
+                },
+                "api": true
             }
         ],
         "securedmethods": [

@@ -12,12 +12,11 @@
  */
 
 
-import { Logger } from "@smallstack/core-common";
 import { initCoreCommon } from "@smallstack/core-common";
 import { initCoreServer } from "@smallstack/core-server";
 import { createDatalayerCollections, initializeTypesystem, registerDatalayerServices } from "@smallstack/datalayer";
 import { initMeteorCommon } from "@smallstack/meteor-common";
-import { createDefaultAdministrator, initMeteorServer, kadiraSetup } from "@smallstack/meteor-server";
+import { createDefaultAdministrator, initMeteorServer } from "@smallstack/meteor-server";
 
 export function initServer() {
 
@@ -30,6 +29,5 @@ export function initServer() {
     createDatalayerCollections();
     registerDatalayerServices();
     createDefaultAdministrator();
-    // kadiraSetup();
 
 }

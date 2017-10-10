@@ -3,22 +3,14 @@ import { CompetitionsCollection } from "@smallstack/datalayer";
 import { Bet } from "@smallstack/datalayer";
 import { CompetitionRound } from "@smallstack/datalayer";
 import { CompetitionMatch } from "@smallstack/datalayer";
-import { CompetitionsService } from "@smallstack/datalayer";
 import { BetsService } from "@smallstack/datalayer";
-import { CompetitionRank, IScoreStrategy } from "./IScoreStrategy";
-
 import * as _ from "underscore";
+import { CompetitionRank, IScoreStrategy } from "./IScoreStrategy";
 
 export class Football3210ScoreStrategy implements IScoreStrategy {
 
     @Autowired()
     private betsService: BetsService;
-
-    // @Autowired()
-    // private sidebetuserbetsService: SidebetuserbetsService;
-
-    @Autowired()
-    private competitionsService: CompetitionsService;
 
     public updatePoints(match: CompetitionMatch, force: boolean = false) {
         if (!match.isFinished() && !force)

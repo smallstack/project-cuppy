@@ -1,11 +1,8 @@
 import "./imports/initClient";
 
-import { enableProdMode } from "@angular/core";
-import { LocalizationService, QueryObject } from "@smallstack/core-common";
-import { Configuration, ConfigurationService, InitLevelService, IOC, Logger } from "@smallstack/core-common";
-import { createDatalayerCollections, initializeTypesystem, registerDatalayerServices } from "@smallstack/datalayer";
+import { LocalizationService } from "@smallstack/core-common";
+import { ConfigurationService, InitLevelService, IOC } from "@smallstack/core-common";
 import { bootstrapAngular } from "@smallstack/meteor-client";
-import * as _ from "underscore";
 import { AppComponent } from "./imports/app/AppComponent";
 import { CompetitionsComponent } from "./imports/competitions/CompetitionsComponent";
 import { initClient, startClient } from "./imports/initClient";
@@ -24,22 +21,39 @@ import "./imports/logout/LogoutComponent";
 
 const initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
 
-initLevelService.addInitLevelFn(15, "I18N", (cb: (error: Error, success: boolean) => void) => {
-    const languageKey: string = LocalizationService.instance().getCurrentLanguage();
-    LocalizationService.instance().getLocalizationsForLanguage({ languageKey }, { entriesPerPage: 5000000 }).subscribe(() => {
-        cb(undefined, true);
-    });
+initLevelService.addInitLevelFn({
+    level: 15,
+    identifier: "I18N",
+    fn: () => new Promise<void>((resolve, reject) => {
+        const languageKey: string = LocalizationService.instance().getCurrentLanguage();
+        LocalizationService.instance().getLocalizationsForLanguage({ languageKey }, { entriesPerPage: 5000000 }).subscribe(() => {
+            resolve();
+        });
+    })
 });
 
-initLevelService.addInitLevelFn(10, "ConfigurationSync", (cb: (error: Error, success: boolean) => void) => {
-    ConfigurationService.instance().initOnClient(cb);
+initLevelService.addInitLevelFn({
+    level: 10,
+    identifier: "ConfigurationSync",
+    fn: () => new Promise<void>((resolve, reject) => {
+        ConfigurationService.instance().initOnClient((error: Error, result: any) => {
+            if (error)
+                reject(error);
+            else
+                resolve();
+        });
+    })
 });
 
 
-initLevelService.addInitLevelFn(100, "Angular2", (cb: (error: Error, success: boolean) => void) => {
-    bootstrapAngular(AppComponent, [CompetitionsComponent], () => {
-        cb(undefined, true);
-    });
+initLevelService.addInitLevelFn({
+    level: 100,
+    identifier: "Angular2",
+    fn: () => new Promise<void>((resolve, reject) => {
+        bootstrapAngular(AppComponent, [CompetitionsComponent], () => {
+            resolve();
+        });
+    })
 });
 
 startClient(AppComponent, [FrontendComponent]);

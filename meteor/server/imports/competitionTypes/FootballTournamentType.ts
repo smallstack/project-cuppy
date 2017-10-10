@@ -1,7 +1,7 @@
-import { ICompetitionType } from "./ICompetitionType";
-import { Competition, CompetitionRound, CompetitionsService, CompetitionRoundsService, CompetitionMatch, CompetitionMatchesService } from "@smallstack/datalayer";
 import { Utils } from "@smallstack/core-common";
+import { Competition, CompetitionMatch, CompetitionMatchesService, CompetitionRound, CompetitionRoundsService, CompetitionsService } from "@smallstack/datalayer";
 import * as _ from "underscore";
+import { ICompetitionType } from "./ICompetitionType";
 
 
 export class FootballTournamentType implements ICompetitionType {
@@ -10,32 +10,29 @@ export class FootballTournamentType implements ICompetitionType {
 
         let matchIndex: number = 0;
 
-        var competitionsService: CompetitionsService = CompetitionsService.instance();
+        const competitionsService: CompetitionsService = CompetitionsService.instance();
 
         // take care of wildcard team
-        var teamCount: number = competition.teamIds.length;
+        let teamCount: number = competition.teamIds.length;
         if (teamCount < 4)
             throw new Meteor.Error("501", "Tournament competitions have to have at least 3 competition teams!");
-        var wildcardCount = competitionsService.getTournamentWildcardCount(teamCount);
+        const wildcardCount = competitionsService.getTournamentWildcardCount(teamCount);
         if (wildcardCount !== 0)
             teamCount += wildcardCount;
 
-        var teams = _.range(0, teamCount);
+        let teams = _.range(0, teamCount);
 
         if (competition.randomizeTeams === true)
             teams = _.shuffle<number>(teams);
 
-        var leagueDaysInTotal = competitionsService.getTournamentRounds(teamCount);
-        var currentRoundGamesCount = teams.length / 2;
+        const leagueDaysInTotal = competitionsService.getTournamentRounds(teamCount);
+        let currentRoundGamesCount = teams.length / 2;
 
-        console.log(teams);
-
-        for (var leagueDay = 0; leagueDay < leagueDaysInTotal; leagueDay++) {
-            var leagueDayName = competitionsService.getTournamentRoundName(leagueDay, leagueDaysInTotal);
-            var orderId = 0;
+        for (let leagueDay = 0; leagueDay < leagueDaysInTotal; leagueDay++) {
+            const leagueDayName = competitionsService.getTournamentRoundName(leagueDay, leagueDaysInTotal);
 
             // create league days (competition groups)
-            var round: CompetitionRound = new CompetitionRound();
+            const round: CompetitionRound = new CompetitionRound();
             round.name = Utils.createUrlConformIdFromInput(leagueDayName);
             round.betMultiplier = 1;
             round.competitionId = competition.id;
@@ -45,19 +42,19 @@ export class FootballTournamentType implements ICompetitionType {
 
             // special case for day one (all teams are playing)
             if (leagueDay === 0) {
-                var teamsPlayed = [];
-                for (var m = 0; m < currentRoundGamesCount; m++) {
+                const teamsPlayed = [];
+                for (let m = 0; m < currentRoundGamesCount; m++) {
 
                     if (competition.randomizeTeams === true)
                         teams = _.shuffle<number>(teams);
 
                     // get 2 free teams
-                    var teamA = _.find(teams, function (index) {
+                    const teamA = _.find(teams, (index) => {
                         // return unplayed and non-wildcard player
                         return !_.contains(teamsPlayed, index) && competition.teamIds[index] !== undefined;
                     });
                     teamsPlayed.push(teamA);
-                    var teamB = _.find(teams, function (index) {
+                    const teamB = _.find(teams, (index) => {
                         // return wildcard if possible
                         if (teamsPlayed.length <= wildcardCount * 2)
                             return !_.contains(teamsPlayed, index) && competition.teamIds[index] === undefined;
@@ -68,11 +65,11 @@ export class FootballTournamentType implements ICompetitionType {
                     // create the match
                     if (competition.teamIds[teamA] === undefined || competition.teamIds[teamB] === undefined) {
 
-                        var goalsA = competition.teamIds[teamA] === undefined ? 0 : 1;
-                        var goalsB = competition.teamIds[teamB] === undefined ? 0 : 1;
+                        const goalsA = competition.teamIds[teamA] === undefined ? 0 : 1;
+                        const goalsB = competition.teamIds[teamB] === undefined ? 0 : 1;
 
                         // insert wildcard match
-                        var match: CompetitionMatch = new CompetitionMatch();
+                        const match: CompetitionMatch = new CompetitionMatch();
                         match.competitionId = competition.id;
                         match.teamIds = [competition.teamIds[teamA], competition.teamIds[teamB]];
                         match.index = matchIndex++;
@@ -82,7 +79,7 @@ export class FootballTournamentType implements ICompetitionType {
                         round.matchIds.push(match.id);
                         round.update();
                     } else {
-                        var match: CompetitionMatch = new CompetitionMatch();
+                        const match: CompetitionMatch = new CompetitionMatch();
                         match.competitionId = competition.id;
                         match.teamIds = [competition.teamIds[teamA], competition.teamIds[teamB]];
                         match.index = matchIndex++;
@@ -96,9 +93,9 @@ export class FootballTournamentType implements ICompetitionType {
 
             // other days can be prefilled with empty teams here (to be able to bet on them already and to see the tourmanemt tree)
             // else {
-            // 	for (var i = 0; i < currentRoundGamesCount; i++) {
+            // 	for (let i = 0; i < currentRoundGamesCount; i++) {
             // 		// create the match
-            // 		var match: CompetitionMatch = new CompetitionMatch();
+            // 		let match: CompetitionMatch = new CompetitionMatch();
             // 		match.competitionId = competition.id;
             // 		match.index = orderId++;
             // 		match.roundId = round.id;

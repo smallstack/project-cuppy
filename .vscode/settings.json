@@ -3,7 +3,7 @@
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
     "editor.wordWrap": "on",
+    "tslint.alwaysShowRuleFailuresAsWarnings": true,
     "vsicons.presets.angular": true,
-    "files.eol": "\n",
-    "tslint.alwaysShowRuleFailuresAsWarnings": true
+    "files.eol": "\n"
 }

@@ -15,7 +15,7 @@
                         <li><a href="competition/{{competition.name}}">{{("competition.allmatches" | translate:true)}}</a></li>
                         <li><a href="competition/{{competition.name}}/rounds/current">{{("competition.rounds.current" | translate:true)}}</a></li>
                         <li role="separator" class="divider"></li>
-                        <!--<li ng-repeat="round in rounds"><a href="competition/{{competition.name}}/rounds/{{round.id}}">{{(round.name | translate:true)}}</a></li>-->
+                        <li *ngFor="let round of rounds"><a href="competition/{{competition.name}}/rounds/{{round.id}}">{{(round.name | translate:round.name)}}</a></li>
                     </ul>
                 </div>
                 <!--<a class="btn btn-default" href="competition/{{competition.name}}/sidebets"><i class="fa fa-birthday-cake" aria-hidden="true"></i> Sidebets</a>-->

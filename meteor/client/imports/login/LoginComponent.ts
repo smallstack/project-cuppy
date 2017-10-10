@@ -1,13 +1,10 @@
-import { IOC, Autowired, NavigationEntry, NavigationService } from "@smallstack/core-common";
-import { Angular2Component } from "@smallstack/meteor-client";
-import { CompetitionsService } from "@smallstack/datalayer";
-
+import { AngularComponent } from "@smallstack/core-client";
+import { IOC, NavigationEntry, NavigationService } from "@smallstack/core-common";
 import template from "./LoginComponent.html";
-import { Component } from "@angular/core";
 
 export class LoginComponent { }
 
-Angular2Component.new("LoginComponent", LoginComponent)
+AngularComponent.new("LoginComponent", LoginComponent)
     .setTemplate(template)
     .register();
 

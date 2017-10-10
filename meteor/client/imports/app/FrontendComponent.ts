@@ -1,6 +1,5 @@
-import { AngularBaseComponentController, AngularComponent } from "@smallstack/core-client";
+import { AngularComponent } from "@smallstack/core-client";
 import { NavigationEntry, NavigationService } from "@smallstack/core-common";
-import * as _ from "underscore";
 import template from "./FrontendComponent.html";
 
 export class FrontendComponent {

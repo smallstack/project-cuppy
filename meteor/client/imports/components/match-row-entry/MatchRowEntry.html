@@ -1,38 +1,33 @@
-<div class="well">
-
-	<div class="row mobile-match-row" style="cursor:pointer">
-		<div class="col-12 text-center mb20">
-			<small><strong>{{(match.date | date : "EEEE, MMMM d, y, HH:mm")}}</strong></small>
+<div class="card">
+    <div class="card-block">
+        <h4 class="card-title">{{(match.date | date : "EEEE, MMMM d, y, HH:mm")}}</h4>
+        <div class="card-text row">
+            <div class="col-4 text-center">
+                <!-- <img src="{{src}}" height="60px" align="center" *ngFor="let src of match.getHomeTeam()?.getAvatarUrls()"> -->
+                <div class="ellipsis-text">{{match.getHomeTeamName()}}</div>
+            </div>
+            <div class="col-4 text-center">
+                <div class="match-row-result">{{getMatchResult(match)}}</div>
+            </div>
+            <div class="col-4 text-center">
+                <!-- <img src="{{src}}" height="60px" align="center" *ngFor="let src of (match.getAwayTeam()?.getAvatarUrls())" /> -->
+                <div class="ellipsis-text">{{(match.getAwayTeamName())}}</div>
+            </div>
         </div>
-        
-		<div class="col-4 text-center">
-			<!-- <img src="{{src}}" height="60px" align="center" *ngFor="let src of match.getHomeTeam()?.getAvatarUrls()"> -->
-			<div class="ellipsis-text">{{match.getHomeTeamName()}}</div>
-		</div>
-		<div class="col-4 text-center">
-			<!-- <div class="match-row-result">{{((match.result[1] === null || match.result[1] === undefined) ? '-' : match.result[0]) }} : {{((match.result[1] ===
-				null || match.result[1] === undefined) ? '-' : match.result[1])}}
-			</div> -->
-		</div>
-		<div class="col-4 text-center">
-			<!-- <img src="{{src}}" height="60px" align="center" *ngFor="let src of (match.getAwayTeam()?.getAvatarUrls())" /> -->
-			<div class="ellipsis-text">{{(match.getAwayTeamName())}}</div>
-		</div>
-
-		<div class="clearfix"></div>
-		<div class="col-4 mt20 text-left">
-			<div *ngIf="bet !== undefined" style="height: 36px; white-space: nowrap;">
-				<span class="mobile-bet-character">{{(bet.result[0])}}</span>
-				<span class="mobile-bet-character-noblack">:</span>
-				<span class="mobile-bet-character">{{(bet.result[1])}}</span>
-			</div>
-		</div>
-		<!-- <div class="col-8 mt20 text-right" style="white-space:nowrap" *ngIf="(match.isFinished() && bet && bet.points)">
+        <div class="clearfix"></div>
+        <div class="col-4 mt20 text-left">
+            <div *ngIf="bet !== undefined" style="height: 36px; white-space: nowrap;">
+                <span class="mobile-bet-character">{{(bet.result[0])}}</span>
+                <span class="mobile-bet-character-noblack">:</span>
+                <span class="mobile-bet-character">{{(bet.result[1])}}</span>
+            </div>
+        </div>
+        <!-- <div class="col-8 mt20 text-right" style="white-space:nowrap" *ngIf="(match.isFinished() && bet && bet.points)">
 			<img style="height: 30px;" src="/images/trophys/3_1.png" *ngFor="let n of (_.range(0, bet.points))">
 			<img style="height: 30px;" src="/images/trophys/placeholder.png" *ngFor="let n of (_.range(0, (match.maxPoints - bet.points)))">
 		</div>
 		<div class="col-8 mt20 text-right" style="white-space:nowrap" *ngIf="(match.maxPoints && (!match.isFinished() || !bet.points))">
 			<img style="height: 30px;" src="/images/trophys/placeholder.png" *ngFor="let n of (_.range(0, match.maxPoints))">
 		</div> -->
-	</div>
+    </div>
 </div>

@@ -1,14 +1,18 @@
+// tslint:disable:object-literal-shorthand
+// tslint:disable:only-arrow-functions
+
 /**
  * THIS FILE IS AUTO-GENERATED AND WILL BE REPLACED ON ANY RE-GENERATION
  */
 
-import { Utils, IOC, CollectionsService } from "@smallstack/core-common";
+import { CollectionsService } from "@smallstack/core-common";
+import {  Utils, IOC } from "@smallstack/common";
 
 IOC.onRegister("collectionsService", (collectionsService: CollectionsService) => {
 
     Meteor.methods({
         "server-counts": function (data: { queryName: string, parameters: any}) {
-            Utils.check(data.queryName, "string", "queryName");
+            Utils.typeOfCheck(data.queryName, "string", "queryName");
             let parameters:any = data.parameters;
 
             switch (data.queryName) {
@@ -21,14 +25,23 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                 case "getAppByIdentifier":
         return collectionsService.getCollectionByName("apps").find({"identifier": parameters.identifier }).count();
                             
-                case "getAppVersions":
-        return collectionsService.getCollectionByName("appversions").find({"appId": parameters.appId }).count();
+                case "getAppSnapshots":
+        return collectionsService.getCollectionByName("appsnapshots").find({"appId": parameters.appId }).count();
+                            
+                case "getLatestAppSnapshot":
+        return collectionsService.getCollectionByName("appsnapshots").find({"appId": parameters.appId ,"public":true}).count();
                             
                 case "getConfiguration":
         return collectionsService.getCollectionByName("configuration").find({"scope":"everywhere"}).count();
                             
                 case "getCompleteConfiguration":
         return collectionsService.getCollectionByName("configuration").find({}).count();
+                            
+                case "getAllCountries":
+        return collectionsService.getCollectionByName("countries").find({}).count();
+                            
+                case "getCountryByKey":
+        return collectionsService.getCollectionByName("countries").find({"key": parameters.key }).count();
                             
                 case "getAllCronjobs":
         return collectionsService.getCollectionByName("cronjobs").find({}).count();
@@ -38,6 +51,9 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                             
                 case "getCurrencyById":
         return collectionsService.getCollectionByName("currencies").find({"_id": parameters.id }).count();
+                            
+                case "getCurrenciesByIds":
+        return collectionsService.getCollectionByName("currencies").find({"_id":{"$in": parameters.ids }}).count();
                             
                 case "getAllMails":
         return collectionsService.getCollectionByName("emails").find({}).count();
@@ -59,6 +75,9 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                             
                 case "getLanguageByKey":
         return collectionsService.getCollectionByName("languages").find({"key": parameters.key }).count();
+                            
+                case "getLanguagesByIds":
+        return collectionsService.getCollectionByName("languages").find({"_id":{"$in": parameters.ids }}).count();
                             
                 case "getLocalizationsForLanguage":
         return collectionsService.getCollectionByName("localizations").find({"language": parameters.languageKey }).count();
@@ -98,12 +117,6 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                             
                 case "getNavigationTreesForTag":
         return collectionsService.getCollectionByName("navigationtrees").find({"tags": parameters.tag }).count();
-                            
-                case "getAllOrders":
-        return collectionsService.getCollectionByName("orders").find({}).count();
-                            
-                case "getMyOrders":
-        return collectionsService.getCollectionByName("orders").find({"userId":this.userId}).count();
                             
                 case "getPageById":
         return collectionsService.getCollectionByName("pages").find({"_id": parameters.id }).count();
@@ -149,12 +162,6 @@ IOC.onRegister("collectionsService", (collectionsService: CollectionsService) =>
                             
                 case "getAllRoles":
         return collectionsService.getCollectionByName("roles").find({}).count();
-                            
-                case "getAllShoppingCarts":
-        return collectionsService.getCollectionByName("shoppingcarts").find({}).count();
-                            
-                case "getShoppingCartForUserId":
-        return collectionsService.getCollectionByName("shoppingcarts").find({"userId": parameters.userId }).count();
                             
                 case "getAllExecutions":
         return collectionsService.getCollectionByName("taskexecutions").find({}).count();
