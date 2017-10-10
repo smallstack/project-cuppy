@@ -1,0 +1,81 @@
+image: node:7.10
+
+variables:
+  METEOR_ALLOW_SUPERUSER: "true"
+  DOCKER_DRIVER: overlay2
+  IMAGE_METEOR_TAG_NAME: meteor-$CI_COMMIT_REF_SLUG
+  IMAGE_FRONTEND_TAG_NAME: frontend-$CI_COMMIT_REF_SLUG
+  DOCKERCLOUD_SERVICENAME_PREFIX: $CI_PROJECT_PATH_SLUG
+  DOCKERCLOUD_SERVICENAME: $DOCKERCLOUD_SERVICENAME_PREFIX-$CI_COMMIT_REF_SLUG
+
+cache:
+  paths:
+  - datalayer/node_modules/
+  - meteor/node_modules/
+  - nativescript-app/node_modules/
+
+stages:
+  - build
+  - bundle
+  - deploy
+
+bundleMeteorApp:
+  image: registry.gitlab.com/smallstack/smallstack-cli:latest
+  stage: build
+  script:
+   - node -v
+   - npm -v
+   - curl -sL https://install.meteor.com | sed s/--progress-bar/-sL/g | /bin/sh
+   - smallstack setup --mode=projectVersion
+   - smallstack generate
+   - cat datalayer/package.json
+   - cd datalayer && npm run build && cd ..
+   - smallstack bundle
+   - smallstack upload
+  artifacts:
+    paths:
+     - built/
+    expire_in: 1 day
+
+createDockerImage:
+  image: registry.gitlab.com/smallstack/smallstack-cli:latest
+  stage: bundle
+  script:
+   - smallstack createDockerImages --dockerUsername=gitlab-ci-token --dockerPassword=$CI_JOB_TOKEN --meteorImageName=$CI_REGISTRY_IMAGE:$IMAGE_METEOR_TAG_NAME --frontendImageName=$CI_REGISTRY_IMAGE:$IMAGE_FRONTEND_TAG_NAME
+   - smallstack cloud --registerExternalRepository --repository=$CI_REGISTRY_IMAGE --username=$DOCKER_GITLAB_USER --password=$DOCKER_GITLAB_PASSWORD
+
+deploy_review:
+  image: registry.gitlab.com/smallstack/smallstack-cli:latest
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+    DEPLOYMENT_URL: http://$CI_ENVIRONMENT_SLUG.gitlab.smallstack.cloud
+  dependencies: []
+  script:
+    - smallstack cloud --terminateService --name=$DOCKERCLOUD_SERVICENAME --failOnError=false
+    - smallstack cloud --createService --name=$DOCKERCLOUD_SERVICENAME  --container_ports="[{'protocol':'tcp','inner_port':8080,'published':true}]" --container_envvars="[{'key':'VIRTUAL_HOST','value':'$DEPLOYMENT_URL'},{'key':'ROOT_URL','value':'$DEPLOYMENT_URL'},{'key':'MONGO_URL','value':'mongodb://mongo:27017/$DOCKERCLOUD_SERVICENAME'},{'key':'PORT','value':8080}]" --tags="['containernode']" --autorestart=ALWAYS --link-service=mongo-gitlabtesting:mongo --image=$CI_REGISTRY_IMAGE:$IMAGE_METEOR_TAG_NAME
+    - smallstack cloud --linkServices --from=$DOCKERCLOUD_SERVICENAME --to=mongo-gitlabtesting --name=mongo
+    - smallstack cloud --linkServices --from=public-aws-proxy.lb --to=$DOCKERCLOUD_SERVICENAME
+    - smallstack cloud --startService --name=$DOCKERCLOUD_SERVICENAME
+    - smallstack cloud --waitForState --name=$DOCKERCLOUD_SERVICENAME --state="Running"
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: $DEPLOYMENT_URL
+    on_stop: stop_review
+  when: manual
+  only:
+    - branches
+  except:
+    - master
+
+stop_review:
+  image: registry.gitlab.com/smallstack/smallstack-cli:latest
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - smallstack cloud --terminateService --name=$DOCKERCLOUD_SERVICENAME
+  when: manual
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
