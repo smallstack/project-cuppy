@@ -23,7 +23,7 @@ import * as _ from 'underscore';
 import { enableProdMode, } from "@angular/core";
 import { initCoreClient } from "@smallstack/core-client";
 import { initCoreCommon } from "@smallstack/core-common";
-import { IOC, InitLevelService, Logger, LocalizationService, ConfigurationService, Configuration, QueryObject, NavigationService } from "@smallstack/core-common";
+import { IOC, InitLevelService, Logger, LocalizationService, ConfigurationService, Configuration, QueryObject } from "@smallstack/core-common";
 import { bootstrapAngular, initMeteorClient } from "@smallstack/meteor-client";
 import { initMeteorCommon } from "@smallstack/meteor-common";
 import { createDatalayerCollections, registerDatalayerServices, initializeTypesystem } from "@smallstack/datalayer";
@@ -41,37 +41,34 @@ export function initClient() {
     registerDatalayerServices();
     initializeTypesystem();
 
-    IOC.onRegister("initLevelService", (initLevelService: InitLevelService) => {
-        initLevelService.addInitLevelFn(15, "I18N", (cb: (error: Error, success: boolean) => void) => {
-            let languageKey: string = LocalizationService.instance().getCurrentLanguage();
-            LocalizationService.instance().getLocalizationsForLanguage({ languageKey }, { entriesPerPage: 5000000 }).subscribe(() => {
-                cb(undefined, true);
-            })
-        });
-        initLevelService.addInitLevelFn(10, "ConfigurationSync", (cb: (error: Error, success: boolean) => void) => {
-            ConfigurationService.instance().initOnClient(cb);
-        });
+    let initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
+
+    initLevelService.addInitLevelFn(15, "I18N", (cb: (error: Error, success: boolean) => void) => {
+        let languageKey: string = LocalizationService.instance().getCurrentLanguage();
+        LocalizationService.instance().getLocalizationsForLanguage({ languageKey }, { entriesPerPage: 5000000 }).subscribe(() => {
+            cb(undefined, true);
+        })
+    });
+
+    initLevelService.addInitLevelFn(10, "ConfigurationSync", (cb: (error: Error, success: boolean) => void) => {
+        ConfigurationService.instance().initOnClient(cb);
     });
 
 }
 
 export function startClient(AppComponent: any, additionalComponents: any[]) {
 
-    IOC.onRegister("initLevelService", (initLevelService: InitLevelService) => {
-        IOC.onRegister("navigationService", (navigationService: NavigationService) => {
+    let initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
 
-            let initLevelService: InitLevelService = IOC.get<InitLevelService>("initLevelService");
-
-            initLevelService.addInitLevelFn(100, "Angular2", (cb: (error: Error, success: boolean) => void) => {
-                bootstrapAngular(AppComponent, additionalComponents, () => {
-                    cb(undefined, true);
-                });
-            });
-
-            Meteor.startup(() => {
-                initLevelService.execute();
-            });
+    initLevelService.addInitLevelFn(100, "Angular2", (cb: (error: Error, success: boolean) => void) => {
+        bootstrapAngular(AppComponent, additionalComponents, () => {
+            cb(undefined, true);
         });
+    });
+
+
+    Meteor.startup(() => {
+        initLevelService.execute();
     });
 
 }

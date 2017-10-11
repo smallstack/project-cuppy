@@ -10,3 +10,6 @@ built/meteor.tar.gz
 meteor/packages/
 datalayer/node_modules/
 built/
+nativescript-app/node_modules
+nativescript-app/platforms
+nativescript-app/app/**/*.js

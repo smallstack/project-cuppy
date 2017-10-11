@@ -2,8 +2,6 @@
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
-    "editor.wordWrap": "on",
-    "vsicons.presets.angular": true,
-    "files.eol": "\n",
-    "tslint.alwaysShowRuleFailuresAsWarnings": true
+    "editor.wrappingColumn": 0,
+    "files.eol": "\n"
 }
