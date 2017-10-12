@@ -1,0 +1,13 @@
+FROM smallstack/nginx-html5mode-prerender
+
+# install console and node
+RUN apk add --no-cache bash=4.3.46-r5 &&\
+    apk add --no-cache openssl=1.0.2k-r0
+
+ADD frontend.zip /usr/share/nginx/html/
+WORKDIR /usr/share/nginx/html/
+RUN unzip -o frontend.zip
+RUN rm frontend.zip
+
+# this is for virtual host purposes
+EXPOSE 80

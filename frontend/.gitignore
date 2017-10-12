@@ -1,0 +1,4 @@
+.awcache/
+compiled/
+dist/
+node_modules/

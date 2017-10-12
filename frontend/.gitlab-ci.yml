@@ -1,0 +1,14 @@
+image: node:7.10
+
+cache:
+  paths:
+  - node_modules/
+
+bundle:
+  script:
+   - node -v
+   - npm -v
+   - npm install
+   - npm run build:aot:prod
+   - npm run build:dev
+   - npm run build:prod

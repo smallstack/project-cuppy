@@ -8,7 +8,7 @@
         <div style="width: 100%">
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item" *ngFor="let entry of navigationEntries">
-                    <a class="nav-link" [routerLink]="['/', entry.getRoute()]" *ngIf="entry.isVisible()">
+                    <a class="nav-link" routerLink="/{{entry.getRoute()}}" *ngIf="entry.isVisible()">
                         <span *ngIf="entry.getI18nLabel()">{{entry.getI18nLabel() | translate}}</span>
                         <span *ngIf="entry.getLabel()">{{entry.getLabel()}}</span>
                     </a>
